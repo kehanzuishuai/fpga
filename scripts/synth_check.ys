@@ -1,0 +1,7 @@
+# Generic technology-independent elaboration, process lowering and structural check.
+read_verilog -sv rtl/synth_pkg.sv rtl/note_freq_table.sv rtl/dds_phase_accum.sv rtl/waveform_gen.sv rtl/adsr_env.sv rtl/timbre_morph.sv rtl/voice.sv rtl/voice_allocator.sv rtl/voice_bank.sv rtl/tree_mixer.sv rtl/saturator.sv rtl/test_mode.sv rtl/i2s_tx.sv rtl/uart_tx.sv rtl/score_rom.sv rtl/led_guide.sv rtl/latency_monitor.sv rtl/audio_telemetry.sv rtl/telemetry_uart.sv rtl/synth_core.sv
+hierarchy -check -top synth_core
+proc
+opt
+check -assert
+stat

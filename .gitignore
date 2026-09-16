@@ -1,0 +1,16 @@
+# Local tools and generated verification artifacts
+bin/
+sim_out/
+*.vvp
+*.log
+*.err
+tools-iverilog.tar.gz
+
+# Reference material is retained locally, not versioned with RTL source
+*.pdf
+*.png
+
+# Planning scratch files
+task_plan.md
+findings.md
+progress.md
