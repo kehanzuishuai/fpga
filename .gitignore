@@ -1,5 +1,10 @@
 # Local tools and generated verification artifacts
 bin/
+include/
+lib/
+share/
+vlib/
+package.json
 sim_out/
 *.vvp
 *.log
