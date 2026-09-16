@@ -9,6 +9,8 @@ module audio_telemetry #(
   output logic pcm_strobe, output logic signed [SAMPLE_W-1:0] pcm_sample
 );
   localparam int DW=(DECIMATE<=1)?1:$clog2(DECIMATE);
+  localparam integer DECIM_LAST_INT=DECIMATE-1;
+  localparam logic [DW-1:0] DECIM_LAST=DECIM_LAST_INT[DW-1:0];
   logic [DW-1:0] decim_count;
   integer i;
   logic [SAMPLE_W-1:0] abs_audio;
@@ -23,7 +25,7 @@ module audio_telemetry #(
       pcm_strobe<=0;
       if(sample_tick) begin
         if(abs_audio>audio_peak) audio_peak<=abs_audio;
-        if(decim_count==DECIMATE-1) begin decim_count<='0; pcm_strobe<=1; pcm_sample<=audio; end
+        if(decim_count==DECIM_LAST) begin decim_count<='0; pcm_strobe<=1; pcm_sample<=audio; end
         else decim_count<=decim_count+1'b1;
       end
     end

@@ -11,26 +11,24 @@ module telemetry_uart #(
 );
   logic tx_ready, tx_valid; logic [7:0] tx_data; logic [3:0] index;
   logic [7:0] checksum;
+  logic [7:0] active_count_byte;
+  always @* active_count_byte={{(8-VOICE_COUNT_W){1'b0}},active_voice_count};
   uart_tx #(.CLK_HZ(CLK_HZ),.BAUD(BAUD)) u_tx(.clk,.rst_n,.valid(tx_valid),.data(tx_data),.ready(tx_ready),.tx);
-  assign busy=(index!=0);
+  assign busy=(index!=0)||tx_valid||!tx_ready;
   always @(posedge clk or negedge rst_n) begin
     if(!rst_n) begin index<=0; tx_valid<=0; tx_data<=0; checksum<=0; end
     else begin
-      tx_valid<=0;
-      if(index==0 && report_strobe) begin index<=1; checksum<=8'hA5 ^ 8'h01 ^ active_voice_count; end
-      if(index!=0 && tx_ready) begin
+      if(index==0 && report_strobe) begin index<=1; checksum<=8'hA5^8'h01^active_count_byte^audio_peak[23:16]^audio_peak[15:8]^audio_peak[7:0]^pcm_sample[23:16]^pcm_sample[15:8]^pcm_sample[7:0]; end
+      if(!tx_valid && index!=0) begin
         tx_valid<=1;
         case(index)
-          1:tx_data<=8'hA5; 2:tx_data<=8'h01; 3:tx_data<=active_voice_count;
-          4:begin tx_data<=audio_peak[23:16]; checksum<=checksum^audio_peak[23:16]; end
-          5:begin tx_data<=audio_peak[15:8]; checksum<=checksum^audio_peak[15:8]; end
-          6:begin tx_data<=audio_peak[7:0]; checksum<=checksum^audio_peak[7:0]; end
-          7:begin tx_data<=pcm_sample[23:16]; checksum<=checksum^pcm_sample[23:16]; end
-          8:begin tx_data<=pcm_sample[15:8]; checksum<=checksum^pcm_sample[15:8]; end
-          9:begin tx_data<=pcm_sample[7:0]; checksum<=checksum^pcm_sample[7:0]; end
+          1:tx_data<=8'hA5; 2:tx_data<=8'h01; 3:tx_data<=active_count_byte;
+          4:tx_data<=audio_peak[23:16]; 5:tx_data<=audio_peak[15:8]; 6:tx_data<=audio_peak[7:0];
+          7:tx_data<=pcm_sample[23:16]; 8:tx_data<=pcm_sample[15:8]; 9:tx_data<=pcm_sample[7:0];
           default: tx_data<=checksum;
         endcase
-        if(index==10) index<=0; else index<=index+1'b1;
+      end else if(tx_valid && tx_ready) begin
+        tx_valid<=0; if(index==10) index<=0; else index<=index+1'b1;
       end
     end
   end

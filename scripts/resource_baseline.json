@@ -1,0 +1,9 @@
+{
+  "description": "Yosys generic synth_core hierarchy immediately before the chp10/competition-guidance upgrade",
+  "cells": 4414,
+  "div": 66,
+  "mul": 257,
+  "mod": 1,
+  "mux": 1760,
+  "shift": 3
+}

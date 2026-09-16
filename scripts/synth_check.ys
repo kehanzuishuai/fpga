@@ -1,6 +1,30 @@
-# Generic technology-independent elaboration, process lowering and structural check.
-read_verilog -sv rtl/synth_pkg.sv rtl/note_freq_table.sv rtl/dds_phase_accum.sv rtl/waveform_gen.sv rtl/adsr_env.sv rtl/timbre_morph.sv rtl/voice.sv rtl/voice_allocator.sv rtl/voice_bank.sv rtl/tree_mixer.sv rtl/saturator.sv rtl/test_mode.sv rtl/i2s_tx.sv rtl/uart_tx.sv rtl/score_rom.sv rtl/led_guide.sv rtl/latency_monitor.sv rtl/audio_telemetry.sv rtl/telemetry_uart.sv rtl/synth_core.sv
-hierarchy -check -top synth_core
+# Technology-independent synthesis and structural checks for every public path.
+read_verilog -sv rtl/note_freq_table.sv rtl/dds_phase_accum.sv rtl/waveform_set.sv rtl/waveform_gen.sv rtl/adsr_env.sv rtl/timbre_morph.sv rtl/voice.sv rtl/voice_allocator.sv rtl/voice_bank.sv rtl/tree_mixer.sv rtl/polyphony_gain.sv rtl/saturator.sv rtl/test_mode.sv rtl/latency_monitor.sv rtl/audio_telemetry.sv rtl/note_event_fifo.sv rtl/synth_core.sv rtl/synth_event_frontend.sv
+hierarchy -check -top synth_event_frontend
+proc
+opt
+check -assert
+stat
+
+design -reset
+read_verilog -sv rtl/i2s_tx.sv
+hierarchy -check -top i2s_tx
+proc
+opt
+check -assert
+stat
+
+design -reset
+read_verilog -sv rtl/uart_tx.sv rtl/telemetry_uart.sv
+hierarchy -check -top telemetry_uart
+proc
+opt
+check -assert
+stat
+
+design -reset
+read_verilog -sv rtl/score_rom.sv rtl/led_guide.sv rtl/performance_mode_controller.sv
+hierarchy -check -top performance_mode_controller
 proc
 opt
 check -assert

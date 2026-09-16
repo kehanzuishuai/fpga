@@ -1,0 +1,5 @@
+read_verilog -sv rtl/note_freq_table.sv rtl/dds_phase_accum.sv rtl/waveform_set.sv rtl/adsr_env.sv rtl/timbre_morph.sv rtl/voice.sv rtl/voice_allocator.sv rtl/voice_bank.sv rtl/tree_mixer.sv rtl/polyphony_gain.sv rtl/saturator.sv rtl/test_mode.sv rtl/latency_monitor.sv rtl/audio_telemetry.sv rtl/synth_core.sv
+hierarchy -check -top synth_core
+proc
+opt
+stat

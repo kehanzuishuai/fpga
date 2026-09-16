@@ -1,6 +1,6 @@
-rtl/synth_pkg.sv
 rtl/note_freq_table.sv
 rtl/dds_phase_accum.sv
+rtl/waveform_set.sv
 rtl/waveform_gen.sv
 rtl/adsr_env.sv
 rtl/timbre_morph.sv
@@ -8,6 +8,7 @@ rtl/voice.sv
 rtl/voice_allocator.sv
 rtl/voice_bank.sv
 rtl/tree_mixer.sv
+rtl/polyphony_gain.sv
 rtl/saturator.sv
 rtl/test_mode.sv
 rtl/synth_core.sv
@@ -20,3 +21,4 @@ rtl/i2s_tx.sv
 rtl/uart_tx.sv
 rtl/score_rom.sv
 rtl/led_guide.sv
+rtl/performance_mode_controller.sv

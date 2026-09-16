@@ -5,7 +5,8 @@ module voice_bank #(
   input logic clk, input logic rst_n, input logic sample_tick,
   input logic note_on, input logic note_off, input logic [6:0] midi_note,
   input logic [7:0] velocity, input logic [1:0] waveform, input logic [9:0] morph,
-  output logic [VOICES*SAMPLE_W-1:0] voice_samples, output logic [VOICES-1:0] voice_active
+  output logic [VOICES*SAMPLE_W-1:0] voice_samples, output logic [VOICES-1:0] voice_active,
+  output logic allocation_valid, output logic [$clog2(VOICES)-1:0] allocation_index
 );
   localparam int IDX_W=$clog2(VOICES);
   logic [31:0] phase_inc;
@@ -13,11 +14,13 @@ module voice_bank #(
   logic [VOICES*7-1:0] notes;
   logic [VOICES-1:0] starts, stops;
   logic [IDX_W-1:0] chosen;
-  logic grant, steal;
+  logic grant, unused_steal;
+  logic [IDX_W-1:0] unused_note_off_index;
   logic [AGE_W-1:0] age_counter;
   integer i;
   note_freq_table #(.SAMPLE_RATE(SAMPLE_RATE)) u_note(.midi_note,.phase_inc);
-  voice_allocator #(.VOICES(VOICES),.AGE_W(AGE_W)) u_alloc(.request_valid(note_on),.request_note(midi_note),.active(voice_active),.ages,.grant_valid(grant),.grant_index(chosen),.steal,.note_off_index());
+  voice_allocator #(.VOICES(VOICES),.AGE_W(AGE_W)) u_alloc(.request_valid(note_on),.active(voice_active),.ages,.grant_valid(grant),.grant_index(chosen),.steal(unused_steal),.note_off_index(unused_note_off_index));
+  always @* begin allocation_valid=note_on&&grant;allocation_index=chosen;end
   always @* begin
     i=0; starts='0; stops='0;
     if(note_on && grant) starts[chosen]=1'b1;
@@ -25,8 +28,12 @@ module voice_bank #(
   end
   always @(posedge clk or negedge rst_n) begin
     if(!rst_n) begin age_counter<='0; ages<='0; end
-    else if(sample_tick) begin
-      if(note_on && grant) begin ages[chosen*AGE_W +: AGE_W]<=age_counter; age_counter<=age_counter+1'b1; end
+    else if(note_on && grant) begin
+      // Voice state accepts an event on the system clock, so its allocation
+      // timestamp must do the same.  Tying age updates to sample_tick made
+      // rapid events share stale ages and broke deterministic stealing.
+      ages[chosen*AGE_W +: AGE_W]<=age_counter;
+      age_counter<=age_counter+1'b1;
     end
   end
   genvar g;
