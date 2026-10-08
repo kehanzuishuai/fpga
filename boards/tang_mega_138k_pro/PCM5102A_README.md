@@ -1,6 +1,6 @@
-# E盘工程：板载PT8211 + 外接PCM5102A
+# 双DAC音频输出：板载PT8211 + 外接PCM5102A
 
-本次在现有 `yinyue_fashengqi.gprj` 上增量修改。原音色、32 Voice、触摸输入、已有PLL、板载DAC与功放使能均保留；不替换合成核心，不播放录音，不移植参考仓库的派生时钟。
+本文对应本目录的 [yinyue_fashengqi.gprj](yinyue_fashengqi.gprj)，是从原开发工程增量保留的双DAC实现。原音色、32 Voice、触摸输入、音频PLL、板载DAC与功放使能均保留；不替换合成核心，不播放录音，不移植参考仓库的派生时钟。最新工程还包含独立的视频输出链，见[可视化说明](VISUALIZATION_README.md)。
 
 ## 接线（已确认的三个GPIO）
 
@@ -25,13 +25,13 @@ VIN仍按用户要求不选择：本次没有分配电源引脚，不要把VIN�
 - `src/synth_top.v`：两个发送器接同一 `audio_out`；外接模块在原DAC捕获边界同时锁存左右PCM，下一I2S帧开始发送。当前单声道合成信号复制到左右声道。外接发送器不产生第二个sample_tick。
 - `src/tang_mega_138k_pro_top.v.v`：引出三路外接I2S端口。
 - `src/yinyue_fashengqi.cst`：新增已确认的C24/B24/H15约束，原引脚未改变。
-- `yinyue_fashengqi.gprj`：加入新发送器源码。`pcm5102a_gpio_pending.cst`仅为归档记录，不加入工程，避免双重约束。
+- `yinyue_fashengqi.gprj`：包含外接发送器源码；使用工程列出的活动 `src/yinyue_fashengqi.cst`，没有另行发布或加载备用约束。
 
-分频公式：BCLK半周期计数 = CLK_HZ / (4 × SAMPLE_RATE × SLOT_W)。名义12.288MHz时每2个主时钟翻转BCLK，得到3.072MHz；每256个主时钟一帧，LRCLK=48kHz。实际频率跟随现有PLL真实输出及晶振误差，本次未修改PLL。仅支持整除的主时钟；不整除参数在仿真启动时明确报错。
+分频公式：BCLK半周期计数 = CLK_HZ / (4 × SAMPLE_RATE × SLOT_W)。名义12.288MHz时每2个主时钟翻转BCLK，得到3.072MHz；每256个主时钟一帧，LRCLK=48kHz。实际频率跟随现有音频PLL真实输出及晶振误差，新增外接DAC未修改音频PLL。当前工程另有视频PLL，不能将本段理解为“工程没有PLL”。仅支持整除的主时钟；不整除参数在仿真启动时明确报错。
 
 ## 验证与复现
 
-运行 `scripts/run_pcm5102a_tests.ps1`。脚本使用本机Icarus、Verilator和Yosys安装位置，换电脑需要调整工具路径。日志和报告在 `sim_out_pcm5102a`。
+在本板级目录运行 `scripts/run_pcm5102a_tests.ps1`。脚本使用原开发机器的Python、Icarus、Verilator和Yosys安装位置，换电脑需要调整工具路径。新运行日志和报告写入 `sim_out_pcm5102a`；仓库已归档的通过记录在[verification/pcm5102a.md](verification/pcm5102a.md)，不是克隆后自动生成的结果。
 
 - 24/32、16/16、32/32逐bit自检：左右不同数据、正负满幅、最低位、补零、连续随机更新与同时锁存、帧中复位，以及BCLK边沿和LRCLK周期。
 - 双DAC：117次共享PCM捕获、117次合成节拍；PT8211每一位验证为对应PCM高16bit，外接I2S验证完整24bit。
@@ -40,9 +40,9 @@ VIN仍按用户要求不选择：本次没有分配电源引脚，不要把VIN�
 - 新发送器严格Verilator `--Wall`：无RTL warning，不使用屏蔽选项。
 - 新发送器Yosys `synth -noabc; check -assert`：通用综合/结构检查，不等同于厂商器件映射或时序收敛。使用完成标记确认实际执行到最后，不能仅以工具退出码判定成功。
 
-上述是本次DAC改动的专项验证，不冒充整个E盘核心重新冻结或板上验证结果。未运行新的Gowin综合/布局布线，也未验证实物输出。已有 `impl/pnr/*.fs` 为旧产物，不能用于验证新PCM5102A接口；请在Gowin重新运行Synthesize和Place & Route，检查时序/管脚报告，再下载新FS。尤其已有工程时序裕量很小，需重新确认本次实现后的收敛。
+上述是双DAC改动的专项验证，不代表整个板级核心重新冻结或实物输出通过。未提供经新的Gowin综合/布局布线及实物验证的固件；任何修改前的FS都不能用于验证新增PCM5102A或视频接口。请在Gowin重新运行Synthesize和Place & Route，检查时序/管脚报告，再下载新FS。原开发工程时序裕量很小，需重新确认当前版本的收敛。
 
-原始六个工程文件备份：`backup_before_pcm5102a_20261007`。不要覆盖该目录。
+仓库仅保留 `backup_before_pcm5102a_20261007/i2s_tx.v` 这一份历史逻辑比较基准，供回归确认板载DAC时序未改变。原开发机器的完整六文件备份未上传；不能将仓库中的该目录当成完整恢复备份。
 
 ## 参考来源
 

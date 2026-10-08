@@ -2,7 +2,7 @@
 
 ## 本次实现范围
 
-在现有E盘工程增量添加硬件分析和显示链，保留板载PT8211和外接PCM5102A；原音频PLL、DDS、包络、分配器、混音运算不重写。电脑上的Python仅用于开发期黄金模型验证，运行时FFT、绘图、视频编码全部由RTL完成，不需要电脑或软核CPU。
+本说明对应仓库内当前板级工程的硬件分析和显示链，来源于原开发工程的增量修改。保留板载PT8211和外接PCM5102A；原音频PLL、DDS、包络、分配器、混音运算不重写。电脑上的Python仅用于开发期黄金模型验证，运行时FFT、绘图、视频编码全部由RTL完成，不需要电脑或软核CPU。工程入口见[板级README](README.md)，不依赖原来的E盘路径。
 
 运行路径：合成器最终24bit PCM → 原DAC实际捕获边界旁路取样 → 16bit定点FFT/波形快照 → 跨时钟完整帧交接 → 像素绘制 → TMDS → OSER10/差分输出 → J11显示器。
 
@@ -57,7 +57,7 @@ FFT采用时分复用蝶形、同步存储及系数ROM，不用大规模并行�
 
 ## 自检与真实像素产物
 
-运行 `scripts/run_visual_tests.ps1`，输出到 `sim_out_visual`，然后自动重跑现有双DAC专项回归。
+在本板级目录运行 `scripts/run_visual_tests.ps1`，输出到 `sim_out_visual`，然后自动重跑现有双DAC专项回归。先按[板级README](README.md)配置本机工具路径。已归档的运行记录见[verification/visualization.md](verification/visualization.md)及[FFT结果](verification/visualization.json)。
 
 - 4096组旋转系数解析校验。
 - FFT零输入、单音、32不同频率叠加、随机正负边界值；1024点矩形窗、2048/4096点Hann窗逐bin实部/虚部/功率bit-exact比对。
@@ -73,13 +73,13 @@ FFT采用时分复用蝶形、同步存储及系数ROM，不用大规模并行�
 
 ## 上板前必须完成
 
-1. 在Gowin中重新打开根工程，确认.sv按SystemVerilog解析，重新综合和布局布线。当前旧FS没有这些功能，本次未生成、下载或烧录新FS。
+1. 在Gowin中打开本板级目录的 `yinyue_fashengqi.gprj`，确认.sv按SystemVerilog解析，重新综合和布局布线。仓库未提供含新视频功能的已验证FS，不能拿修改前的旧固件验证本次功能。
 2. 检查新视频PLL两个输出频率、VCO/分频合法性、相位关系、初始化、PLL占用和OSER10时钟路由。视频PLL参数基于现有器件C封装配置增量生成，仍需厂商实现工具验证，必要时用当前Gowin IP生成器重建该视频封装。
 3. 核对SDC中生成时钟节点被工具实际识别，无空对象/未约束路径；确认音频与视频异步分组正确，不能忽略约束警告。
 4. 检查FFT和点阵实际映射为片上RAM、乘法器映射及布局后时序。不能用通用Yosys单元数代替真实138K资源报告；原工程时序裕量很小。
 5. 用显示器确认J11视频锁定、颜色/同步和连续演奏稳定性；同时试听两路DAC，确认没有新增噪声或卡顿。
 6. 通过后再进行Flash启动验证：独立供电、断开电脑冷启动，仍能触发演奏、观察波形/李萨如/频谱。当前不宣称实物脱机验证已完成。
 
-修改前备份在 `backup_before_visual_20261008`。新增模块和测试仅在E盘工程，未自动提交或推送D盘仓库。
+本目录已经随最新工程提交到GitHub，包含活动源码、Gowin工程、约束、测试和归档报告。原开发机器的 `backup_before_visual_20261008` 只属于本机备份，未发布到仓库；临时日志、像素PNG/PPM和旧固件也未上传。重新运行回归可在本机生成实际RTL像素图，不应将缺少这些临时产物误认为缺少显示源码。
 
 参考：[Sipeed Pro官方例程](https://github.com/sipeed/TangMega-138KPro-example/tree/main/simple_video_out/svo)，只参考板级IO/串行器连接和时钟组织，没有引入摄像头、DDR或CPU系统。
