@@ -1,5 +1,11 @@
 # 弦动智音系统：板卡无关 RTL 基线
 
+## 最新上板工程（2026-10-08）
+
+最新 E 盘工程已收录在 [boards/tang_mega_138k_pro](boards/tang_mega_138k_pro/README.md)，包含 Gowin 工程、板载 PT8211 / 外接 PCM5102A 双 DAC、FPGA 实时 FFT / 波形 / 李萨如及 J11 DVI 视频输出、测试与验证报告。
+
+**该板级版本已通过记录的仿真与通用综合检查，但新视频功能尚未完成 Gowin 布局布线和显示器实测，没有提供新固件。** 根目录 `rtl/`、`tb/`、`scripts/` 继续保留原板卡无关基线；两套同名模块不要混合编译。
+
 这是一个不依赖高云专用 IP、PLL、约束文件或具体 Tang 型号的 SystemVerilog 合成引擎。默认目标为 48 kHz、24-bit 立体声音频、32 个真正独立的 Voice。
 
 ## 目录

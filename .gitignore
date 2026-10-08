@@ -19,3 +19,10 @@ tools-iverilog.tar.gz
 task_plan.md
 findings.md
 progress.md
+
+# Board implementation and local simulation products
+boards/**/impl/
+boards/**/sim_out_visual/
+boards/**/sim_out_pcm5102a/
+*.gprj.user
+__pycache__/
