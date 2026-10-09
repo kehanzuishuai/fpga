@@ -43,6 +43,8 @@ docs/PORTABLE_RTL_BASELINE.md     基线模块与接口参考
 - [板级工程入口与工具配置](boards/tang_mega_138k_pro/README.md)
 - [PCM5102A接线、I2S时序及双DAC说明](boards/tang_mega_138k_pro/PCM5102A_README.md)
 - [FFT、波形、李萨如、J11接线与视频时钟风险](boards/tang_mega_138k_pro/VISUALIZATION_README.md)
+- [磁轴/Hall校准、滤波与按键力度识别（尚未接板/发声）](boards/tang_mega_138k_pro/HALL_KEYS_README.md)
+- [新增Hall解释后的六项完整回归报告](boards/tang_mega_138k_pro/verification/hall_keys_20261009.md)
 
 接线和供电先阅读上述说明。PCM5102A的VIN未指定，不能接到GPIO；J11是视频输出口，不要接到输入口。下载前必须重新综合、布局布线，确认PLL、约束、资源和时序；没有可直接代表本次新功能的已验证FS文件。
 
@@ -67,7 +69,7 @@ Set-Location .\boards\tang_mega_138k_pro
 
 **区分两种FFT：** 根目录基线回归中的16384点Python FFT是开发期音频验证工具；板级2048点RTL FFT才是运行时显示的数据来源。32/32测试向量峰不等于已完成实物32 Voice频谱展示。
 
-每次本地回归产物写入板级目录的 `sim_out_visual/`、`sim_out_pcm5102a/`、`sim_out_adc/`，不会自动上传。完整汇总记录PASS/FAIL、源码SHA256和运行时间，尚在执行时标记RUNNING；历史归档不能代替当前源码回归。最新发布前统一五suite结果见[完整回归报告](boards/tang_mega_138k_pro/verification/full_regression_20261009.md)，报告同时限定仿真与实物验收的范围。
+每次本地回归产物写入板级目录的 `sim_out_visual/`、`sim_out_pcm5102a/`、`sim_out_adc/`、`sim_out_keys/`，不会自动上传。完整汇总记录PASS/FAIL、源码SHA256和运行时间，尚在执行时标记RUNNING；历史归档不能代替当前源码回归。上一轮发布前五suite结果见[历史完整报告](boards/tang_mega_138k_pro/verification/full_regression_20261009.md)，新增Hall解释后的最新六suite结果见[本轮完整报告](boards/tang_mega_138k_pro/verification/hall_keys_20261009.md)，均限定仿真与实物验收的范围。
 
 ## 仍需完成
 

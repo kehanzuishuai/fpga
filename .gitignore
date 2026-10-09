@@ -26,5 +26,6 @@ boards/**/impl/
 boards/**/sim_out_visual/
 boards/**/sim_out_pcm5102a/
 boards/**/sim_out_adc/
+boards/**/sim_out_keys/
 *.gprj.user
 __pycache__/

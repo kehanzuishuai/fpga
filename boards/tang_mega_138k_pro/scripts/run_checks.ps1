@@ -1,4 +1,4 @@
-param([ValidateSet('all','dac','adc')][string]$Suite='all')
+param([ValidateSet('all','dac','adc','keys')][string]$Suite='all')
 $ErrorActionPreference='Stop'
 $pythonCommand=$env:FPGA_PYTHON
 if(-not $pythonCommand){
@@ -8,6 +8,6 @@ if(-not $pythonCommand){
     }
 }
 if(-not $pythonCommand){throw 'Python not found. Install on PATH or set FPGA_PYTHON.'}
-$entry=switch($Suite){'dac'{'verify_pcm5102a.py'} 'adc'{'verify_adc.py'} default{'run_regression.py'}}
+$entry=switch($Suite){'dac'{'verify_pcm5102a.py'} 'adc'{'verify_adc.py'} 'keys'{'verify_hall_keys.py'} default{'run_regression.py'}}
 & $pythonCommand (Join-Path $PSScriptRoot $entry)
 if($LASTEXITCODE -ne 0){throw "FPGA $Suite checks failed; see simulation reports."}

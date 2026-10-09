@@ -38,7 +38,7 @@
 
 或使用当前Python执行`scripts/verify_adc.py`。独立模拟ADC在SPI引脚边沿解析指令、下降沿延迟输出数据，不读取发送器内部状态。覆盖不同主时钟/分频、通道数1/3/8、0/4095、位序、返回值反压、忙请求、异常null、暂停/恢复、计时饱和和中途复位；并执行严格Verilator和通用Yosys检查。输出位于`sim_out_adc/`，不使用历史音频回归结果替代本轮ADC证据。
 
-本轮实际专项结果：[验证报告](verification/mcp3208_20261009.md)、[机器结果与源码哈希](verification/mcp3208_20261009.json)。
+本轮实际专项结果：[验证报告](verification/mcp3208_20261009.md)、[机器结果与源码哈希](verification/mcp3208_20261009.json)。后续独立的[校准/滤波与按键力度解释层](HALL_KEYS_README.md)已添加；尚未把采集数据与声音控制接通，勿将采集层本身视为完整磁轴键盘。
 
 包含ADC、音频、FFT/显示和双DAC的发布前统一结果见[完整回归报告](verification/full_regression_20261009.md)。专项历史记录保留，不替代统一回归的源码和时间戳证明。
 

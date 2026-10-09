@@ -8,14 +8,15 @@
 - `src/` 包含工程实际引用的 RTL、PLL 封装、CST 和 SDC；未发布未引用的旧顶层或备用约束，避免误用。
 - `sim/` 是自检测试，`visual_primitive_stubs.v` 仅用于接口展开，未加入 Gowin 工程。
 - `scripts/run_visual_tests.ps1` 执行工具迁移自检、独立ADC采集、音频增益/音质、显示/TMDS接收和双DAC专项回归。
+- 新增Hall校准/按键解释后，统一入口为六suite；2026-10-09本轮全部PASS，见[Hall与完整回归报告](verification/hall_keys_20261009.md)。这不代表已经将磁轴数据接通发声。
 - 安装Python、Icarus Verilog、Verilator和Yosys，并运行 `python -m pip install -r scripts/requirements.txt`。脚本优先使用PATH，也支持verilator-cli/yowasp-yosys包装程序；无需修改脚本中的用户或盘符路径。可通过 `FPGA_PYTHON`、`FPGA_IVERILOG`、`FPGA_VVP`、`FPGA_VERILATOR`、`FPGA_YOSYS` 明确指定工具。电脑只用于开发验证，硬件运行不调用Python。
 - `backup_before_pcm5102a_20261007/i2s_tx.v` 仅是回归所需的板载 DAC 原逻辑比较基准，不是活动源码。其他本机备份、工具、临时日志、旧 FS 均未上传。
 
-在本目录运行 `./scripts/run_visual_tests.ps1`；若只验证双DAC，运行 `./scripts/run_pcm5102a_tests.ps1`；仅验证新ADC模块运行 `./scripts/run_checks.ps1 -Suite adc`。根目录的 `scripts/run_regression.ps1` 只验证原板卡无关基线，不编译本目录Gowin工程。两种回归的结果不能互相替代。
+在本目录运行 `./scripts/run_visual_tests.ps1`；若只验证双DAC，运行 `./scripts/run_pcm5102a_tests.ps1`；仅验证新ADC模块运行 `./scripts/run_checks.ps1 -Suite adc`；仅验证新增[Hall校准/按键力度层](HALL_KEYS_README.md)运行 `./scripts/run_checks.ps1 -Suite keys`。统一入口现为六suite，增加Hall解释自检；ADC与Hall模块仍未接板或接音符FIFO。根目录的 `scripts/run_regression.ps1` 只验证原板卡无关基线，不编译本目录Gowin工程。两种回归的结果不能互相替代。
 
 `python scripts/run_regression.py --check-tools` 只做工具预检。完整回归先验证带空格路径迁移和工具缺失报错，再跑独立ADC、音频增益/音质、显示链与双DAC；失败返回非零，汇总写入 `sim_out_visual/regression_summary.json`，包含源码SHA256、时间戳和各专项PASS/FAIL。报告先标记RUNNING，结束后才写PASS/FAIL，并核对源码在运行期间未变化；不能将旧报告当成当前运行结果。
 
-新增双MCP3208模块仅是未接板的独立采集层，详见[MCP3208说明](MCP3208_README.md)。ADC未加入实际板级top/GPRJ，没有因ADC改动音频/视频时钟或GPIO；后续还需确认器件供电、Bank电平与接线。2026-10-09发布前已重新执行含ADC的统一五suite完整回归，全部PASS，见[最新完整报告](verification/full_regression_20261009.md)及[机器结果/源码哈希](verification/full_regression_20261009.json)。历史四suite与ADC专项报告仍单独保留。
+新增双MCP3208模块仅是未接板的独立采集层，详见[MCP3208说明](MCP3208_README.md)。ADC未加入实际板级top/GPRJ，没有因ADC改动音频/视频时钟或GPIO；后续还需确认器件供电、Bank电平与接线。2026-10-09前次发布的五suite完整回归全部PASS，见[前次完整报告](verification/full_regression_20261009.md)及[机器结果/源码哈希](verification/full_regression_20261009.json)；新增Hall解释后六suite也已全部PASS，见上方本轮报告。历史四suite与ADC专项报告仍单独保留。
 
 ## 已添加功能与验证范围
 

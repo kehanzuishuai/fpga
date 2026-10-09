@@ -24,7 +24,7 @@ def main():
         report['tools']={k:str(v) for k,v in discover().items()};report['python']=sys.executable
         print(json.dumps(report['tools'],indent=2),flush=True)
         if not args.check_tools:
-            for script in ('test_toolchain.py','verify_adc.py','verify_audio_quality.py','verify_visual.py','verify_pcm5102a.py'):
+            for script in ('test_toolchain.py','verify_adc.py','verify_hall_keys.py','verify_audio_quality.py','verify_visual.py','verify_pcm5102a.py'):
                 p=subprocess.run([sys.executable,str(Path(__file__).parent/script)],cwd=ROOT,env=environment())
                 report['suites'][script]='PASS' if p.returncode==0 else 'FAIL'
                 if p.returncode:raise RuntimeError(script+' failed')
