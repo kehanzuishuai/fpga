@@ -31,11 +31,11 @@ VIN仍按用户要求不选择：本次没有分配电源引脚，不要把VIN�
 
 ## 验证与复现
 
-在本板级目录运行 `scripts/run_pcm5102a_tests.ps1`。脚本使用原开发机器的Python、Icarus、Verilator和Yosys安装位置，换电脑需要调整工具路径。新运行日志和报告写入 `sim_out_pcm5102a`；仓库已归档的通过记录在[verification/pcm5102a.md](verification/pcm5102a.md)，不是克隆后自动生成的结果。
+在本板级目录运行 `scripts/run_pcm5102a_tests.ps1`。工具从PATH发现，也可用 `FPGA_*` 环境变量指定，详见[板级README](README.md)；无需修改用户或盘符路径。新运行日志和报告写入 `sim_out_pcm5102a`；仓库原始通过记录在[verification/pcm5102a.md](verification/pcm5102a.md)，本轮重跑结果见[离线报告](verification/offline_visualization_20261008.md)，不是克隆后自动生成的结果。
 
 - 24/32、16/16、32/32逐bit自检：左右不同数据、正负满幅、最低位、补零、连续随机更新与同时锁存、帧中复位，以及BCLK边沿和LRCLK周期。
 - 双DAC：117次共享PCM捕获、117次合成节拍；PT8211每一位验证为对应PCM高16bit，外接I2S验证完整24bit。
-- 真实E盘合成链集成：4音和32音发声，321帧I2S逐bit正确（320帧非零）；复位后Voice清零且PCM清零。
+- 当前合成链集成：4音和32音发声，321帧I2S逐bit正确（320帧非零）；复位后Voice清零且PCM清零。
 - 对比修改前备份：原PT8211时序always块未改变。
 - 新发送器严格Verilator `--Wall`：无RTL warning，不使用屏蔽选项。
 - 新发送器Yosys `synth -noabc; check -assert`：通用综合/结构检查，不等同于厂商器件映射或时序收敛。使用完成标记确认实际执行到最后，不能仅以工具退出码判定成功。

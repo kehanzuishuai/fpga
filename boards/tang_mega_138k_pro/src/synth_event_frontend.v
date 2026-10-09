@@ -3,6 +3,7 @@ module synth_event_frontend #(
     parameter VOICES      = 32,
     parameter SAMPLE_W    = 24,
     parameter SAMPLE_RATE = 48000,
+    parameter [15:0] MASTER_GAIN_Q15 = 16'd29491,
     parameter FIFO_DEPTH  = 16,
     parameter FIFO_ADDR_W = 4,
     parameter IDX_W       = 5,
@@ -76,6 +77,7 @@ synth_core #(
     .VOICES      (VOICES),
     .SAMPLE_W    (SAMPLE_W),
     .SAMPLE_RATE (SAMPLE_RATE),
+    .MASTER_GAIN_Q15(MASTER_GAIN_Q15),
     .IDX_W       (IDX_W),
     .LOG2_VOICES (LOG2_VOICES),
     .COUNT_W     (COUNT_W)

@@ -1,0 +1,58 @@
+{
+  "status": "PASS",
+  "physical_validation": false,
+  "started_utc": "2026-10-09T05:03:17.475023+00:00",
+  "results": [
+    "PASS raw store10000cycles: invalid channels ignored,error-lane retention,consecutive updates,stale1 threshold/saturation and reset",
+    "PASS raw store10000cycles: invalid channels ignored,error-lane retention,consecutive updates,stale17 threshold/saturation and reset",
+    "PASS raw store10000cycles: invalid channels ignored,error-lane retention,consecutive updates,stale257 threshold/saturation and reset",
+    "PASS dual MCP3208 reader: 165 data frames, measured25-cycle half-period,delayed MISO,24bit command/data,rails,null errors,backpressure,busy requests,reset",
+    "PASS 16-key scan/store: 128 pairs, exact3125-cycle cadence, independent lanes,update masks,timestamps,age saturation,null errors,pause/resume,reset",
+    "PASS dual MCP3208 reader: 165 data frames, measured7-cycle half-period,delayed MISO,24bit command/data,rails,null errors,backpressure,busy requests,reset",
+    "PASS 16-key scan/store: 128 pairs, exact768-cycle cadence, independent lanes,update masks,timestamps,age saturation,null errors,pause/resume,reset",
+    "PASS dual MCP3208 reader: 165 data frames, measured18-cycle half-period,delayed MISO,24bit command/data,rails,null errors,backpressure,busy requests,reset",
+    "PASS 6-key scan/store: 48 pairs, exact5000-cycle cadence, independent lanes,update masks,timestamps,age saturation,null errors,pause/resume,reset",
+    "PASS dual MCP3208 reader: 165 data frames, measured50-cycle half-period,delayed MISO,24bit command/data,rails,null errors,backpressure,busy requests,reset",
+    "PASS 2-key scan/store: 17 pairs, exact25000-cycle cadence, independent lanes,update masks,timestamps,age saturation,null errors,pause/resume,reset",
+    "Strict Verilator --Wall all4 configurations:0 warnings PASS",
+    "reject_fast_scan: expected parameter rejection PASS",
+    "reject_spi2mhz: expected parameter rejection PASS",
+    "reject_sync_margin: expected parameter rejection PASS",
+    "Yosys all3 modules:0 problems,no runtime div/mod/latches PASS"
+  ],
+  "source_sha256": {
+    "src/mcp3208_dual_reader.sv": "10d7bdbbd88f4599981678bdad615c0bb2db46e5a71078ab39c02baed5fbe192",
+    "src/hall_scan_store.sv": "e86a3d18fa365fc1225354a59e6906aa452341191bca227adfbf31cb96508b11",
+    "src/hall_adc_scan.sv": "26d2ebce28c774fc578f5f6825e13dc8bf9c2449fae7170c19113365b4afdce8",
+    "sim/mcp3208_model.sv": "a7dc596bcb0e9ba7d47cfbbc3b64afe184b4e8704ea1cdb8a22631d2e9c0f173",
+    "sim/tb_mcp3208_dual_reader.sv": "d3d66dfbc929927af5374a6db37835e1dfdec27a875f68fd5a0799f52b439a9a",
+    "sim/tb_hall_adc_scan.sv": "0466f8802dfd7dd711c80d0b849678075c822e0c1bc4ddbeb0df3d15547e1528",
+    "sim/tb_hall_scan_store.sv": "d2a5180cb81cf919fce67997da1e229452d769490f7ead5a471d8ea2fa2ae297",
+    "scripts/verify_adc.py": "e4b8b01ac3d21f30181737e777db02a3b7db866b4b4815f5f12a7ccaea08ab16"
+  },
+  "nominal_default": {
+    "input_clock_hz": 50000000,
+    "spi_clock_hz": 1000000,
+    "pair_period_cycles": 3125,
+    "key_update_period_us": 500,
+    "keys": 16
+  },
+  "scope": "Standalone raw acquisition; not wired to board top or audio, no GPIO/PLL changes; stale is data age not reliable ADC presence detection",
+  "finished_utc": "2026-10-09T05:05:35.565091+00:00",
+  "existing_manifest_delta": [
+    "scripts/run_checks.ps1",
+    "scripts/run_regression.py"
+  ],
+  "existing_audio_video_rtl_and_tests_unchanged": true,
+  "previous_full_regression_rerun_this_turn": false,
+  "additional_toolchain_test": "PASS relocated project with spaces, override discovery, compilation/simulation and actionable missing-tool failure",
+  "entrypoint": "scripts/run_checks.ps1 -Suite adc; actualexit0",
+  "counts": {
+    "reader_frames": 660,
+    "scan_pairs": 321,
+    "store_cycles": 30000,
+    "lint_configurations": 4,
+    "yosys_modules": 3,
+    "invalid_parameter_rejections": 3
+  }
+}

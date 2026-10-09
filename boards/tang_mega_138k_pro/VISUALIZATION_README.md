@@ -8,6 +8,8 @@
 
 这里观察的是送DAC的数字PCM，不是DAC之后的模拟回采；不会掩盖DAC、电源或后级模拟失真。
 
+2026-10-09新增的增益修复和最终TMDS逆向接收验证见[专项报告](verification/audio_tmds_20261009.md)。音频使用参数化master headroom和数量安全上限；显示仍观察实际DAC捕获PCM，不另行生成用于展示的波形。
+
 ## 已实现模块
 
 | 文件 | 作用 |
@@ -17,6 +19,7 @@
 | src/visual_twiddle_rom.v | 4096组Q1.15旋转系数同步ROM，支持16～4096点FFT；不保存预录频谱 |
 | src/audio_visualizer.sv | 接实时PCM、触发波形、Hann窗FFT、两个真实Voice或延迟相图、分析子系统复位 |
 | src/visual_renderer.sv | 波形/相图/频谱最小绘制；垂直消隐期间复制快照，显示期间冻结 |
+| src/visual_labels.sv | 小型5×7字形ROM、double-dabble十进制转换；时间/幅度/频率标尺与实际主峰读数，无帧缓冲UI |
 | src/visual_raster.v | 640×480有效区、800×525总时序、负极性HS/VS |
 | src/visual_tmds.sv | 三路8bit RGB的TMDS编码、控制字符、运行差分平衡 |
 | src/visual_dvi_io.v | 板级OSER10、ELVDS_OBUF；与可移植RTL隔离 |
@@ -27,8 +30,12 @@
 ## 当前画面
 
 - 左上：256点绿色波形，每次采集512个真实48kHz样本再取隔点，时间跨度约10.67ms。上升过零触发，100ms等待超时允许直流/静音更新；固定幅度，不做自动增益。
-- 右上：256×128点阵青色轨迹。当Voice0和Voice1均活跃时，横纵轴分别取这两个Voice的真实样本；否则显示混音与约33采样延迟的相图。后者不是独立左右声道分析。首版是点轨迹，无插值、余辉、模式文字或复杂UI。
+- 右上：256×128点阵青色轨迹。当Voice0和Voice1均活跃时，横纵轴分别取这两个Voice的真实样本；否则显示混音与约33采样延迟的相图。后者不是独立左右声道分析。点轨迹无插值或余辉，XY标题不代表独立立体声分析。
 - 下方：512列实际FFT功率频谱，横轴线性0～接近24kHz。2048点时相邻两个FFT bin取最大柱高；底层仍保留1024个自然序正频率bin。柱高为log2功率近似，不冒充已校准dBFS。无32/32假标牌。
+
+最小仪表标尺：波形标注±1FS、零线和512采样跨度（默认10.67ms），频谱标注0/Fs÷4/Fs÷2。PEAK为排除DC后、完整37bit功率最大bin对应的四舍五入Hz，不是先量化柱高后猜测；静音显示破折号。其精度受FFT格点限制，不是高精度调音器。SAMPLE_RATE支持8～96kHz参数化显示，实际板级节拍仍由既有音频链决定，不能只修改标签参数改变采样率。
+
+顶层 `DIAGNOSTIC_MODE=1` 使用已有test_mode→独立32 Voice→原混音→实际PCM链。诊断MIDI音符间隔至少4个2048点FFT bin，以便验证32个不同峰；不播放录音、不向FFT注入预制频谱，也不保证任意相邻低音可分辨。默认参数0保持正常演奏，未新增物理按钮。
 
 显示快照过快时允许丢弃完整显示帧，dropped计数可用于调试；不能将其误认为音频丢样。视频失锁只复位分析链，不能阻塞或复位原发声通路。
 
@@ -57,19 +64,23 @@ FFT采用时分复用蝶形、同步存储及系数ROM，不用大规模并行�
 
 ## 自检与真实像素产物
 
-在本板级目录运行 `scripts/run_visual_tests.ps1`，输出到 `sim_out_visual`，然后自动重跑现有双DAC专项回归。先按[板级README](README.md)配置本机工具路径。已归档的运行记录见[verification/visualization.md](verification/visualization.md)及[FFT结果](verification/visualization.json)。
+在本板级目录运行 `scripts/run_visual_tests.ps1`，输出到 `sim_out_visual`，然后自动重跑现有双DAC专项回归。工具自动发现及覆盖变量见[板级README](README.md)。本轮数据见[离线报告](verification/offline_visualization_20261008.md)；原始归档[verification/visualization.md](verification/visualization.md)及[FFT结果](verification/visualization.json)仍保留。
 
 - 4096组旋转系数解析校验。
 - FFT零输入、单音、32不同频率叠加、随机正负边界值；1024点矩形窗、2048/4096点Hann窗逐bin实部/虚部/功率bit-exact比对。
 - 异步时钟稳定快照、慢消费者整帧丢弃、释放及下一帧。
 - 音频侧或视频侧单独复位时，两端快照握手同时清零、各自同步释放，防止旧快照被误读。
 - TMDS4096个数据字节往返解码、控制字符、运行差分；完整视频帧有效像素和同步长度。
-- 真实E盘合成器四音 → 两个DAC相同捕获边界 → 硬件FFT/双Voice李萨如 → 像素/TMDS，导出实际RTL像素PPM/PNG。该PNG不是AI设计图。
+- 当前合成器四音/32 Voice → 实际DAC捕获PCM → 硬件FFT/双Voice李萨如 → 像素/TMDS，导出实际RTL像素PPM/PNG。32 Voice另导出PCM、复数/功率bin和512列显示数据，自动核对32独立峰、全部bin bit-exact、柱高和主峰Hz。PNG不是AI设计图。
+- 主峰选择、DC排除、同柱高不同功率、末端bin、静音、BCD边界、标尺字符和像素检查；48k/96k参数化读数测试。
+- 最终三路TMDS字流独立解码为RGB，四音/32音各恢复一幅640×480图，与renderer原始像素逐字节比较；同时核对消隐控制、差分平衡、renderer两拍时序对齐和复位。接收器故意注入颜色通道交换、数据位翻转、控制词破坏，必须检测到故障。这是OSER10之前的数字验证，不验证真实DDR边沿或线缆电气。
+- 音频增益4/8/16/32路、16/24bit边界/随机/复位，当前24bit核心启停/重复音/velocity/Morph/release，原波形表和定点缩放黄金模型；24bit WAV导出端点往返。FIFOdepth1/3/16满/空/反压/绕回/reset队列自检。
+- 工程复制到带空格路径后预检及编译仿真；故意指定无效工具必须返回失败，而不是继续使用旧报告。
 - 顶层端口/层次检查用sim/visual_primitive_stubs.v，只是接口桩，**不在Gowin工程中**，不模拟PLL锁定或证明硬件串行时序。
 - 严格Verilator --Wall检查新增可移植链，无warning屏蔽；Yosys通用RTL/存储综合与check -assert，不等同于厂商器件映射。
-- RAM读写与异步复位控制分离，系数采用同步初始化ROM，频谱合并用独立峰值寄存器；通用综合保留11个存储单元、8个乘法单元。这是新增可视化子系统统计，不是整个工程的器件资源用量。
+- RAM读写与异步复位控制分离，系数采用同步初始化ROM，频谱合并用独立峰值寄存器。新报告列出通用综合单元与旧显示链11个存储/8个乘法单元的对比；这些不是整个工程的器件资源用量，也不能直接当作BRAM/DSP数量。为准确选主峰，跨域双快照从8bit柱高改为37bit功率，默认增加59,392bit逻辑存储；需在Gowin中核查实际映射成本。
 
-本机Verilator启动包装程序会输出一行 `The system cannot find the path specified.`；随后Verilator正常运行并返回0，报告中无 `%Warning`/`%Error`。这条主机启动环境提示仍保留在日志，不冒充工具全程无任何诊断。零RTL warning的范围是新增可移植显示链，未声称整个旧板级工程全部lint清零。
+严格Verilator检查不使用warning屏蔽；零RTL warning的范围是新增可移植显示链/PCM5102A发送器，未声称整个旧板级工程全部lint清零。工具启动诊断与RTL诊断需要分别核对，不能只看返回码。
 
 ## 上板前必须完成
 

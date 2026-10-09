@@ -5,6 +5,7 @@
     <Version>5</Version>
     <Device name="GW5AST-138C" pn="GW5AST-LV138FPG676AC1/I0">gw5ast138c-003</Device>
     <FileList>
+        <File path="src/visual_labels.sv" type="file.verilog" enable="1"/>
         <File path="src/visual_frame_store.v" type="file.verilog" enable="1"/>
         <File path="src/visual_twiddle_rom.v" type="file.verilog" enable="1"/>
         <File path="src/visual_fft.sv" type="file.verilog" enable="1"/>

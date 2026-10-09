@@ -14,6 +14,7 @@ tools-iverilog.tar.gz
 # Reference material is retained locally, not versioned with RTL source
 *.pdf
 *.png
+!boards/tang_mega_138k_pro/verification/previews/*.png
 
 # Planning scratch files
 task_plan.md
@@ -24,5 +25,6 @@ progress.md
 boards/**/impl/
 boards/**/sim_out_visual/
 boards/**/sim_out_pcm5102a/
+boards/**/sim_out_adc/
 *.gprj.user
 __pycache__/

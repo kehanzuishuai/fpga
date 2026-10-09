@@ -4,6 +4,7 @@ module synth_core #(
     parameter SAMPLE_W           = 24,
     parameter VOICES             = 32,
     parameter MASTER_ATTEN_SHIFT = 0,
+    parameter [15:0] MASTER_GAIN_Q15 = 16'd29491,
     parameter IDX_W              = 5,
     parameter LOG2_VOICES        = 5,
     parameter COUNT_W            = LOG2_VOICES + 1,
@@ -192,7 +193,8 @@ tree_mixer #(
 polyphony_gain #(
     .SAMPLE_W           (SAMPLE_W),
     .LOG2_VOICES        (LOG2_VOICES),
-    .MASTER_ATTEN_SHIFT (MASTER_ATTEN_SHIFT)
+    .MASTER_ATTEN_SHIFT (MASTER_ATTEN_SHIFT),
+    .MASTER_GAIN_Q15   (MASTER_GAIN_Q15)
 ) u_gain (
     .clk                (clk),
     .rst_n              (rst_n),

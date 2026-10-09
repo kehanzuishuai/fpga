@@ -1,4 +1,5 @@
-module tang_mega_138k_pro_top (
+module tang_mega_138k_pro_top #(parameter DIAGNOSTIC_MODE=0,
+    parameter [15:0] MASTER_GAIN_Q15=16'd29491) (
 
     /* ========================================================
      * Board clock / reset
@@ -283,7 +284,7 @@ assign morph_control =
     10'd0;
 
 assign test_enable =
-    1'b0;
+    (DIAGNOSTIC_MODE != 0);
 
 
 /* ============================================================
@@ -325,6 +326,7 @@ wire signed [23:0]
  * ============================================================ */
 
 synth_top #(
+    .MASTER_GAIN_Q15(MASTER_GAIN_Q15),
 
     .CLK_HZ
         (12288000),
@@ -365,7 +367,7 @@ synth_top #(
     /* Note Event */
 
     .event_valid
-        (event_valid),
+        (event_valid && !test_enable),
 
     .event_note_on
         (event_note_on),

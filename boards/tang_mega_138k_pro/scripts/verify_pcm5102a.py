@@ -1,5 +1,6 @@
 """Repeatable focused verification of the E: dual-DAC modification."""
 from pathlib import Path
+from toolchain import discover, environment
 import subprocess
 import os
 import re
@@ -9,11 +10,9 @@ import xml.etree.ElementTree as ET
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / 'sim_out_pcm5102a'
 OUT.mkdir(exist_ok=True)
-BIN = Path('D:/fpga26/bin')
-TOOLS = Path(os.environ['APPDATA']) / 'Python/Python313/Scripts'
-env = dict(os.environ)
-env['PATH'] = 'C:/Strawberry/perl/bin;' + env['PATH']
-env['LANG'] = env['LC_ALL'] = 'C'
+(OUT/'verification_report.md').write_text('# RUNNING / INCOMPLETE\n',encoding='utf-8')
+TC=discover()
+env=environment()
 results = []
 
 def run(label, args):
@@ -28,9 +27,9 @@ def run(label, args):
 
 def sim(name, sources):
     image = OUT / (name + '.vvp')
-    run(name + '_compile', [BIN/'iverilog.exe', '-g2012', '-I', ROOT/'src',
+    run(name + '_compile', [TC['iverilog'], '-g2012', '-I', ROOT/'src',
                           '-s', name, '-o', image, *sources])
-    output = run(name, [BIN/'vvp.exe', image])
+    output = run(name, [TC['vvp'], image])
     if 'PASS' not in output or 'FATAL' in output:
         raise RuntimeError(name + ': no PASS')
     results.append(name + ': PASS')
@@ -55,12 +54,12 @@ try:
         if before[before.index('always @'):].strip() != after[after.index('always @'):].strip():
             raise RuntimeError('Existing PT8211 clocked logic has changed')
     results.append('PT8211 sequential logic unchanged against backup: PASS')
-    lint = run('verilator_pcm5102a', [TOOLS/'verilator-cli.exe', '--lint-only', '--Wall',
+    lint = run('verilator_pcm5102a', [TC['verilator'], '--lint-only', '--Wall',
                                      '--top-module', 'pcm5102_i2s_tx', new])
     if '%Warning' in lint or '%Error' in lint:
         raise RuntimeError('New sender has Verilator diagnostics')
     results.append('New sender Verilator --Wall, no suppressed warnings: PASS')
-    yosys = run('yosys_pcm5102a', [TOOLS/'yowasp-yosys.exe', '-Q', '-T', '-p',
+    yosys = run('yosys_pcm5102a', [TC['yosys'], '-Q', '-T', '-p',
         'read_verilog -sv -DSYNTHESIS src/pcm5102_i2s_tx.v; hierarchy -check -top pcm5102_i2s_tx; synth -noabc -top pcm5102_i2s_tx; check -assert; stat; log PCM5102_CHECK_COMPLETE'])
     if 'Found and reported 0 problems' not in yosys or 'PCM5102_CHECK_COMPLETE\n' not in yosys:
         raise RuntimeError('No clean Yosys check result')
@@ -72,7 +71,7 @@ try:
     results.append('Approved three GPIO active constraints: PASS')
     report = '# PCM5102A focused verification\n\n' + '\n'.join('- '+s for s in results)
     report += '\n\nNominal input 12.288 MHz; measured BCLK period 4 input cycles (3.072 MHz), LRCLK period 256 input cycles (48 kHz).\n'
-    report += '\nScope: new serial output plus integration with actual E: synth; not a new full-core freeze, PLL lock, Gowin P&R or physical DAC validation.\n'
+    report += '\nScope: serial output plus integration with current board synth; not a new full-core freeze, PLL lock, Gowin P&R or physical DAC validation.\n'
     (OUT/'verification_report.md').write_text(report,encoding='utf-8')
     print('\nALL PCM5102A FOCUSED CHECKS PASS')
 except Exception as error:

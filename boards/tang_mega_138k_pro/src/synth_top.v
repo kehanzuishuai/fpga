@@ -1,6 +1,7 @@
 module synth_top #(
     parameter CLK_HZ         = 12288000,
     parameter SAMPLE_RATE    = 48000,
+    parameter [15:0] MASTER_GAIN_Q15 = 16'd29491,
 
     parameter VOICES         = 32,
     parameter SAMPLE_W       = 24,
@@ -208,6 +209,7 @@ pcm5102_i2s_tx #(
  * ============================================================ */
 
 synth_event_frontend #(
+    .MASTER_GAIN_Q15(MASTER_GAIN_Q15),
     .VOICES      (VOICES),
 
     .SAMPLE_W    (SAMPLE_W),

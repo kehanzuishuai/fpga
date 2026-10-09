@@ -1,3 +1,4 @@
+`default_nettype none
 module polyphony_gain #(
     parameter SAMPLE_W             = 24,
     parameter LOG2_VOICES          = 5,
@@ -12,12 +13,12 @@ module polyphony_gain #(
     parameter [5:0] MASTER_ATTEN_SHIFT = 6'd0,
 
     /*
-     * Q15 gain smoothing steps.
+     * Q15 master gain and recovery step.
      *
      * Explicit 16-bit width avoids
      * Verilog implicit 32-bit arithmetic.
      */
-    parameter [15:0] GAIN_DOWN_STEP = 16'd1024,
+    parameter [15:0] MASTER_GAIN_Q15 = 16'd29491, // 0.9, -0.915 dB headroom
     parameter [15:0] GAIN_UP_STEP   = 16'd64
 )(
     input wire clk,
@@ -80,17 +81,17 @@ localparam PROD_W =
 /*
  * Q15:
  *
- * 32767 ≈ 1.0
+ * 32767 ≈ 1.0; default master is29491 (0.9)
  */
 localparam [15:0] GAIN_ONE =
-    16'd32767;
+    MASTER_GAIN_Q15;
 
 
 /*
  * Total right shift after gain multiplication.
  */
 localparam integer TOTAL_SHIFT =
-    15 + MASTER_ATTEN_SHIFT;
+    15 + {26'd0,MASTER_ATTEN_SHIFT};
 
 
 /* ============================================================
@@ -102,6 +103,13 @@ localparam integer TOTAL_SHIFT =
 
 reg [15:0] target_gain;
 reg [15:0] current_gain;
+// Count can change between sample enables: never apply a stale excessive gain.
+wire [15:0] effective_gain = (current_gain < target_gain) ? current_gain : target_gain;
+wire [5:0] voice_count_extended = {{(5-LOG2_VOICES){1'b0}},active_voice_count};
+`ifndef SYNTHESIS
+initial if(LOG2_VOICES<2 || LOG2_VOICES>5 || MASTER_GAIN_Q15>16'd32767)
+    $fatal(1,"gain supports4..32 Voices, MASTER_GAIN_Q15<=32767");
+`endif
 
 
 /* ============================================================
@@ -122,121 +130,49 @@ reg signed [PROD_W-1:0]
  *
  * Approximately:
  *
- * target_gain = 32768 / active_voice_count
+ * target_gain = MASTER_GAIN_Q15 / active_voice_count
  *
  * Q15 representation.
  * ============================================================ */
 
+// All divisions have constant parameter operands and fold into a small LUT.
+// Floor rounding ensures n * target_gain <= MASTER_GAIN_Q15.
 always @(*) begin
-
-    case (active_voice_count)
-
-        6'd0:
-            target_gain = 16'd32767;
-
-        6'd1:
-            target_gain = 16'd32767;
-
-        6'd2:
-            target_gain = 16'd16384;
-
-        6'd3:
-            target_gain = 16'd10922;
-
-        6'd4:
-            target_gain = 16'd8192;
-
-        6'd5:
-            target_gain = 16'd6553;
-
-        6'd6:
-            target_gain = 16'd5461;
-
-        6'd7:
-            target_gain = 16'd4681;
-
-        6'd8:
-            target_gain = 16'd4096;
-
-        6'd9:
-            target_gain = 16'd3641;
-
-        6'd10:
-            target_gain = 16'd3277;
-
-        6'd11:
-            target_gain = 16'd2979;
-
-        6'd12:
-            target_gain = 16'd2731;
-
-        6'd13:
-            target_gain = 16'd2521;
-
-        6'd14:
-            target_gain = 16'd2340;
-
-        6'd15:
-            target_gain = 16'd2184;
-
-        6'd16:
-            target_gain = 16'd2048;
-
-        6'd17:
-            target_gain = 16'd1927;
-
-        6'd18:
-            target_gain = 16'd1820;
-
-        6'd19:
-            target_gain = 16'd1725;
-
-        6'd20:
-            target_gain = 16'd1638;
-
-        6'd21:
-            target_gain = 16'd1560;
-
-        6'd22:
-            target_gain = 16'd1489;
-
-        6'd23:
-            target_gain = 16'd1425;
-
-        6'd24:
-            target_gain = 16'd1365;
-
-        6'd25:
-            target_gain = 16'd1311;
-
-        6'd26:
-            target_gain = 16'd1260;
-
-        6'd27:
-            target_gain = 16'd1214;
-
-        6'd28:
-            target_gain = 16'd1170;
-
-        6'd29:
-            target_gain = 16'd1130;
-
-        6'd30:
-            target_gain = 16'd1092;
-
-        6'd31:
-            target_gain = 16'd1057;
-
-        /*
-         * 32 voices:
-         *
-         * 32768 / 32 = 1024
-         */
-        default:
-            target_gain = 16'd1024;
-
+    case(voice_count_extended)
+        6'd0: target_gain = GAIN_ONE;
+        6'd1: target_gain = MASTER_GAIN_Q15 / 16'd1;
+        6'd2: target_gain = MASTER_GAIN_Q15 / 16'd2;
+        6'd3: target_gain = MASTER_GAIN_Q15 / 16'd3;
+        6'd4: target_gain = MASTER_GAIN_Q15 / 16'd4;
+        6'd5: target_gain = MASTER_GAIN_Q15 / 16'd5;
+        6'd6: target_gain = MASTER_GAIN_Q15 / 16'd6;
+        6'd7: target_gain = MASTER_GAIN_Q15 / 16'd7;
+        6'd8: target_gain = MASTER_GAIN_Q15 / 16'd8;
+        6'd9: target_gain = MASTER_GAIN_Q15 / 16'd9;
+        6'd10: target_gain = MASTER_GAIN_Q15 / 16'd10;
+        6'd11: target_gain = MASTER_GAIN_Q15 / 16'd11;
+        6'd12: target_gain = MASTER_GAIN_Q15 / 16'd12;
+        6'd13: target_gain = MASTER_GAIN_Q15 / 16'd13;
+        6'd14: target_gain = MASTER_GAIN_Q15 / 16'd14;
+        6'd15: target_gain = MASTER_GAIN_Q15 / 16'd15;
+        6'd16: target_gain = MASTER_GAIN_Q15 / 16'd16;
+        6'd17: target_gain = MASTER_GAIN_Q15 / 16'd17;
+        6'd18: target_gain = MASTER_GAIN_Q15 / 16'd18;
+        6'd19: target_gain = MASTER_GAIN_Q15 / 16'd19;
+        6'd20: target_gain = MASTER_GAIN_Q15 / 16'd20;
+        6'd21: target_gain = MASTER_GAIN_Q15 / 16'd21;
+        6'd22: target_gain = MASTER_GAIN_Q15 / 16'd22;
+        6'd23: target_gain = MASTER_GAIN_Q15 / 16'd23;
+        6'd24: target_gain = MASTER_GAIN_Q15 / 16'd24;
+        6'd25: target_gain = MASTER_GAIN_Q15 / 16'd25;
+        6'd26: target_gain = MASTER_GAIN_Q15 / 16'd26;
+        6'd27: target_gain = MASTER_GAIN_Q15 / 16'd27;
+        6'd28: target_gain = MASTER_GAIN_Q15 / 16'd28;
+        6'd29: target_gain = MASTER_GAIN_Q15 / 16'd29;
+        6'd30: target_gain = MASTER_GAIN_Q15 / 16'd30;
+        6'd31: target_gain = MASTER_GAIN_Q15 / 16'd31;
+        default: target_gain = MASTER_GAIN_Q15 / 16'd32;
     endcase
-
 end
 
 
@@ -244,7 +180,7 @@ end
  * Smooth gain control
  *
  * Voice count increases:
- *     gain decreases quickly.
+ *     gain is capped immediately, before the next sample enable.
  *
  * Voice count decreases:
  *     gain recovers slowly.
@@ -266,33 +202,9 @@ always @(posedge clk or negedge rst_n) begin
          * ---------------------------------------------------- */
 
         if (current_gain > target_gain) begin
-
-            if (
-                (current_gain - target_gain)
-                <=
-                GAIN_DOWN_STEP
-            ) begin
-
-                current_gain <=
-                    target_gain;
-
-            end
-
-            else begin
-
-                current_gain <=
-                    current_gain
-                    -
-                    GAIN_DOWN_STEP;
-
-            end
-
+            // Downward safety clamp is immediate; only recovery is smoothed.
+            current_gain <= target_gain;
         end
-
-
-        /* ----------------------------------------------------
-         * Gain must increase.
-         * ---------------------------------------------------- */
 
         else if (current_gain < target_gain) begin
 
@@ -348,7 +260,7 @@ always @(*) begin
     gain_operand =
         $signed({
             1'b0,
-            current_gain
+            effective_gain
         });
 
 
@@ -385,17 +297,18 @@ always @(*) begin
 
 
     /* ========================================================
+     * Count-band estimate only, excludes Q15 headroom/recovery.
      * Debug shift information
      * ======================================================== */
 
-    if (active_voice_count <= 6'd1) begin
+    if (voice_count_extended <= 6'd1) begin
 
         applied_shift =
             MASTER_ATTEN_SHIFT;
 
     end
 
-    else if (active_voice_count <= 6'd2) begin
+    else if (voice_count_extended <= 6'd2) begin
 
         applied_shift =
             6'd1
@@ -404,7 +317,7 @@ always @(*) begin
 
     end
 
-    else if (active_voice_count <= 6'd4) begin
+    else if (voice_count_extended <= 6'd4) begin
 
         applied_shift =
             6'd2
@@ -413,7 +326,7 @@ always @(*) begin
 
     end
 
-    else if (active_voice_count <= 6'd8) begin
+    else if (voice_count_extended <= 6'd8) begin
 
         applied_shift =
             6'd3
@@ -422,7 +335,7 @@ always @(*) begin
 
     end
 
-    else if (active_voice_count <= 6'd16) begin
+    else if (voice_count_extended <= 6'd16) begin
 
         applied_shift =
             6'd4
@@ -443,4 +356,15 @@ always @(*) begin
 end
 
 
+// The discarded bits must be sign extension, never overflow. Also exercise
+// this invariant in simulation rather than hiding an unused-width warning.
+`ifndef SYNTHESIS
+always @(posedge clk or negedge rst_n)begin
+  if(!rst_n)begin end
+  else if(sample_tick)
+    if(shifted_product !== {{(PROD_W-MIX_W){scaled_out[MIX_W-1]}},scaled_out})
+        $fatal(1,"gain normalization lost significant bits");
+end
+`endif
 endmodule
+`default_nettype wire
