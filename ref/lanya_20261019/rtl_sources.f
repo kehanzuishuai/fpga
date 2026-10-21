@@ -1,0 +1,11 @@
+tongxin/wifi_uart_rx.sv
+tongxin/wifi_uart_tx.sv
+tongxin/wifi_packet_rx.sv
+tongxin/wifi_packet_tx.sv
+kongzhi/wifi_control.sv
+wifi_core.sv
+kongzhi/wifi_instrument_control.sv
+kongzhi/wifi_request_steps.sv
+wifi_remote_control.sv
+kongzhi/wifi_volume.sv
+kongzhi/wifi_score_player.sv

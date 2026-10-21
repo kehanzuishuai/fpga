@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "TMDS_words": 65536,
+  "narrow_disparity_bit_exact_to_old": true,
+  "frequency_decimal_values": 176,
+  "BCD_max": 24000
+}

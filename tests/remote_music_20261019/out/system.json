@@ -1,0 +1,9 @@
+{
+  "status": "STOPPED_PER_USER",
+  "current_full_system_pass": false,
+  "time_utc": "2026-10-20T08:39:44.242491+00:00",
+  "reason": "Repeated full display regression stopped at user request; targeted controls/audio and XY/SPI checks retained.",
+  "partial_log_sha256": "b386ffd7e253cac2fb1f755aabd32f468ef3a2370793adf5c8bf24328becacc8",
+  "prior_completed_receipt": "audit\\remote_music_20261019\\prior_completed_system_receipt.json",
+  "prior_receipt_sha256": "4f684e358fbd78be99d055b588c44ea1f65bb393c56e0cd8fb1208672253e982"
+}

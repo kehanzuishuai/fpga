@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "pixels": 921600,
+  "modes": 4,
+  "font_reference": "Supplied display upgrade",
+  "added_latency_cycles": 2
+}

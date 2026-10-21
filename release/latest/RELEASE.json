@@ -1,0 +1,57 @@
+{
+  "source_acceptance": "audit/remote_music_20261019/FINAL_ACCEPTANCE.json",
+  "validated_utc": "2026-10-20T13:53:18.270115+00:00",
+  "FPGA_source_netlist_sha256": "6ceb8babb23d570ae4b1dcc3744f1ba806b5fcecae836f9a79160de1ed6d6c41",
+  "no_auto_programming": true,
+  "scope": "Validated digital build. Hardware wiring, continuous Wi-Fi, analog outputs and subjective quality remain to be checked. ESP32 board flash/PSRAM options must match physical board.",
+  "files": {
+    "ao_0.fs": {
+      "bytes": 42340902,
+      "sha256": "e483552fc9993df6e9464790a9ca29d7e8253e02a51002507d05ee2234884e0b"
+    },
+    "boot_app0.bin": {
+      "bytes": 8192,
+      "sha256": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0"
+    },
+    "esp32_compile.json": {
+      "bytes": 1881,
+      "sha256": "95d856ab980d03046cc95884e0a727d0fbdff9658c8bdbb91d755b6f408e7c1d"
+    },
+    "ESP32_FPGA_Music_Controller.ino.bin": {
+      "bytes": 1221888,
+      "sha256": "8cc3813a3ab5feb41ae5baba880365cf6f32c1c34b0894cd25a3516cff07436f"
+    },
+    "ESP32_FPGA_Music_Controller.ino.bootloader.bin": {
+      "bytes": 19984,
+      "sha256": "cc521020f118145ddb9841692442976c0feda6c5969147d51fb64dca8e1e497d"
+    },
+    "ESP32_FPGA_Music_Controller.ino.merged.bin": {
+      "bytes": 4194304,
+      "sha256": "46f6ea63f7420a1b3f3ba97d6fbf73d82050145f74e7c1b492a39fbef2bf22ec"
+    },
+    "ESP32_FPGA_Music_Controller.ino.partitions.bin": {
+      "bytes": 3072,
+      "sha256": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+    },
+    "yinyue_fashengqi.pin.html": {
+      "bytes": 117707,
+      "sha256": "cbfbc36c357a25eaaa460150bebdebd68b93a4f7b26170de7d4f590f26507ee5"
+    },
+    "yinyue_fashengqi.rpt.txt": {
+      "bytes": 100343,
+      "sha256": "6ae374b4d7ef361169d7079e2172b18af97c06596ad2449a77271cfc4aed368e"
+    },
+    "yinyue_fashengqi.tr": {
+      "bytes": 464075,
+      "sha256": "bd3140ae721505ae2d4a5d9cd6180bdef40be81a987f14ab54e947da82f3f9df"
+    },
+    "yinyue_fashengqi_syn.rpt.html": {
+      "bytes": 74050,
+      "sha256": "6d5e97d6df3282897a9b8513b78cc9274b81994533443ffb36424d2c7101cd5b"
+    },
+    "PUBLICATION.json": {
+      "bytes": 674,
+      "sha256": "c6c248a7d72aa6973bcbef4d229433a9701662d1ce02cf5551c1878694db8b0a"
+    }
+  }
+}

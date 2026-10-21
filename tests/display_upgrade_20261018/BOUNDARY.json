@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "vendor_serializer_trials": 100,
+  "release_phase_coverage": "Coincident PLL phase0 rising edges; varied pixel reset holds[3,4,5] and trace lengths[24,25]",
+  "checker_sha256": "33b050578bcf05ac8720b535817df10a8bdae1ae784a7cd0e390ce86e81a663d",
+  "clock_ready_trials": 40,
+  "serializer_reference": "Exact pre-upgrade serializer RTL; production synchronous pixel reset release",
+  "coherent_serial_stream_offset_bits": -10,
+  "word_phase_preserved": true,
+  "PLL_readiness_test": "Clock/lock stubs, actual production release synchronizers",
+  "reset_PLL_phase_ns": 2.62525,
+  "reset_high_ns": 6.634,
+  "source_sha256": {
+    "src/display/visual_dvi_io.v": "5e77991886f17970baef71f91b63a0e2fcf53c6cb0d5d677e2b02b9a5bac211d",
+    "src/display/visual_video_clock.v": "68c1a384c4d8689ef17e1afcf91c9b30688c76eedeed00c4c4fef07b46cf11b0",
+    "src/display/gowin_pll/visual_pll_mod.v": "e0f90d6839186c5d8ecfbb4bd6cf937e52b23e57691344cedcc6df0480136249"
+  }
+}

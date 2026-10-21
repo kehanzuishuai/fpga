@@ -1,0 +1,4 @@
+﻿midi,velocity,scheduled_note_off_s,run_ticks,loader_done_tick,last_nonzero_tick,last_sample_tick,natural_zero_s_from_loader_complete_rtl,model_natural_zero_s,all_samples_bit_exact,release_before_stop,log_sha256
+87,100,6,288020,13,146853,146854,3.0591666666666666,3.0591666666666666,True,False,cf53c2e2278046702589c30e10a822412c30a0373c7a821bdb0089afc6455545
+88,100,6,288020,13,143799,143800,2.9955416666666665,2.9955416666666665,True,False,db0477cee7bfb07fbd587305d9862e336c16ee1f2f44a53c3b0278dc028836e7
+89,100,6,288020,13,138778,138779,2.8909375,2.8909375,True,False,9f6e83aa5b4c709fd8e7312c94ea1b7ec20c805cc05da98f9ba3baba566ab1a6

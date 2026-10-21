@@ -1,0 +1,2 @@
+PASS XY bitmap: circle/line/ratio/low-level/high-frequency/DC/silence/mixed/extremes; connected segments within vblank
+D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_xy_timing.sv:28: $finish called at 4878791000 (1ps)

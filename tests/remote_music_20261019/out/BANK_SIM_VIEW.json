@@ -1,0 +1,25 @@
+{
+  "scope": "Connectivity-only Icarus view: packed disjoint bus drivers become separate word nets. Arithmetic/state/clock unchanged. Production GPRJ uses original source; mapped gate comparison uses actual Gowin primitives.",
+  "original": "src/instruments/gongyong/yinse_aux_bank.sv",
+  "original_sha256": "6064fa0fd5d771dcd6cf616d92cef7a57218bf97377b5bf92537350ee15e092b",
+  "generated": "tests/remote_music_20261019/out/yinse_aux_bank_netview.sv",
+  "generated_sha256": "cf139bbdb4e1f545dc202b58ffc1606d0425a37005bb0bc26d322719f72472df",
+  "replacements": [
+    [
+      "wire [VOICES*399-1:0] queries;wire [LANES*334-1:0] results;",
+      "wire [398:0] queries[0:VOICES-1];wire [333:0] results[0:LANES-1];"
+    ],
+    [
+      "queries[(lane*THREADS+thread)*399+:399]",
+      "queries[lane*THREADS+thread]"
+    ],
+    [
+      "results[lane*334+:334]",
+      "results[lane]"
+    ],
+    [
+      "results[(g/THREADS)*334+:334],queries[g*399+:399]",
+      "results[g/THREADS],queries[g]"
+    ]
+  ]
+}

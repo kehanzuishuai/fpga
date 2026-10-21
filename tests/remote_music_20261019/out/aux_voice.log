@@ -1,0 +1,6 @@
+PASS instrument 1: all 32 notes active, 4095 nonzero frames, zero scheduler overruns
+PASS instrument 2: all 32 notes active, 4095 nonzero frames, zero scheduler overruns
+PASS instrument 3: all 32 notes active, 4094 nonzero frames, zero scheduler overruns
+PASS instrument 4: all 32 notes active, 4095 nonzero frames, zero scheduler overruns
+PASS auxiliary32 integration
+tests/remote_music_20261019/tb_aux.sv:33: $finish called at 103383046000 (1ps)

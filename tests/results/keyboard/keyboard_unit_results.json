@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "scope": "Protocol-independent events plus assumed TTP229-BSF serial BFM, not BIT-TREE hardware evidence",
+  "results": [
+    "VCD info: dumpfile tests/results/keyboard/keyboard_events.vcd opened for output.\nPASS keyboard events: 106 convergence/map checks; 100 stalled cycles; 16-key permutation, chords 2/3/5/8/16, release, invalid frames, full FIFO, reset, 32-bit map\ntests/keyboard/tb_keyboard_events.sv:100: $finish called at 138730000 (1ps)",
+    "VCD info: dumpfile tests/results/keyboard/keyboard_serial.vcd opened for output.\nPASS TTP229 assumed serial profile: 48 checks, 95 valid frames, 2 stuck-idle errors; actual BIT-TREE silicon/protocol not confirmed\ntests/keyboard/tb_keyboard_serial.sv:36: $finish called at 336012079260 (1ps)"
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "pixels": 450560,
+  "notes": 16,
+  "onehot_keys": 16,
+  "added_latency_cycles": 2
+}

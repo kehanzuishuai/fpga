@@ -1,0 +1,7 @@
+PASS physical32 piano under phone selection 0: all 32 piano voices heard, auxiliary masks zero, no fade/reset
+PASS physical32 piano under phone selection 1: all 32 piano voices heard, auxiliary masks zero, no fade/reset
+PASS physical32 piano under phone selection 2: all 32 piano voices heard, auxiliary masks zero, no fade/reset
+PASS physical32 piano under phone selection 3: all 32 piano voices heard, auxiliary masks zero, no fade/reset
+PASS physical32 piano under phone selection 4: all 32 piano voices heard, auxiliary masks zero, no fade/reset
+PASS full board physical32 piano only under all five phone score selections; master mute; 2889 exact PCM5102 frames
+D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_audio_top.sv:69: $finish called at 60213550280 (1ps)

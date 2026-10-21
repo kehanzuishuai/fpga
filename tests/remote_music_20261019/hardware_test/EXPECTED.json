@@ -1,0 +1,30 @@
+{
+  "scope": "Generated transport/stereo wiring test tones; not synthesized instrument quality evidence",
+  "format": "PCM16 stereo 48000 Hz",
+  "seconds": 4,
+  "frames": 192000,
+  "peak_fraction_FS": 0.2,
+  "timeline": [
+    {
+      "second": 0,
+      "left_Hz": 440,
+      "right_Hz": 0
+    },
+    {
+      "second": 1,
+      "left_Hz": 0,
+      "right_Hz": 660
+    },
+    {
+      "second": 2,
+      "left_Hz": 440,
+      "right_Hz": 660
+    },
+    {
+      "second": 3,
+      "left_Hz": 0,
+      "right_Hz": 0
+    }
+  ],
+  "sha256": "b06b6198d8ffd70229e1b115ef7d083195e59fccf1f8a9bef7ceccb514e08bad"
+}

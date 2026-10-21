@@ -40,7 +40,9 @@ module voice_bank #(
     output     [VOICES-1:0]            voice_active,
 
     output reg                         allocation_valid,
-    output reg [IDX_W-1:0]             allocation_index
+    output reg [IDX_W-1:0]             allocation_index,
+    // Reset-scoped modulo-65536 counters, driven by real control edges.
+    output wire [47:0]                 diagnostic_counts
 );
 
 
@@ -347,6 +349,16 @@ if (PIANO_ENGINE != 0) begin : G_PARTIAL
     wire [8:0]        ld_addr;
     wire [31:0]       ld_data;
     wire [21:0]       ld_rel_slope;
+    reg [15:0] diag_alloc,diag_loaded,diag_play;
+    assign diagnostic_counts={diag_play,diag_loaded,diag_alloc};
+    always @(posedge clk or negedge rst_n)
+    if(!rst_n)begin diag_alloc<=0;diag_loaded<=0;diag_play<=0;end
+    else begin
+        if(note_on_acc && grant)diag_alloc<=diag_alloc+1'b1;
+        if(|ld_done)diag_loaded<=diag_loaded+1'b1;
+        // ld_ready means V_LOAD && engine idle; the same edge enters V_PLAY.
+        if(|(ld_done & voice_ld_ready))diag_play<=diag_play+1'b1;
+    end
 
     piano_note_loader #(
         .VOICES (VOICES),
@@ -419,6 +431,16 @@ if (PIANO_ENGINE != 0) begin : G_PARTIAL
         wire
             unused_overrun;
 
+
+        // Fixed measured gain follows each raw voice; keep the old note's
+        // coefficient during fade and commit only after the new loader finishes.
+        wire signed [SAMPLE_W-1:0] raw_sample;
+        piano_note_gain #(.SAMPLE_W(SAMPLE_W)) u_note_gain (
+            .clk(clk), .rst_n(rst_n), .start(starts[g]),
+            .note_in(midi_note), .load_done(ld_done[g]),
+            .sample_in(raw_sample),
+            .sample_out(voice_samples[g*SAMPLE_W +: SAMPLE_W])
+        );
 
         piano_partial_voice #(
             .SAMPLE_W   (SAMPLE_W),
@@ -506,10 +528,7 @@ if (PIANO_ENGINE != 0) begin : G_PARTIAL
 
             .sample
                 (
-                    voice_samples[
-                        g*SAMPLE_W
-                        +: SAMPLE_W
-                    ]
+                    raw_sample
                 ),
 
             .dbg_sample_strobe
@@ -533,6 +552,7 @@ end
 else begin : G_LEGACY
 
     assign ld_busy = 1'b0;
+    assign diagnostic_counts = 48'd0;
 
     for (
         g = 0;

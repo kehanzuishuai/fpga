@@ -1,0 +1,82 @@
+'use strict';
+const assert=require('assert');
+const {createController,createSelection,TIMBRES}=require('../shouji/app.js');
+const {noticeText}=require('../shouji/ui-text.js');
+const {navigationPage}=require('../shouji/navigation.js');
+(async()=>{
+ assert.equal(navigationPage('/','#scores'),'scores');assert.equal(navigationPage('/','#settings'),'settings');assert.equal(navigationPage('/keymap',''),'keymap');assert.equal(navigationPage('/',''),'control');
+ assert.equal(noticeText('FPGA未应答，请检查供电、接线、波特率和FPGA程序；操作结果未知'),'');
+ assert.equal(noticeText('音量已生效'),'已应用');assert.equal(noticeText('曲谱已传入 FPGA'),'已传输');
+ assert.equal(noticeText('下载失败，请使用无需登录和跳转的HTTPS文件直链'),'下载失败');
+ let state='',message='',disabled=false,send=[],wifi=null,uart='',operations=[];
+ let body={uartConnected:true,ok:true,stateValid:true,mode:0,timbre:0,switching:false,fault:false,message:'已确认'};
+ let code=true;
+ const ui=createController(async(url,opts)=>{send.push([url,opts]);return {ok:code,json:async()=>body};},{state:x=>state=x,message:x=>message=x,busy:x=>disabled=x,links:(w,u)=>{if(w!==null)wifi=w;uart=u;},operation:(k,v,status)=>operations.push([k,v,status])});
+ assert(await ui.refresh());assert(state.includes('钢琴'));
+ // FPGA replied with an old actual instrument: never show the selected one as success.
+ assert(!await ui.set('timbre',3));assert(state.includes('钢琴'));assert(!message.includes('切换完成'));
+ assert.deepEqual(operations.slice(-2),[['timbre',3,'pending'],['timbre',3,'error']]);
+ body={...body,timbre:3};assert(await ui.set('timbre',3));assert(state.includes('吉他')&&message==='切换完成');assert.deepEqual(operations.at(-1),['timbre',3,'success']);
+ assert(send.at(-1)[0]==='/api/control'&&send.at(-1)[1].method==='POST');assert(send.at(-1)[1].body==='kind=timbre&value=3');
+ body={...body,switching:true};assert(!await ui.set('timbre',3));assert(state.includes('切换中'));
+ body={...body,switching:false,fault:true};assert(!await ui.set('timbre',3));assert(state.includes('故障'));
+ code=false;body={ok:false,stateValid:false,message:'FPGA未应答'};assert(!await ui.refresh());assert(state.includes('尚未确认')&&message==='FPGA未应答');
+ assert(!disabled);assert(wifi===true&&uart==='error');
+ body={ok:false,uartConnected:true,stateValid:false,message:'忙'};assert(!await ui.refresh());assert(wifi===true&&uart==='connected');
+ body={ok:true,stateValid:true,mode:0,timbre:0,switching:false,fault:false,settingsValid:true,volume:50,tempo:120,scoreValid:true,scoreCount:2,playing:false};code=true;
+ assert(await ui.set('volume',50));assert(!await ui.set('volume',80));
+ assert(await ui.set('tempo',120));assert(!await ui.set('tempo',180));
+ assert(await ui.upload([[60,100,500],[0,0,250]]));assert(!await ui.set('play',1));
+ // Fast dragging sends the in-flight value and the final value; obsolete queued
+ // positions resolve without creating UART traffic.
+ const releases=[],sliderCalls=[];
+ const slider=createController((url,options)=>{sliderCalls.push(options.body);return new Promise(resolve=>releases.push(resolve));},{state(){},message(){},busy(){}});
+ const v20=slider.set('volume',20),v40=slider.set('volume',40),v80=slider.set('volume',80);
+ assert.strictEqual(await v40,false);
+ releases[0]({ok:true,json:async()=>({...body,volume:20})});assert(await v20);
+ releases[1]({ok:true,json:async()=>({...body,volume:80})});assert(await v80);
+ assert.deepStrictEqual(sliderCalls,['kind=volume&value=20','kind=volume&value=80']);
+ let release;const pending=createController(()=>new Promise(r=>release=r),{state(){},message(){},busy(){}});
+ const first=pending.refresh(),next=pending.set('timbre',1);release({ok:false,json:async()=>body});await first;release({ok:true,json:async()=>({...body,timbre:1})});assert(await next);
+ const broken=createController(async()=>{throw Error('offline');},{state:x=>state=x,message:x=>message=x,busy(){},links:(w,u)=>{wifi=w;uart=u;}});
+ assert(!await broken.refresh());assert(state.includes('未知'));assert(wifi===false);
+ // Background retry must not dim controls, enter waiting, or rewrite unchanged UI.
+ const calls=[];let online=false,network=true;
+ const quiet=createController(async()=>{
+  if(!network)throw Error('offline');
+  return {ok:online,json:async()=>online?{...body,ok:true,uartConnected:true,stateValid:true,fault:false}:({ok:false,uartConnected:false,stateValid:false,message:'未应答'})};
+ },Object.fromEntries(['busy','links','state','data','message'].map(k=>[k,(...v)=>calls.push([k,...v])])));
+ assert(!await quiet.refresh());assert.equal(quiet.pollDelay(),10000);calls.length=0;
+ for(let i=0;i<4;i++)assert(!await quiet.refresh({background:true}));assert.deepEqual(calls,[]);
+ online=true;assert(await quiet.refresh({background:true}));assert.equal(quiet.pollDelay(),1500);
+ assert(!calls.some(c=>c[0]==='busy'||c[0]==='links'&&c[2]==='waiting'));assert(calls.some(c=>c[0]==='data'));calls.length=0;
+ assert(await quiet.refresh({background:true}));assert.deepEqual(calls,[]);
+ network=false;assert(!await quiet.refresh({background:true}));assert.equal(quiet.pollDelay(),10000);calls.length=0;
+ assert(!await quiet.refresh({background:true}));assert.deepEqual(calls,[]);
+ // A user action may queue behind a background query instead of being discarded.
+ const deferred=[],queued=[];
+ const responsive=createController((url,opts)=>new Promise(resolve=>{queued.push([url,opts]);deferred.push(resolve);}),{busy(){},state(){},data(){},message(){}});
+ const checking=responsive.refresh({background:true}),action=responsive.set('timbre',3);
+ deferred[0]({ok:true,json:async()=>({...body,ok:true,stateValid:true,uartConnected:true})});await checking;
+ assert.equal(queued[1][0],'/api/control');deferred[1]({ok:true,json:async()=>({...body,ok:true,stateValid:true,timbre:3,fault:false})});assert(await action);
+ const selected=createSelection();selected.choose('timbre',3);assert.equal(selected.groups.timbre.desired,3);assert(!selected.groups.timbre.applied);
+ selected.actual({stateValid:false});selected.result('timbre',3,'error');assert.equal(selected.groups.timbre.desired,3);assert(!selected.groups.timbre.applied);
+ selected.choose('timbre',1);selected.actual({stateValid:true,timbre:3,mode:0,switching:false,fault:false});assert.equal(selected.groups.timbre.desired,1);assert(!selected.groups.timbre.applied);
+ selected.actual({stateValid:true,timbre:1,mode:0,switching:false,fault:false});assert(selected.groups.timbre.applied);
+ selected.actual({stateValid:true,timbre:1,mode:0,switching:true,fault:false});assert(!selected.groups.timbre.applied);
+ const {createPracticeController,PRACTICE_MODES}=require('../shouji/app.js');
+ assert.deepEqual(PRACTICE_MODES,['自由演奏','自动演奏','指导模式']);
+ let current;const pendingModes=[];
+ const practice=createPracticeController(value=>new Promise(resolve=>pendingModes.push({value,resolve})),state=>current=state);
+ const oldMode=practice.select(1),newMode=practice.select(2);await Promise.resolve();
+ assert.equal(current.selected,2);assert.equal(current.status,'应用中…');
+ pendingModes[0].resolve({response:{ok:true},data:{ok:true,supported:true,mode:1}});assert(!await oldMode);assert.equal(current.selected,2);
+ pendingModes[1].resolve({response:{ok:false},data:{ok:false,supported:false,mode:null}});assert(!await newMode);assert.equal(current.status,'待设备接入');
+ const verified=createPracticeController(async value=>({response:{ok:true},data:{ok:true,supported:true,mode:value}}),state=>current=state);
+ assert(await verified.select(0));assert.equal(current.status,'已应用');assert(!await verified.select(3));
+ const html=require('fs').readFileSync(require('path').join(__dirname,'../shouji/index.html'),'utf8');
+ const scorePage=html.slice(html.indexOf('id="scoresView"'),html.indexOf('id="settingsView"'));
+ assert(scorePage.includes('id="practiceModes"'));assert(!html.slice(0,html.indexOf('id="scoresView"')).includes('data-practice'));
+ assert.deepStrictEqual(TIMBRES,['钢琴','管风琴','长笛','吉他','钟琴']);
+ console.log('PASS phone: real-state display, wrong/unfinished state cannot succeed, failure/offline recovery and in-flight exclusion');
+})().catch(e=>{console.error(e);process.exit(1);});

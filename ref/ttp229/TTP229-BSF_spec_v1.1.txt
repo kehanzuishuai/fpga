@@ -1,0 +1,865 @@
+                                  Preliminary   TTP229-BSF
+                                                TonTouchTM
+
+           16 KEYS OR 8 KEYS TOUCH PAD DETECTOR IC
+
+GENERAL DESCRIPTION
+
+      The TTP229-BSF TonTouchTM IC is capacitive sensing design specifically for touch pad controls.
+The device built in regulator for touch sensor. Stable sensing method can cover diversity conditions.
+Human interfaces control panel links through non-conductive dielectric material. The main application
+is focused at replacing of the mechanical switch or button. The ASSP can independently handle the 8
+touch pads or up to 16 touch pads.
+
+FEATURES
+
+          Operating voltage2.4V~5.5V
+          Built-in regulator
+          Stand-by current
+
+             At 3V, and sleep mode slow sampling rate 8Hz
+
+             => Typical 2.5uA for 16 input keys
+             => Typical 2.0uA for 8 input keys
+          Provides to set 8 direct keys or 16 direct keys by option
+          Provides to set 8 separate outputs only for 8 direct input keys mode
+          Has a 2-wires serial output interface, both can use for 8 and 16 direct input keys mode
+          8 separate outputs can select output driving types by option
+             (CMOS/OD/OC with active high/low)
+          2-wires serial interface can select active high or low by option
+          Offer multi-key or single-key feature by option
+          Provides two kinds of sampling rate that slow sampling rate 8Hz
+             and fast sampling rate 64Hz at sleep mode
+          Have the maximum key-on time about 80sec by pin option
+          Sensitivity can adjust by the capacitance(1~50pF) outside
+          After power-on have about 0.5sec stable-time,
+
+             During the time do not touch the key pad, and all functions are disabled
+          Auto calibration for environment changing
+
+             And the re-calibration period is about 4.0sec, when all keys are not activated for fixed time
+
+APPLICATION
+
+          Wide consumer products
+          Button key replacement
+
+09'/12/22                         Page 1 of 16  Ver : 1.1
+                             Preliminary                      TTP229-BSF
+                                                              TonTouchTM
+                                       Timing Counter
+BLOCK DIAGRAM                                 and
+
+SENADJ0     Sense Port                 Key Scanning           Output Buffer    SENADJ2
+       TP0      and                           and                    &         TP8
+       TP1                                                                     TP9
+       TP2  Detecting                  Function Control       Sense Input      TP10
+       TP3                             Circuit                                 TP11
+            Circuit                                           Circuit          TP12
+SENADJ1                                System                                  TP13
+       TP4                            Oscillator Circuit                       TP14
+       TP5                                                                     TP15
+       TP6                            System                                   SENADJ3
+       TP7                            Power On Circuit
+
+SLPSENA       Wake-up
+SLPSENB       Detecing
+            Control Circuit
+
+                                                              Serial Output    SDO
+                                                              Buffer and       SCL
+                                                              Control Circuit
+
+            Function Option
+            Control Circuit
+
+TEST
+
+            Regulator
+            Circuit
+
+PACKAGE CONFIGURATION
+
+                    TP3      1                            28  SLPSENA
+                    TP2                                       VSS
+                             2                            27  VDD
+            SENADJ0                                           TP4
+                    TP1      3                            26  TP5
+                    TP0                                       SENADJ1
+                             4   TTP229-B                 25  TP6
+                  TP15       5                            24  TP7
+                  TP14                                        TEST
+            SENADJ3          6 (SSOP-28) 23                   TP8
+                  TP13                                        TP9
+                  TP12       7                            22  SENADJ2
+                   SDO                                        TP10
+                   SCL       8                            21  TP11
+            SLPSENB
+                             9                            20
+
+                             10                           19
+
+                             11                           18
+
+                             12                           17
+
+                             13                           16
+
+                             14                           15
+
+09'/12/22                        Page 2 of 16                                  Ver : 1.1
+                 Preliminary                                    TTP229-BSF
+                                                                TonTouchTM
+
+PIN DESCRIPTION
+
+Pin No. Pin Name Share Pin I/O Type                     Pin Description
+
+1          TP3 SKMS1 I/O Touch pad input pin(KEY-3)
+
+                                     Key action function option-1(Single-key/Multi-key)
+
+                                     Default is all single-key
+
+2          TP2 KYSEL I/O Touch pad input pin(KEY-2)
+
+                                     Key number function option(8-keys/16-keys)
+
+                                     Default is 8-keys
+
+3          NC
+
+4 SENADJ0        I/O Touch pad TP0~3 sensitivity adjust common pin
+
+5          TP1   SAHL I/O Touch pad input pin(KEY-1)
+
+                                     Output type function option(Active High/Low)
+
+                                     Default is active-high for TPQ0~7, active-low for 2-wires
+
+                                     serial type(SCL and SDO)
+
+6          TP0 OPDEN I/O Touch pad input pin(KEY-0)
+
+                                     Output type function option(CMOS/OD/OC for 8-keys)
+
+                                     Default is CMOS
+
+7          TP15 TPQ7 I/O/OD Touch pad input pin(KEY-15)
+
+                                     8-keys direct output pin(TPQ7)
+
+8          TP14 TPQ6 I/O/OD Touch pad input pin(KEY-14)
+
+                                     8-keys direct output pin(TPQ6)
+
+9 SENADJ3        I/O Touch pad TP12~15 sensitivity adjust common pin
+
+10         TP13 TPQ5 I/O/OD Touch pad input pin(KEY-13)
+
+                                     8-keys direct output pin(TPQ5)
+
+11         TP12 TPQ4 I/O/OD Touch pad input pin(KEY-12)
+
+                                     8-keys direct output pin(TPQ4)
+
+12         SDO   O Data pin for the 2-wires serial output, option active
+
+                                     Low/High by TP1
+
+13         SCL   I Serial clock input pin for serial type
+
+                                     It can be set active Low/High by TP1
+
+14 SLPSENB       I/O Sleep mode sensitivity adjustment pin for
+
+                                     group-B(TP8~15)
+
+15         TP11  TPQ3 I/O/OD Touch pad input pin(KEY-11)
+
+                                     8-keys direct output pin(TPQ3)
+
+16         TP10 TPQ2 I/O/OD Touch pad input pin(KEY-10)
+
+                                     8-keys direct output pin(TPQ2)
+
+17 SENADJ2       I/O Touch pad TP8~11 sensitivity adjust common pin
+
+18         TP9   TPQ1 I/O/OD Touch pad input pin(KEY-9)
+
+                                     8-keys direct output pin(TPQ1)
+
+19         TP8   TPQ0 I/O/OD Touch pad input pin(KEY-8)
+
+                                     8-keys direct output pin(TPQ0)
+
+20         TEST  I-PL Only for test
+
+09'/12/22                            Page 3 of 16                                Ver : 1.1
+                Preliminary                                     TTP229-BSF
+                                                                TonTouchTM
+
+Pin No. Pin Name Share Pin I/O Type                       Pin Description
+
+21         TP7 SKSRT I/O Touch pad input pin(KEY-7)
+
+                                     Maximum key-on time function option(Infinite/80sec)
+
+                                     Default is infinite
+
+22         TP6 SLWPTM I/O Touch pad input pin(KEY-6)
+
+                                     Sleep mode sampling length function option(4.0/2.0mS)
+
+                                     Default is 4.0ms
+
+23 SENADJ1      I/O Touch pad TP4~7 sensitivity adjust common pin
+
+24         TP5 WPSCT I/O Touch pad input pin(KEY-5)
+
+                                     Sampling rate at sleep mode function option(8Hz/64Hz)
+
+                                     Default is 8Hz
+
+25         TP4 SKMS0 I/O Touch pad input pin(KEY-4)
+
+                                     Key action function option-0(Single-key/Multi-key)
+
+                                     Default is all single-key
+
+26         VDD  P Positive power supply
+
+27         VSS  P Negative power supply, ground
+
+28 SLPSENA      I/O Sleep mode sensitivity adjustment pin for group-A(TP0~7)
+
+NotePin Type
+
+I CMOS input only
+I-PH CMOS input and pull-high resister
+I-PL CMOS input and pull-low resister
+O CMOS push-pull output
+I/O CMOS I/O
+P Power / Ground
+OD CMOS open drain output
+
+(For OD TPQ0~TPQ7 pins have Diode protective circuit, SDA pin has no Diode protective circuit)
+
+09'/12/22                            Page 4 of 16                                               Ver : 1.1
+                             Preliminary                         TTP229-BSF
+                                                                 TonTouchTM
+
+ ELECTRICAL CHARACTERISTICS
+Absolute Maximum Ratings
+
+           Parameter         Symbol Conditions                   Value           Unit
+
+Operating Temperature        TOP                               -40 ~ +85         
+
+Storage Temperature          TSTG                              -50 ~ +125        
+
+Power Supply Voltage         VDD           Ta=25°C       VSS-0.3 ~ VSS+6.0       V
+
+Input Voltage                VIN           Ta=25°C VSS-0.3 to VDD+0.3            V
+
+Human Body Mode              ESD                                 6               KV
+
+NoteVSS symbolizes for system ground
+
+DC/AC Characteristics(Test condition at room temperature=25)
+
+           Parameter         Symbol        Test Condition        Min. Typ. Max. Unit
+
+Operating Voltage            VDD                                 2.4 - 5.5 V
+
+Internal Regulator Output VREG                                   2.2 2.3 2.4 V
+
+Operating Current            IOP VDD=3.0V                                  20               uA
+(no load)
+Stand-by Current                     Sampling rate Set 8-Keys              2.0
+(VDD=3.0V)                                                                 2.5
+(Sampling length 4.0mS)              8Hz            Set 16-Keys
+                                                                                            uA
+                             ISD Sampling rate Set 8-Keys                  5.5
+                                                                           9.0
+                                     64Hz           Set 16-Keys
+
+Input Ports                  VIL Input Low Voltage                  0 - 0.2 VDD
+
+Input Ports                  VIH Input High Voltage              0.8 - 1.0 VDD
+
+Output Port Sink Current     IOL VDD=3V, VOL=0.6V                   - 8 - mA
+
+Output Port Source Current IOH VDD=3V, VOH=2.4V                     - -4 - mA
+
+Wake-up Response Time        TWU VDD=3V, Sampling rate 8Hz                 125              mS
+(at sleep mode)
+Output Response Time                 VDD=3V, Sampling rate 64Hz            15.6             mS
+(at operation)
+                             TR VDD=3V, set 16-keys                        32               mS
+Maximum Key-on Time
+                                     VDD=3V, set 8-keys                    16               mS
+
+                             TMOT                                50 80 110 Sec
+
+Input Pin Pull-low Resistor  RPL VDD=3V,                                   30K              ohm
+(TEST)
+
+09'/12/22                            Page 5 of 16                                Ver : 1.1
+                                                 Preliminary                             TTP229-BSF
+                                                                                         TonTouchTM
+
+FUNCTION DESCRIPTION
+
+1. Sensitivity adjustment
+   The total loading of electrode size and capacitance of connecting line on PCB can affect the
+   sensitivity. So the sensitivity adjustment must according to the practical application on PCB. The
+   TTP229-BSF offers some methods for adjusting the sensitivity outside.
+   1-1 by the electrode size
+       Under other conditions are fixed. Using a larger electrode size can increase sensitivity. Otherwise
+       it can decrease sensitivity. But the electrode size must use in the effective scope.
+   1-2 by the panel thickness
+       Under other conditions are fixed. Using a thinner panel can increase sensitivity. Otherwise it can
+       decrease sensitivity. But the panel thickness must be below the maximum value.
+   1-3 by the value of external capacitor (please see the down Figure 1-3-1)
+       Under other conditions are fixed. When adding the values of CJ0~CJ3 and CJWA and CJWB will
+       reduce sensitivity in the useful range (1pFCJ0~CJ350pF, 1pFCJWA~CJWB50pF).
+
+When do not use any capacitor that means open on the position of capacitor, the sensitivity is most
+sensitive. The capacitors CJ0~CJ3 are used to adjust the sensitivity of keys at operation mode.
+The capacitors CJWA and CJWB are used to adjust the Wake-up sensitivity at sleep mode.
+About the relation of capacitor and controlled keys please to see below table.
+
+The capacitor                                    The keys-group controlled and adjusted
+
+CJ0                                              K0~K3 group
+
+CJ1                                              K4~K7 group
+
+CJ2                                              K8~K11 group
+
+CJ3                                              K12~K15 group
+
+CJWA                                             K0~K7 group
+
+CJWB                                             K8~K15 group
+
+NoteWhen using the value of capacitor to adjust the sensitivity, recommending to adjust the
+
+CJ0~CJ3 capacitor for K0~K15 first, then adjusting the CJWA and CJWB capacitor for Wake-up
+sensitivity.
+
+           K0                                                                            K8
+
+               ELECTRODE
+
+           K1                                    CJ0                  CJ2                K9
+
+           K2                                                 VDD                        K10
+                                                 SENADJ0 SENADJ2
+
+                                                 TP0                  TP8
+
+           K3                                    TP1                  TP9                K11
+
+                                                 TP2                  TP10
+
+                          CJ1                    TP3                  TP11  CJ3
+
+                                                 SENADJ1 SENADJ3
+
+           K4                                    TP4                  TP12               K12
+
+                                                 TP5                  TP13
+
+                                                 TP6                  TP14
+
+           K5                                    TP7                  TP15               K13
+
+                                                 SLPSENA SLPSENB
+
+                                                 TEST                 SDO
+
+           K6                                                         SCL                K14
+
+           K7                                                                            K15
+
+                                           CJWA                  VSS        CJWB
+
+                                                      Figure 1-3-1
+
+09'/12/22                                             Page 6 of 16                            Ver : 1.1
+                                Preliminary                                          TTP229-BSF
+                                                                                     TonTouchTM
+
+2. Input keys number select
+   The TTP229-BSF has 8 keys input mode and 16 keys input mode. These modes are selected via
+   high-value resistor connected to the TP2(KYSEL) pin to VSS, or not. The default that TP2(KYSEL) pin
+   is not used resistor connected to VSS is selected 8 keys input mode. Another is selected 16 keys input
+   mode that has used a high-value resistor connected to VSS.
+
+3. Output mode
+   The TTP229-BSF has 8 pins direct output mode and a serial output interface mode. The output of 16
+   keys input mode only offer serial output interface. The 8 keys input mode has two kinds of output that
+   8 pins direct output and serial output interface. The 8 pins direct output only use at 8 keys input mode.
+
+3-1 At the 8 pins direct output mode, the TTP229-BSF has two kinds of output type that they are
+CMOS type output and OD (Open Drain) type output. These are selected by the TP0(OPDEN) pin. The
+CMOS type output is default that the TP0(OPDEN) pin is not used any component to VSS. When the
+TP0(OPDEN) pin is used a high-value resistor connected to VSS, it is selected OD type output.
+
+3-2 When selecting 8 pins direct CMOS output mode, the output channels can be set active-high or
+active-low by TP1(SAHL) pin. The default that the TP1(SAHL) pin is not used a high-value resistor, it is
+set active-high. When the TP1(SAHL) pin has a high-value resistor connected to VSS, it is set
+active-low.
+
+3-3 At 8 pins direct OD output mode, it has OD (Open Drain) or OC (Open collector) output mode to
+be selected by the TP1(SAHL) pin. The TP1(SAHL) pin has a high-value resistor connected to VSS, it is
+selected OC mode. Another it is selected OD mode that does not has a resistor. The default is OD
+mode. The states of OD mode are floating and active-low. And the states of OC mode are floating and
+active-high. The structure of OD and OC output mode please to see the below figure.
+
+                                                      Control  P
+                                                                             TPQ0~7
+                                              TPQ0~7
+           Control              N
+
+                    OD Mode                                    OC Mode
+
+Notethe output pins have Diode protective circuit in the chip. So when it selected OD or OC mode.
+
+Do not propose to connect other device that uses the different voltage. That avoids to occurring the
+
+leakage current in the system.
+
+3-4 At the serial output interface mode the SDO pin is data output pin, the SCL is clock input pin,
+both can be set active-high and active-low by TP1(SAHL) pin. The default is active-low that TP1(SAHL)
+pin is not used resistor connected to VSS. Another it is active-high that is used a high-value resistor
+connected to VSS.
+The 2-wires serial mode supports always polling data for other device on the system. Or other device
+can wait that TTP229-BSF outputs the data valid (DV) signal by the SDO pin, and it can give the
+clock signal to TTP229-BSF SCL pin and get the key data from SDO pin.
+The TTP229-BSF 2-wires serial interface supports a timeout mechanism for SCL pin. If the SCL pin
+has no signal edge change over 2ms, the 2-wires serial interface will reset itself and return to stand-by
+state.
+
+09'/12/22                       Page 7 of 16                                         Ver : 1.1
+                                                 Preliminary                            TTP229-BSF
+                                                                                        TonTouchTM
+
+2-wires serial interface mode timing please see below
+
+The D0~D15 correspond to data of the TP0~TP15.
+3-4-1. When TP1=0, TP2=0Set 16-keys active-high
+
+           Tw                                                                           Tout             Tw
+                                                                                                             C_0 C_1
+                 C_0 C_1 C_2 C_3 C_4 C_5 C_6 C_7 C_8 C_9 C_10 C_11 C_12 C_13 C_14 C_15
+                                                                                                     DV
+SCL                                                                                                            D0 D1
+
+     DV
+                              F_SCL
+
+SDO              D0 D1 D2 D3 D4 D5 D6 D7 D8 D9 D10 D11 D12 D13 D14 D15
+
+                                                   T_resp
+
+                                     Figure 3-4-1: The timing for 16 input keys and active-high
+
+3-4-2. When TP1=1, TP2=0Set 16-keys active-low
+
+         Tw                                                                             Tout             Tw
+             C_0 C_1 C_2 C_3 C_4 C_5 C_6 C_7 C_8 C_9 C_10 C_11 C_12 C_13 C_14 C_15                           C_0 C_1
+SCL
+SDO  DV                                                                                              DV
+                              F_SCL                                                                            D0 D1
+
+               D0 D1 D2 D3 D4 D5 D6 D7 D8 D9 D10 D11 D12 D13 D14 D15
+
+                                                   T_resp
+
+                                     Figure 3-4-2: The timing for 16 input keys and active-low
+
+3-4-3. When TP1=0, TP2=1Set 8-keys active-high
+
+                 Tw                                        Tout         Tw
+                     C_0 C_1 C_2 C_3 C_4 C_5 C_6 C_7                        C_0 C_1
+
+SCL                                                                 DV
+                                                                              D0 D1
+             DV                    F_SCL
+                     D0 D1 D2 D3 D4 D5 D6 D7
+SDO
+
+                                     T_resp
+
+                                     Figure 3-4-3: The timing for 8 input keys and active-high
+
+3-4-4. When TP1=1, TP2=1Set 8-keys active-low
+
+                 Tw                                        Tout         Tw
+                                                                            C_0 C_1
+                     C_0 C_1 C_2 C_3 C_4 C_5 C_6 C_7
+                                                                    DV
+SCL                                                                           D0 D1
+
+     DV
+                              F_SCL
+
+SDO                  D0 D1 D2 D3 D4 D5 D6 D7
+
+                                     T_resp
+
+                                     Figure 3-4-4: The timing for 8 input keys and active-low
+
+The parameters for figure 3-4-1~4:
+
+                 Parameter                   Min.          Typ.     Max.                        Unit
+
+                     DV                      -             93       -                            us
+
+                     Tw                      10                  -  -                            us
+
+                     Tout                    -                   2  -                            ms
+
+     T_resp(for 16-KEYS)                     -             32       -                            ms
+
+     T_resp(for 8-KEYS)                      -             16       -                            ms
+
+                     F_SCL                   1K                  -  512K                         Hz
+
+09'/12/22                                          Page 8 of 16                                       Ver : 1.1
+                               Preliminary                        TTP229-BSF
+                                                                  TonTouchTM
+
+4. Key operating mode
+
+The TTP229-BSF has the Single-key and Multi-key functions. These functions are set by TP3(SKMS1)
+
+and TP4(SKMS0) pins. The all 16 keys can use one group, or the 16 keys can distributed into two
+
+groups. The group-1 includes TP0, TP1, TP2, TP3, TP8, TP9, TP10, TP11 keys. The group-2 includes
+
+TP4, TP5, TP6, TP7, TP12, TP13, TP14, TP15 keys. How to set the function? Please see below table
+4-1
+
+Table 4-1. The functions of TP3(SKMS1) and TP4(SKMS0) option
+
+TP3        TP4                 Operating function
+
+(SKMS1) (SKMS0)
+
+1          1                   All Single-keysone group(16keys)
+
+1          0             Two groups operategroup-1=>Single keygroup-2=>Single key
+
+0          1             Two groups operategroup-1=>Single keygroup-2=>Multi key
+
+0          0                   All Multi-keysone group(16 keys)
+
+Note1. One groupTP0~TP15.
+
+           Two groupsGroup-1=>TP0,TP1,TP2,TP3,TP8,TP9,TP10,TP11.
+
+                       Group-2=>TP4,TP5,TP6,TP7,TP12,TP13,TP14,TP15.
+
+           2. When uses 8 input keys mode. The using keys are TP0~TP7.
+           3. The option states of TP3 and TP4, the0state is used a high-value resistor connected to
+
+           VSS, the1state is not used resistor connected to VSS.
+
+           4. The key detection acknowledges in Single-key function, the priority is by the key scanning
+
+           order (from TP0 to TP15) when many keys are touched effectively. It is not by the key
+
+           touching strength.
+
+5. Wake-up sampling rate and sampling length at sleep mode
+   The TTP229-BSF has two kinds of sampling rate at sleep mode. These are 8Hz and 64Hz. The two
+   functions are selected by TP5(SLWPTM) pin. The TP5(SLWPTM) pin has used a high-value resistor
+   connected to VSS, it selected the 64Hz sampling rate. Another it is 8Hz that is not used resistor
+   connected to VSS. The 8Hz sampling is the default.
+   And TTP229-BSF has two kinds of sampling length at sleep mode. They are 4ms and 2ms that are
+   selected by TP6(WPSCT) pin. The default is 4ms that TP6(WPSCT) pin is not used resistor connected to
+   VSS. Another it is 2ms that TP6 pin has used a high-value resistor connected to VSS.
+
+Wake-up sampling timing and length in the sleep mode
+
+           8Hz=>125ms          4.0ms or 2.0ms
+            or
+           64Hz=>15.6ms
+
+Wake-up
+Detect
+clock
+
+09'/12/22                      Page 9 of 16                           Ver : 1.1
+           Preliminary    TTP229-BSF
+                          TonTouchTM
+
+6. Maximum key-on time
+   If some objects cover in the sense pad, and causing the change quantity enough to be detected. To
+   prevent this, the TTP229-BSF sets a timer to monitor the detection. The timer is the maximum key-on
+   time. It is set about 80sec at 3V. When the detection is over the timer, the system will return to the
+   power-on initial state, and the output becomes inactive until the next detection. The function is set via
+   a high-value resistor connected to the TP7(SKSRT) pin to VSS. The TP7(SKSRT) pin does not has the
+   resistor, it is set disable the maximum key-on time, then the key acts infinitely, this is the default.
+   Another it is set enable the maximum key-on time that has a resistor.
+   If the system needs to use the maximum key-on time enable and 2-wires serial output interface
+   function, it only uses always polling data for 2-wires serial output interface.
+
+7. Built-in regulator
+   The capacitive sensing touch pad IC needs stable power. So the TTP229-BSF built in regulator in the
+   chip. It can make the internal power to keep up steady. And the sensitivity detection is normal for chip.
+   And the stable power can avoid sensitivity anomalies and false detections.
+
+8. Auto calibration function
+   The TTP229-BSF includes a full auto-calibration function. After the device is powered-on, it will
+   calibrate the initial condition of environment first. On the duration time all the functions are disabled,
+   so do not operate. Then the system is into stand-by mode. And all keys are not detected touch more
+   than about 4 seconds, then the system do re-calibration automatically. The procedure is fixed and
+   repeated. By implementing this feature the system can catch the conditions of environment changing.
+   And let operation of the system is normal.
+
+09'/12/22  Page 10 of 16  Ver : 1.1
+                                              Preliminary                                TTP229-BSF
+                                                                                         TonTouchTM
+
+9. The timing from sleep mode to operation mode
+
+Finger                   False Trigger                        Sleep mode
+Trigger    Sleep mode
+
+Wake-up    Key scanning
+Detect
+Period                                        Re-calibration                             Re-calibration
+
+Key
+Scanning
+Period
+
+Detected
+Key-out
+
+           Time is about 4sec                                 Time is about 4sec
+
+           Figure 9-1. The timing for false trigger
+
+ Finger                        Valid Trigger                                                                    Sleep mode
+ Trigger   Sleep mode
+
+ Wake-up                                      Operation mode
+ Detect
+ Period                                       About 4sec      Re-calibration About 4sec  Re-calibration
+ Key
+ Scanning
+ Period
+
+Detected
+Key-out
+
+                                                  After detected key release and do not any trigger about 8sec
+
+           Figure 9-2. The timing for valid trigger
+
+09'/12/22                                     Page 11 of 16                                                     Ver : 1.1
+                            Preliminary                                  TTP229-BSF
+                                                                         TonTouchTM
+
+10. Option table
+Option table
+
+Option Option                                   Feature                          Remark
+
+pin           states                                                              Default
+
+           TP0 TP1                                                                Default
+                                                                                  Default
+           (OPDEN) (SAHL)
+
+TP0        1          1 8 output pins => CMOS output active-high
+                            2-wires serial interface => CMOS output active-low
+(OPDEN)
+
+           1          0 8 output pins => CMOS output active-low
+
+                            2-wires serial interface => CMOS output active-high
+
+TP1        0          1 8 output pins => OD output active-low
+
+(SAHL)                      2-wires serial interface => CMOS output active-low
+
+           0          0 8 output pins => OC output active-high
+
+                            2-wires serial interface => CMOS output active-high
+
+TP2               1         8 input keys mode
+
+(KYSEL)           0         16 input keys mode
+
+           TP3 TP4
+
+           (SKMS1) (SKMS0)
+
+TP3        1          1 All Single-keysone group(16keys)
+
+(SKMS1)
+
+           1          0 Two groups operate
+
+TP4        0                group-1=>Single keygroup-2=>Single key
+                      1 Two groups operate
+(SKMS0)
+                            group-1=>Single keygroup-2=>Multi key
+
+           0          0 All Multi-keysone group(16 keys)
+
+  TP5             1         8Hz sampling rate for wake-up in sleep mode          Default
+
+(WPSCT)           0         64Hz sampling rate for wake-up in sleep mode
+
+TP6               1         Wake-up sampling length=>about 4.0ms                 Default
+
+(SLWPTM)          0         Wake-up sampling length=>about 2.0ms
+
+  TP7             1         Maximum key-on time disable=>infinite                Default
+
+(SKSRT)           0         Maximum key-on time enable=>about 80sec
+
+Note1. About the combinations of group-1 and group-2, please see above point-4.
+         2. Option states "1" mean internal pull-up (default).
+         3. Option states "0" mean that TP0~TP7 pins are via high-value resistors connected to VSS.
+
+09'/12/22                   Page 12 of 16                                        Ver : 1.1
+                                                          Preliminary                TTP229-BSF
+                                                                                     TonTouchTM
+
+APPLICATION CIRCUIT
+
+                                          APPLICATION FOR 16 INPUT KEYS
+
+ ELECTRODE                                         1 TP3       SLPSENA 28                      VDD              K4
+ K3                                                                                          C1                 K5
+                                                   2 TP2 TTP229-B        VSS 27            104          SKMS0   K6
+                      SKMS1                                              VDD 26      CJWA                       K7
+                                                   3          (SSOP-28)  TP4 25                     RP4         K8
+                    RP3                                                                   CJ1                   K9
+ K2                           CJ0                  4 SENADJ0                                            WPSCT   K10
+                                        CJ3                                               CJ2                   K11
+                       KYSEL                       5 TP1                 TP5 24                     RP5
+
+                    RP2                            6 TP0                 SENADJ1 23                     SLWPTM
+ K1
+                                                   7 TP15                TP6 22                     RP6
+                        SAHL
+                                                   8 TP14                TP7 21                          SKSRT
+                    RP1
+ K0                                                9 SENADJ3             TEST 20                    RP7
+
+K15                                                10 TP13               TP8 19
+
+K14                                                11 TP12               TP9 18
+
+K13                                                12 SDO                SENADJ2 17
+
+K12                                                13 SCL                TP10 16
+
+                                                   14 SLPSENB            TP11 15
+
+                                             CJWB
+
+09'/12/22                                                     Page 13 of 16                         Ver : 1.1
+                                              Preliminary                    TTP229-BSF
+                                                                             TonTouchTM
+
+                                       APPLICATION FOR 8 INPUT KEYS
+
+ELECTRODE                              1 TP3       SLPSENA 28                                VDD                       K4
+K3                                                                                         C1
+                                       2 TP2   TTP229-B VSS 27                           104          SKMS0
+                    SKMS1                                                          CJWA
+                                       3          (SSOP-28)  VDD 26                               RP4
+                   RP3                                                                   CJ1                           K5
+K2                          CJ0        4 SENADJ0             TP4 25
+                                                                             TPQ0                     WPSCT
+K1                                     5 TP1                 TP5 24          TPQ1
+                                                                             TPQ2                 RP5
+                      SAHL       TPQ7  6 TP0                 SENADJ1 23      TPQ3                                      K6
+                                 TPQ6  7 TP15                        TP6 22
+                   RP1                 8 TP14                        TP7 21                           SLWPTM
+K0
+                                                                                                  RP6
+                   OPDEN                                                                                               K7
+
+                   RP0                                                                                 SKSRT
+
+                                 TPQ5  9 SENADJ3             TEST 20                              RP7
+                                 TPQ4  10 TP13                 TP8 19
+                                       11 TP12                 TP9 18
+
+                                       12 SDO                SENADJ2 17
+
+                                       13 SCL                TP10 16
+
+                                       14 SLPSENB            TP11 15
+
+PS1. On PCB, the length of lines from touch pad to IC pin shorter is better.
+
+         And the lines do not parallel and cross with other lines.
+      2. The power supply must be stable. If the supply voltage drift or shift quickly, maybe causing
+
+         sensitivity anomalies or false detections.
+      3. The material of panel covering on the PCB can not include the metal or the electric element.
+
+         The paints on the surfaces are the same.
+      4. The C1 capacitor must be used between VDD and VSS; and should be routed with very short
+
+         tracks to the device's VDD and VSS pins (TTP229-BSF).
+      5. The capacitance CJ0~CJ3 and CJWA~CJWB can be used to adjust the sensitivity. The value of
+
+         capacitors use smaller, then the sensitivity will be better. The sensitivity adjustment must
+         according to the practical application on PCB. The range value of capacitors are
+         1pFCJ0~CJ350pF, 1pFCJWA~CJWB50pF. Recommend to adjust the CJ0~CJ3
+
+         capacitor for K0~K15 first, then adjusting the CJWA and CJWB capacitor for Wake-up
+         sensitivity.
+      6. The sensitivity adjustment capacitors (CJ0~CJ3, CJWA~CJWB) must use smaller temperature
+         coefficient and more stable capacitors. Such are X7R, NPO for example. So for touch
+         application, recommend to use NPO capacitor, for reducing that the temperature varies to affect
+         sensitivity.
+      7. Recommend to use 820K ohm resistor for RP0~RP7 resistors.
+      8. When the system does not use the serial output interface, the SCL pin must be connected to
+         VSS or VDD, it is not allowed floating.
+
+09'/12/22                                         Page 14 of 16                                   Ver : 1.1
+                                Preliminary  TTP229-BSF
+                                             TonTouchTM
+PACKAGE OUTLINE (28 PIN SSOP)
+
+Package Type: SSOP-28
+Package Outline Dimension
+
+09'/12/22  Page 15 of 16                     Ver : 1.1
+           Preliminary    TTP229-BSF
+                          TonTouchTM
+
+ORDER INFORMATION
+
+a. Package form: TTP229-BSF
+
+REVISE HISTORY
+
+1. 2009/12/03
+ -Original versionV_1.0
+2. 2009/12/22 =>V_1.1
+ -Adding some descriptions for function.
+   A. Adding the description of Stand-by current at the page-5.
+   B. Adding the figure and description for OD and OC output mode at the page-7 point 3-3 ······.
+   C. Adding the description of Single-key function at the page-9 point 4 note 4 ······.
+   D. Changing and adding the Maximum Key-on Time value at the page-1, 4, 5, 10, 12.
+   E. Changing the description of Table 4-1 at the page-9.
+   F. Changing the values for RP0~RP7 resistors from 1M to 820K at page-14 PS: 7.
+
+09'/12/22  Page 16 of 16  Ver : 1.1
+

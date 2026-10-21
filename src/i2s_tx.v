@@ -14,6 +14,7 @@ module i2s_tx #(
     output reg                         i2s_lrck,
     output reg                         i2s_data,
 
+    output wire                        frame_capture,
     output reg                         sample_tick
 );
 
@@ -69,6 +70,8 @@ reg [4:0] bit_pos;
  * 0 = Right
  */
 reg channel;
+assign frame_capture = rst_n && (div_cnt == HALF_DIV-1) &&
+                       i2s_bclk && !channel && (bit_pos == DAC_W-1);
 
 
 reg signed [DAC_W-1:0] left_reg;

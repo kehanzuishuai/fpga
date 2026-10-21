@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "model": "Current production visual_PLL_MOD plus private Gowin GW5A primitive model copy;27MHz reference; no PLL_INIT analog-startup claim",
+  "model_compatibility": "Only7 static phase decoder always@(*) blocks changed to always_comb, enabling time-zero execution under Icarus. Original emits empty-sensitivity warnings and incorrectly leaves static coarse/fine at0. Phase/duty algorithms unchanged; no production source or installed vendor files modified.",
+  "original_vendor_sha256": "2ec53fec48601d2d491299bc3a28b4b199d3a79708f1dd38f72555a5c688ebd5",
+  "compatible_model_sha256": "49b5e2936835c8d8d2b52d85db1cd21c15c621d9e6f19dbf3d222681c74fabda",
+  "period_ns": {
+    "S": 2.694000000003143,
+    "P": 13.468000000000757,
+    "R": 13.468000000000757
+  },
+  "reset_rise_after_pixel_ns": [
+    2.625,
+    2.625
+  ],
+  "reset_high_ns": [
+    6.633999999998196,
+    6.6340000000054715
+  ],
+  "expected_reset_phase_ns": 2.6252525252525256,
+  "expected_reset_high_ns": 6.634006734006735,
+  "scope": "Frequency/relative phase/duty in compatibility-adapted vendor digital model. Model timestamps rounded to1ps; actual routed delays covered separately by STA.",
+  "source_sha256": {
+    "src/display/gowin_pll/visual_pll_mod.v": "e0f90d6839186c5d8ecfbb4bd6cf937e52b23e57691344cedcc6df0480136249"
+  }
+}

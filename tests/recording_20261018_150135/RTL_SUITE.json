@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "sources_unchanged": true,
+  "groups": [
+    "21 original voice short cases",
+    "44 full synth direct MIDI cases"
+  ],
+  "same_core_model_unchanged": true
+}

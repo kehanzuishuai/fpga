@@ -1,0 +1,10 @@
+// Reserved UART pins for Tang Mega 138K Pro + Pro Dock.
+// NOT included in a .gprj; add only when top ports wifi_uart_rx/tx exist.
+// Evidence: supplied Dock schematic PDF page 16, J26; pinout BTB_J3.
+// Bank 5 must actually be powered at 3.3 V. No 5 V on FPGA I/O.
+// Module TXD -> FPGA RX: J26 pin 7, PMOD2_IO2.
+IO_LOC "wifi_uart_rx" B19;
+IO_PORT "wifi_uart_rx" IO_TYPE=LVCMOS33;
+// FPGA TX -> module RXD: J26 pin 5, PMOD2_IO3.
+IO_LOC "wifi_uart_tx" A17;
+IO_PORT "wifi_uart_tx" IO_TYPE=LVCMOS33;

@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "notes": 16,
+  "chains": 2,
+  "wav_files": 36,
+  "f0_reliable_count": 32,
+  "rms_off_min_dbfs": -36.373087940523604,
+  "rms_off_max_dbfs": -23.189406910702463,
+  "rail_samples": 0,
+  "all_midi_pcm_before_after_identical": true,
+  "scope": "Only note mapping changes; synthesis PCM for identical MIDI is unchanged, audio is RTL verified, not hardware recording."
+}

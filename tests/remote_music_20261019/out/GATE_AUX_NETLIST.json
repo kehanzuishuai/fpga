@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "scope": "Four independent simulations of the actual mapped eight-context lane, one shared arithmetic engine and 16 KS RAM blocks. 512 frames per instrument (2048 total) plus cycle checks. Full32 RTL tests and production synthesis cover the four-lane integration.",
+  "netlist_sha256": "ef19d1ef0a6c3b1e5d37d26a085296aa6a6c8e09d09275ae58eec70a7fc25a84",
+  "testbench_sha256": "2f49638978bf0ee0b36da35dd5b551946211856bce8d0d0c9100baf10657d5b8",
+  "executable_sha256": "8fe25feaca0c4712b48a82e737dae2ca9fb5418085b2f6fea5c97784bd90e791",
+  "parts": {
+    "gate_aux_1": "e5c051dccb90d0603fbbddf2b35007f06fe0aef3d8e616d8f24b7bf7a7cd17f8",
+    "gate_aux_2": "36a4a3e28d23ddf1827d5d1e24a90da2727c952b7a920f9440b47cb396f78093",
+    "gate_aux_3": "df9bc1957fbd176372f3e11d0253b937d4bbbcd4f2061a62385a9eac2099c98d",
+    "gate_aux_4": "89b9d72fd74813fe89421edb5fdeabf05169be6b2f2983fee592844de4e45b50"
+  }
+}

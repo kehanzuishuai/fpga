@@ -1,5 +1,6 @@
 
 module synth_core #(
+    parameter REMOTE_ENABLE = 0,
     parameter SAMPLE_RATE        = 48000,
     parameter SAMPLE_W           = 24,
     parameter VOICES             = 32,
@@ -32,6 +33,7 @@ module synth_core #(
     input                              clk,
     input                              rst_n,
     input                              sample_tick,
+    input [2:0] instrument_id,
 
     input                              note_on,
     input                              note_off,
@@ -74,7 +76,8 @@ module synth_core #(
     output     [5:0]                   mix_gain_shift,
     output reg                         visual_sample_strobe,
     output reg signed [SAMPLE_W-1:0]   lissajous_x,
-    output reg signed [SAMPLE_W-1:0]   lissajous_y
+    output reg signed [SAMPLE_W-1:0]   lissajous_y,
+    output wire [95:0]                diagnostic_audio
 );
 
 localparam MIX_W = SAMPLE_W + LOG2_VOICES;
@@ -86,6 +89,14 @@ localparam signed [MIX_W-1:0] CLIP_MIN =
     {{(MIX_W-SAMPLE_W){1'b1}}, 1'b1, {(SAMPLE_W-1){1'b0}}};
 
 wire [VOICES*SAMPLE_W-1:0] samples;
+wire [VOICES-1:0] piano_active;
+wire piano_ready,aux_ready;
+wire signed [23:0] aux_pcm;
+wire [VOICES-1:0] aux_active;
+wire auxiliary=REMOTE_ENABLE!=0 && instrument_id!=0;
+assign active_debug=auxiliary?aux_active:piano_active;
+assign event_ready=auxiliary?aux_ready:piano_ready;
+
 wire signed [MIX_W-1:0] sum;
 wire signed [MIX_W-1:0] normalized_sum;
 
@@ -110,6 +121,29 @@ wire [9:0] morph_smooth;
 
 wire allocation_valid;
 wire [IDX_W-1:0] allocation_index;
+wire [47:0] diagnostic_counts;
+reg [23:0] diagnostic_mix_peak,diagnostic_fx_peak;
+wire [SAMPLE_W-1:0] diagnostic_mix_abs=sat_out[SAMPLE_W-1] ? -sat_out : sat_out;
+wire [SAMPLE_W-1:0] diagnostic_fx_abs=audio_out[SAMPLE_W-1] ? -audio_out : audio_out;
+assign diagnostic_audio={diagnostic_fx_peak,diagnostic_mix_peak,diagnostic_counts};
+always @(posedge clk or negedge rst_n)
+if(!rst_n)begin diagnostic_mix_peak<=0;diagnostic_fx_peak<=0;end
+else if(sample_tick)begin
+ if(diagnostic_mix_abs>diagnostic_mix_peak)diagnostic_mix_peak<=diagnostic_mix_abs;
+ if(diagnostic_fx_abs>diagnostic_fx_peak)diagnostic_fx_peak<=diagnostic_fx_abs;
+end
+
+generate if(REMOTE_ENABLE!=0)begin:G_AUX
+ wire valid, rejected;wire [VOICES-1:0] overruns,clips;
+ yinse_aux_bank #(.VOICES(VOICES),.MIX_SHIFT(3)) bank(
+ .clk(clk),.rst_n(rst_n),.sample_tick(sample_tick),.all_notes_off(test_disable_pulse),
+ .event_valid(auxiliary && (bank_on || bank_off)),.event_note_on(bank_on),
+ .instrument_id(instrument_id),.event_note(bank_note),.event_velocity(bank_velocity),
+ .event_ready(aux_ready),.pcm(aux_pcm),.pcm_valid(valid),.active_mask(aux_active),
+ .overrun_mask(overruns),.clipped_mask(clips),.rejected(rejected));
+end else begin:G_NO_AUX
+ assign aux_ready=0;assign aux_pcm=0;assign aux_active=0;
+end endgenerate
 
 assign test_disable_pulse = test_enable_q && !test_enable;
 
@@ -193,8 +227,8 @@ voice_bank #(
     .clk              (clk),
     .rst_n            (rst_n),
     .sample_tick      (sample_tick),
-    .note_on          (bank_on),
-    .note_off         (bank_off),
+    .note_on          (bank_on && !auxiliary),
+    .note_off         (bank_off && !auxiliary),
     .all_notes_off    (test_disable_pulse),
     .midi_note        (bank_note),
     .velocity         (bank_velocity),
@@ -202,11 +236,12 @@ voice_bank #(
     .morph_enable     (bank_morph_enable),
     .morph            (morph_smooth),
     .hammer_enable    (hammer_enable),
-    .event_ready      (event_ready),
+    .event_ready      (piano_ready),
     .voice_samples    (samples),
-    .voice_active     (active_debug),
+    .voice_active     (piano_active),
     .allocation_valid (allocation_valid),
-    .allocation_index (allocation_index)
+    .allocation_index (allocation_index),
+    .diagnostic_counts(diagnostic_counts)
 );
 
 tree_mixer #(
@@ -246,12 +281,13 @@ polyphony_gain #(
  */
 
 wire signed [SAMPLE_W-1:0] sat_out;
+wire signed [MIX_W-1:0] selected_sum=auxiliary?{{(MIX_W-24){aux_pcm[23]}},aux_pcm}:normalized_sum;
 
 saturator #(
     .IN_W (MIX_W),
     .OUT_W(SAMPLE_W)
 ) u_sat (
-    .in (normalized_sum),
+    .in (selected_sum),
     .out(sat_out)
 );
 
@@ -269,8 +305,8 @@ generate
             .clk               (clk),
             .rst_n             (rst_n),
             .in_valid          (sample_tick),
-            .in_sample         (normalized_sum),
-            .soundboard_enable (fx_ctrl[0]),
+            .in_sample         (selected_sum),
+            .soundboard_enable (fx_ctrl[0] && !auxiliary),
             .reverb_enable     (fx_ctrl[1]),
             .eq_preset         (fx_ctrl[3:2]),
             .limiter_soft      (fx_ctrl[4]),

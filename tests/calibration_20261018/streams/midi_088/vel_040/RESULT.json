@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "midi": 88,
+  "velocity": 40,
+  "samples": 48000,
+  "source_kind": "1s integer source model; no NoteOff",
+  "source_sha256": "4dea8ceac8a4de4eb09d3246f0b3d0d4a5e310e88da716e800cc9182a01a79a7",
+  "q13": 13845,
+  "calibration_rtl": true,
+  "fx_rtl": true,
+  "bit_exact_samples": 48000,
+  "rail_samples": 0,
+  "calibration_saturated_samples": 0,
+  "rtl_module_sha256": "8527d6a46326a6d91c9f166cb9071d363a77c372dd9f5756fb47172a3084ec30"
+}

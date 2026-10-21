@@ -1,0 +1,9 @@
+{
+  "scope": "Publication packaging only. Original local RTL, UI, build receipts and FS unchanged. Historical receipts retain original local paths; AUX filenames renamed in Git snapshot for Windows compatibility. Toolchains and bulk intermediate outputs are omitted.",
+  "renamed_paths": {
+    "tests/remote_music_20261019/out/aux.json": "tests/remote_music_20261019/out/aux_voice.json",
+    "tests/remote_music_20261019/out/aux.log": "tests/remote_music_20261019/out/aux_voice.log"
+  },
+  "excluded_generated_data_files": 1206,
+  "exclusion_scope": "Large sample traces, generated per-run tables and nested tool HTML reports omitted; original files remain local."
+}

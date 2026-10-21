@@ -1,0 +1,17 @@
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_formats.sv:61: $readmemh(tests/remote_music_20261019/out/mono24_44100.mem): Not enough words in the file for the requested range [0:262143].
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_formats.sv:62: $readmemh(tests/remote_music_20261019/out/mono24_44100_expected.mem): Not enough words in the file for the requested range [0:65535].
+PASS WAV mono24_44100: 378 raw bytes, 106 exact stereo output frames, CRC rejection and retry
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_formats.sv:61: $readmemh(tests/remote_music_20261019/out/mono24_48000.mem): Not enough words in the file for the requested range [0:262143].
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_formats.sv:62: $readmemh(tests/remote_music_20261019/out/mono24_48000_expected.mem): Not enough words in the file for the requested range [0:65535].
+PASS WAV mono24_48000: 378 raw bytes, 97 exact stereo output frames, CRC rejection and retry
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_formats.sv:61: $readmemh(tests/remote_music_20261019/out/mono16_48000.mem): Not enough words in the file for the requested range [0:262143].
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_formats.sv:62: $readmemh(tests/remote_music_20261019/out/mono16_48000_expected.mem): Not enough words in the file for the requested range [0:65535].
+PASS WAV mono16_48000: 280 raw bytes, 97 exact stereo output frames, CRC rejection and retry
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_formats.sv:61: $readmemh(tests/remote_music_20261019/out/stereo16_44100.mem): Not enough words in the file for the requested range [0:262143].
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_formats.sv:62: $readmemh(tests/remote_music_20261019/out/stereo16_44100_expected.mem): Not enough words in the file for the requested range [0:65535].
+PASS WAV stereo16_44100: 474 raw bytes, 106 exact stereo output frames, CRC rejection and retry
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_formats.sv:61: $readmemh(tests/remote_music_20261019/out/stereo24_44100.mem): Not enough words in the file for the requested range [0:262143].
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_formats.sv:62: $readmemh(tests/remote_music_20261019/out/stereo24_44100_expected.mem): Not enough words in the file for the requested range [0:65535].
+PASS WAV stereo24_44100: 668 raw bytes, 106 exact stereo output frames, CRC rejection and retry
+PASS remaining five WAV formats: all eight PCM width/channel/rate combinations covered
+D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_formats.sv:104: $finish called at 25695600000 (1ps)

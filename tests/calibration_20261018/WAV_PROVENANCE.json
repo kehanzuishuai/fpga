@@ -1,0 +1,629 @@
+{
+  "status": "PASS",
+  "time": "2026-10-18T13:34:12.300762+08:00",
+  "files": [
+    {
+      "path": "tests/calibration_20261018/wav/midi_048_C3_fx_off.wav",
+      "midi": 48,
+      "chain": "fx_off",
+      "sha256": "38a62f00ced1da83f6c0807d0188b60a5f5ed67251d5ba782084b1d34185642f",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_048_C3_fx_on.wav",
+      "midi": 48,
+      "chain": "fx_on",
+      "sha256": "41ca8ea452cad531f05e38662ed1f52c6ad481117115b249507a4f46c554ce9f",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_049_Cs3_fx_off.wav",
+      "midi": 49,
+      "chain": "fx_off",
+      "sha256": "4c998fd2e9ad58ff765dcfc1c9c1d7ad1d5e19e2586a661e0a4292e7a50c1a23",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_049_Cs3_fx_on.wav",
+      "midi": 49,
+      "chain": "fx_on",
+      "sha256": "bd3cfa63e6520de9d675ded773af5b407706a716a8968758ed8ca8c3fb90c711",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_050_D3_fx_off.wav",
+      "midi": 50,
+      "chain": "fx_off",
+      "sha256": "52471226eb9b25d3362965316a346b739634b8b72fe35b722d7862e52da21567",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_050_D3_fx_on.wav",
+      "midi": 50,
+      "chain": "fx_on",
+      "sha256": "63aeb09dc8f2b82f3889fd70c1bca4652360c14d124b86424beeb24ca5b7b331",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_051_Ds3_fx_off.wav",
+      "midi": 51,
+      "chain": "fx_off",
+      "sha256": "a0e010faea69c3694284eb31017c93bac5507f1e59fd95c6672ab6278a889729",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_051_Ds3_fx_on.wav",
+      "midi": 51,
+      "chain": "fx_on",
+      "sha256": "b4d2b8e44cf1f7e453c5d264f2a3c7b6595e82ee113c7fdd78fb90203aa186fe",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_052_E3_fx_off.wav",
+      "midi": 52,
+      "chain": "fx_off",
+      "sha256": "74533a1ccf13d8f95d2de550e89b548031c2503cd32c8b4bb229f9b254cf1f89",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_052_E3_fx_on.wav",
+      "midi": 52,
+      "chain": "fx_on",
+      "sha256": "4119be0d68c6cadbdfe8b4d7416d0324ed8a867e8b114b0bb8429b14edd74b65",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_053_F3_fx_off.wav",
+      "midi": 53,
+      "chain": "fx_off",
+      "sha256": "0e2c48a1ef77e572af8eef43259fcaad05043a7ba8d91c88dd6e0de7e2eaa519",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_053_F3_fx_on.wav",
+      "midi": 53,
+      "chain": "fx_on",
+      "sha256": "95041423e46bb50457abbb8e07a9f2d4b5e82893ff9cc75dedb2a900c010d99a",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_054_Fs3_fx_off.wav",
+      "midi": 54,
+      "chain": "fx_off",
+      "sha256": "8f1495e80b9fbf60db93d620a2ce601af36a312542d215ec4d66fecfdf766714",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_054_Fs3_fx_on.wav",
+      "midi": 54,
+      "chain": "fx_on",
+      "sha256": "ee7f6d6ccb8fcd0db03ba3dc39ca93fe11219cc47f31e23fa281de3ad0044682",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_055_G3_fx_off.wav",
+      "midi": 55,
+      "chain": "fx_off",
+      "sha256": "b36f434066a50ff3d86b51b1dab4c6b162aab0bc1b7b5c8ab6d11121bd30fc2a",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_055_G3_fx_on.wav",
+      "midi": 55,
+      "chain": "fx_on",
+      "sha256": "47e74e3ad1e1477856e9df1af5436b072c21c909539cad9fa735b7c6515a5532",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_056_Gs3_fx_off.wav",
+      "midi": 56,
+      "chain": "fx_off",
+      "sha256": "9607de70a053815987fa8b836b2138a407f152cb68bea4af5c990e9cd490c8fa",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_056_Gs3_fx_on.wav",
+      "midi": 56,
+      "chain": "fx_on",
+      "sha256": "5f35afc3a035a42ff8b0db6a0d855d7b44f1a07fd8c534350ce4224082adf9a4",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_057_A3_fx_off.wav",
+      "midi": 57,
+      "chain": "fx_off",
+      "sha256": "1ae1473060afda718876848ca1d0de14f47246c17ad2690c98bc5c470b8fc74f",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_057_A3_fx_on.wav",
+      "midi": 57,
+      "chain": "fx_on",
+      "sha256": "ca4fcde9c6840fcce93f1637d2f4122c6494406f73b9b0f78ac8d97cbe68c4d5",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_058_As3_fx_off.wav",
+      "midi": 58,
+      "chain": "fx_off",
+      "sha256": "c7d19981ffe9f38dddb9e998ca8570fa7e0e37fceceefffd8cfa8b64c37c531e",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_058_As3_fx_on.wav",
+      "midi": 58,
+      "chain": "fx_on",
+      "sha256": "3f04befdd23db5a65e824a4c4b6043e742ee77d4f0526beaeac949c04d9f9af7",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_059_B3_fx_off.wav",
+      "midi": 59,
+      "chain": "fx_off",
+      "sha256": "4a5d24709e35395c42cdae98bad2e8a4c0c6583caf548423de8686d70ca16eee",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_059_B3_fx_on.wav",
+      "midi": 59,
+      "chain": "fx_on",
+      "sha256": "2b91be983edd531eae211895815d57fcf3e29bbd619de6ebec2607711749909a",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_060_C4_fx_off.wav",
+      "midi": 60,
+      "chain": "fx_off",
+      "sha256": "f35b4cbec33115bb74e46c070db86784b229f14fc5b1f75930ba4247d4fb0100",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_060_C4_fx_on.wav",
+      "midi": 60,
+      "chain": "fx_on",
+      "sha256": "476c05be3260aa52bf8233efd2d3cd9a717540fe2fff38c89f48ff570f5f4ac4",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_061_Cs4_fx_off.wav",
+      "midi": 61,
+      "chain": "fx_off",
+      "sha256": "1059df711e510d990be557e74c22979c343ca087ba34e89b66e7073b4e8f03c2",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_061_Cs4_fx_on.wav",
+      "midi": 61,
+      "chain": "fx_on",
+      "sha256": "c7a2cfcdf31395f50893caddc39fffa9ca65fd360978951993fd17b4d0045b68",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_062_D4_fx_off.wav",
+      "midi": 62,
+      "chain": "fx_off",
+      "sha256": "7a22f952526caa50c28e58984930a22bd42605761749949f3d57ef7e1d4957aa",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_062_D4_fx_on.wav",
+      "midi": 62,
+      "chain": "fx_on",
+      "sha256": "772a054da638b46f565747b9b7e21ba12c71b88ad06caf75f325d510851cc8a3",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_063_Ds4_fx_off.wav",
+      "midi": 63,
+      "chain": "fx_off",
+      "sha256": "ea5e38540b97fc39b578c87c8cfa534be8f79130615ef27d02972414432fc4a5",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_063_Ds4_fx_on.wav",
+      "midi": 63,
+      "chain": "fx_on",
+      "sha256": "df9a23dd619811d21a4448fab1f448a40d00284071fc92327ed0aff38c0ff79d",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_064_E4_fx_off.wav",
+      "midi": 64,
+      "chain": "fx_off",
+      "sha256": "60fcff749a786a65771ca9aed8ed153d3389148e209428b7772b2ce91b814b14",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_064_E4_fx_on.wav",
+      "midi": 64,
+      "chain": "fx_on",
+      "sha256": "b38097ba9cd19ed1840f00ec39641c7963a976ee8867aabcb293b5ef9374d2c9",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_065_F4_fx_off.wav",
+      "midi": 65,
+      "chain": "fx_off",
+      "sha256": "e098845103ef27a078fd81debf31c80dbbbe89f229e490865d96cc0488862e8d",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_065_F4_fx_on.wav",
+      "midi": 65,
+      "chain": "fx_on",
+      "sha256": "bdda154e4909e73f3606afcafbf54d0f7cac31de3c28979c4bbef226f8ff22ed",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_066_Fs4_fx_off.wav",
+      "midi": 66,
+      "chain": "fx_off",
+      "sha256": "cfe9f8fe9ecfb04faadaae1e9dfd8d3d775c29fc6313e1a938fa00eb00c1878c",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_066_Fs4_fx_on.wav",
+      "midi": 66,
+      "chain": "fx_on",
+      "sha256": "486f72f33472e5513783a144f4ffb50116064922bed3729fea6700d155a63843",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_067_G4_fx_off.wav",
+      "midi": 67,
+      "chain": "fx_off",
+      "sha256": "f712aaddb4dc94b61a19b256b22551e389b67d5029b06a4bd384f7ed05f7892d",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_067_G4_fx_on.wav",
+      "midi": 67,
+      "chain": "fx_on",
+      "sha256": "08970be963661746cd5b5d6a70b52c9902b275f10d4f7c3296db1bb4adb9435c",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_068_Gs4_fx_off.wav",
+      "midi": 68,
+      "chain": "fx_off",
+      "sha256": "842251a3a0fed81e52e12c97b854998b300ffb766566d0fc1399916f5c5a8d69",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_068_Gs4_fx_on.wav",
+      "midi": 68,
+      "chain": "fx_on",
+      "sha256": "1c2f2c377724626755ea750398b2114eb77094cfc58a71047f0a52477c5cf1ad",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_069_A4_fx_off.wav",
+      "midi": 69,
+      "chain": "fx_off",
+      "sha256": "9369026104ea882da27245daf974e15ff3d63c60cf47cbd9181eac43cb0e5a49",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_069_A4_fx_on.wav",
+      "midi": 69,
+      "chain": "fx_on",
+      "sha256": "710e84fa95b719d296a04b5885fcf36c3822e38a501495f8a0b1df5c2667ff70",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_070_As4_fx_off.wav",
+      "midi": 70,
+      "chain": "fx_off",
+      "sha256": "4becdb085ae564b661b2e32680c9544e78f11e1ee2a8a9e28471149200eb1232",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_070_As4_fx_on.wav",
+      "midi": 70,
+      "chain": "fx_on",
+      "sha256": "a7df36c38bc0309928c719b1c15e20dca9996d69b42ca50e5e4cb308b7f3bfe7",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_071_B4_fx_off.wav",
+      "midi": 71,
+      "chain": "fx_off",
+      "sha256": "b47f6ba39d8a785d1ecb203e3c49db0644dd950ebf334b4d69d2d48113acc9e6",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_071_B4_fx_on.wav",
+      "midi": 71,
+      "chain": "fx_on",
+      "sha256": "a0f3eb6fbde87129ea8b8e1f758ae8078c40ec2a87ea642f71414130405edea9",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_072_C5_fx_off.wav",
+      "midi": 72,
+      "chain": "fx_off",
+      "sha256": "8499952d42e0510dfbb6d4262a83e7396141dd1d3b5a56f1872f876306036481",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_072_C5_fx_on.wav",
+      "midi": 72,
+      "chain": "fx_on",
+      "sha256": "47fe992f9f851a4cf820bb92ebe371b8e26ee93447602ba7d5f528134d76c9df",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_073_Cs5_fx_off.wav",
+      "midi": 73,
+      "chain": "fx_off",
+      "sha256": "96aa0ea3d4d2b6dc83b33c2544d3a303136d404fc261f6b8f95a5b281dff7f34",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_073_Cs5_fx_on.wav",
+      "midi": 73,
+      "chain": "fx_on",
+      "sha256": "69428c1eb41252fe88164dbd8cd6c812a9c900f5f1f891157e7810808cdf6b30",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_074_D5_fx_off.wav",
+      "midi": 74,
+      "chain": "fx_off",
+      "sha256": "19cfc8f5116e5cf05c8f53e42789a65ba2c769f158a31e6ce8c2d97a05006ef0",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_074_D5_fx_on.wav",
+      "midi": 74,
+      "chain": "fx_on",
+      "sha256": "c8c1d14e4e0f0ff83453a6be7f1c4d472e811077771ec875b8773d4689f5c098",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_075_Ds5_fx_off.wav",
+      "midi": 75,
+      "chain": "fx_off",
+      "sha256": "e55f4d92e2b737ef862cf490e1d2def08a642d754a4a22ba4346c148298f895c",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_075_Ds5_fx_on.wav",
+      "midi": 75,
+      "chain": "fx_on",
+      "sha256": "b25905ccc619b44d0ffedc5fb9bbfb023bfcf62edcdc0fbc8c2bc082e0d245d8",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_076_E5_fx_off.wav",
+      "midi": 76,
+      "chain": "fx_off",
+      "sha256": "d8fb81f7605d82a364dab44e2b83e5551f5ed6a815ef33028971b968da736da6",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_076_E5_fx_on.wav",
+      "midi": 76,
+      "chain": "fx_on",
+      "sha256": "dbb541688683523aec8a35bd708affb36250a37f67dba15e07008ff8c6307ee3",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_077_F5_fx_off.wav",
+      "midi": 77,
+      "chain": "fx_off",
+      "sha256": "eecfbb34e4085f3d8253041ae0126cfbb1b91004ef255a4b914cd605c15ab935",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_077_F5_fx_on.wav",
+      "midi": 77,
+      "chain": "fx_on",
+      "sha256": "9b58746152ae51e5b732464716f21370448e5306a49102bb1eeba3a5b94ac125",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_078_Fs5_fx_off.wav",
+      "midi": 78,
+      "chain": "fx_off",
+      "sha256": "2f88e33395cb770e5bbc1bbc6b4a071d1d7764bc9fc5d1d76da81071fc5b41fd",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_078_Fs5_fx_on.wav",
+      "midi": 78,
+      "chain": "fx_on",
+      "sha256": "1584f30356d7483983ff211f7ed36abf74cdf4eb5f94a73a595134f54bb83d43",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_079_G5_fx_off.wav",
+      "midi": 79,
+      "chain": "fx_off",
+      "sha256": "3c1cab5fb7d075a25115208a3924fd2e1d8b1d367227d7c7a6b1e96115ba7e19",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_079_G5_fx_on.wav",
+      "midi": 79,
+      "chain": "fx_on",
+      "sha256": "6eef603c060d755d291ff166b42c4629c2cd302e33241b0d8dda537ee57b7cbf",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_080_Gs5_fx_off.wav",
+      "midi": 80,
+      "chain": "fx_off",
+      "sha256": "03f3d56e7d956dec6107c76c81409a3ccfdddece7ffd048718898090984ac0cc",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_080_Gs5_fx_on.wav",
+      "midi": 80,
+      "chain": "fx_on",
+      "sha256": "383483bd8127c0f66aa16d97009c12aa07fb6f89d6922e7285c40ea6ea1512ff",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_081_A5_fx_off.wav",
+      "midi": 81,
+      "chain": "fx_off",
+      "sha256": "e439153b8ba99a89cf321d5a567bd371ec081b1b2766caa3c7a19606ecb3e3be",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_081_A5_fx_on.wav",
+      "midi": 81,
+      "chain": "fx_on",
+      "sha256": "1a00e05cb96a8e3d475f005e6f8ee2608d4f1fa8e0e4fba9b3b3fb6f05d54796",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_082_As5_fx_off.wav",
+      "midi": 82,
+      "chain": "fx_off",
+      "sha256": "3db9e834c310f1074e5cf0608c404d502e8b064fce0ce71055099783639706fa",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_082_As5_fx_on.wav",
+      "midi": 82,
+      "chain": "fx_on",
+      "sha256": "b5e427c708ead7ce068af4fd8a99c8de64ab028acc36810e5718a5e35cef786c",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_083_B5_fx_off.wav",
+      "midi": 83,
+      "chain": "fx_off",
+      "sha256": "19966340dc871d14e72d19acdb054ce9b373c1cbbd98a845e9bf5fce79d25971",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_083_B5_fx_on.wav",
+      "midi": 83,
+      "chain": "fx_on",
+      "sha256": "90b60b42ce2cf556c0ca0f9d15aea0b1b9e307c42dd4a64e0b1ac985ba89fb0d",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_084_C6_fx_off.wav",
+      "midi": 84,
+      "chain": "fx_off",
+      "sha256": "7490c825839c0f08373aaae3600d39fcb99edc500a412f7f0a782cc5dc80da19",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_084_C6_fx_on.wav",
+      "midi": 84,
+      "chain": "fx_on",
+      "sha256": "982dd9bcfcab77f905f6856a86f525e690ed0d1b111f48315fca40e1b0addba0",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_085_Cs6_fx_off.wav",
+      "midi": 85,
+      "chain": "fx_off",
+      "sha256": "366b4d42824117f653ca2c1c137e2ec3b86bf993e58efd0b1aa465e930ac29e3",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_085_Cs6_fx_on.wav",
+      "midi": 85,
+      "chain": "fx_on",
+      "sha256": "85ae59fe5a28f140e4cee88ea7c915a204e24c9b3f26d75e8becf405939837d2",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_086_D6_fx_off.wav",
+      "midi": 86,
+      "chain": "fx_off",
+      "sha256": "48a14a64cbc016aa16e81d82b4747bb7992008e8cdcf9b1c410793801630207f",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_086_D6_fx_on.wav",
+      "midi": 86,
+      "chain": "fx_on",
+      "sha256": "a5853f3637d2ed8d4205d28077089f8c6bf388739c2d20bee4e3e8b9f936d12a",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_087_Ds6_fx_off.wav",
+      "midi": 87,
+      "chain": "fx_off",
+      "sha256": "1426d569ab44c021b4be78f1a0a7c019556025ef0fbc785c7f28788558b9c9a5",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_087_Ds6_fx_on.wav",
+      "midi": 87,
+      "chain": "fx_on",
+      "sha256": "951689dcd6312ac0cc7101139aa77b011a53d5e4e60197ac754356042ca14cfb",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_088_E6_fx_off.wav",
+      "midi": 88,
+      "chain": "fx_off",
+      "sha256": "2197b281469e422bf1df8d3ba0362ddb633cec47a7daf9f4186673dda0bad37c",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_088_E6_fx_on.wav",
+      "midi": 88,
+      "chain": "fx_on",
+      "sha256": "d2279506e04df590de9c75cd96330d3d5e6ead92593b5ce2f8b35824eb3d79c3",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_089_F6_fx_off.wav",
+      "midi": 89,
+      "chain": "fx_off",
+      "sha256": "015d00042a5d3594c524370dfb30c90b883166f7189bb0f23eaab414a8e87b23",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_089_F6_fx_on.wav",
+      "midi": 89,
+      "chain": "fx_on",
+      "sha256": "3b530c6aeafce77c973654810e88458e588f872eb78e43ad5974eab43f03b6fb",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_090_Fs6_fx_off.wav",
+      "midi": 90,
+      "chain": "fx_off",
+      "sha256": "519c920812789a0db53e1dc7b51f8ca9c83d2d7acb11e5d2d6edd96b67850800",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_090_Fs6_fx_on.wav",
+      "midi": 90,
+      "chain": "fx_on",
+      "sha256": "ad4bb26ecf5562ce02c7af381031e6fb0037fea322412a8e8c67c2c9dcf33ddf",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_091_G6_fx_off.wav",
+      "midi": 91,
+      "chain": "fx_off",
+      "sha256": "2d5ad21f9331448a43d6d03e5a1c3664435d9c2fb0fb3c6e777a79cdd729bf34",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    },
+    {
+      "path": "tests/calibration_20261018/wav/midi_091_G6_fx_on.wav",
+      "midi": 91,
+      "chain": "fx_on",
+      "sha256": "209bdf393f6b6d649eb6e172821aadda990fb643e9d931ccb7b879e7ed0087d5",
+      "source": "fresh raw Voice RTL -> measured gain RTL -> masterQ15 -> FX RTL; independently composed, real32Voice wiring separately verified"
+    }
+  ],
+  "sample_rate": 48000,
+  "bits": 24,
+  "velocity": 100,
+  "note_off_s": 2,
+  "duration_s": 3,
+  "extra_playback_normalization": false,
+  "source_rtl_stage_runs": "D:\\gaoyun\\piano_v2_audio_fix\\audit\\calibration_20261018\\STREAMS.json"
+}

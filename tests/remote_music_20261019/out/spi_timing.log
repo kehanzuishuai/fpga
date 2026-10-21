@@ -1,0 +1,2 @@
+PASS SPI timing pipeline: 8 real 4MHz status transactions, independent CRC, moving fields coherent, CS snapshot stable
+tests/remote_music_20261019/tb_spi_timing.sv:39: $finish called at 405100000 (1ps)

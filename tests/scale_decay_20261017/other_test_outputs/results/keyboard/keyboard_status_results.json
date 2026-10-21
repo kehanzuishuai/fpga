@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "results": [
+    "PASS keyboard HUD: 23 checks; RAWS/MAP=0 before physical confirmation, KEYS/MAP=1 only when configured, bitmap and actual MIDI retained\ntests/keyboard/tb_keyboard_hud.sv:20: $finish called at 23000 (1ps)",
+    "PASS status HUD characters, real key bitmap, coherent 58bit CDC, vblank-only updates, reset/recovery; 66 snapshots\ntests/integration/tb_status_interfaces.sv:42: $finish called at 25163000 (1ps)"
+  ]
+}

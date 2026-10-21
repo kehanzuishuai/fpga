@@ -1,0 +1,8 @@
+{
+  "time": "2026-10-18T12:15:57.203156+08:00",
+  "status": "EXPECTED_FAILURE",
+  "returncode": 1,
+  "source": "D:\\gaoyun\\piano_v2_audio_fix\\audit\\tail_fix_20261018\\backup\\src\\piano_partial_voice.v",
+  "sha256": "6eed168030f51cab2c1111b30e3a128bbd215d3c9126582b70fbfcc33182882e",
+  "same_bench": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\tail_fix_20261018\\tb_tail_gap.sv"
+}

@@ -1,0 +1,3 @@
+PASS actual Gowin shared lane instrument 2: 8 voices, one arithmetic engine, 512 PCM frames bit exact
+PASS actual Gowin shared lane: 512 PCM frames, instrument selection 2; zero cycle-by-cycle RTL mismatches; full32 tested separately in RTL
+D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_gate_aux.sv:35: $finish called at 10712944580 (1ps)

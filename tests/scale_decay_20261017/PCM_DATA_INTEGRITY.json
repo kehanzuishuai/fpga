@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "notes": [
+    {
+      "midi": 60,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 61,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 62,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 63,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 64,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 65,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 66,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 67,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 68,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 69,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 70,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 71,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 72,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 73,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 74,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    },
+    {
+      "midi": 75,
+      "samples": 144000,
+      "data_equals_saved_real_RTL": true
+    }
+  ]
+}

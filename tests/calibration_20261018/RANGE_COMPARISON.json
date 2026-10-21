@@ -1,0 +1,111 @@
+{
+  "time": "2026-10-18T13:42:05.056093+08:00",
+  "screen_thresholds": "Engineering screening: adjacent attack/early/held RMS >6dB, fundamental:overtones >10dB, normalized centroid ratio >1.5, natural duration ratio >2, |tuning|>15cent; 32-note early RMS span >12dB, four-semitone early RMS change >9dB, center vs mean of +/-4-semitone neighbors >6dB. Diagnostic flags, not universal psychoacoustic standards. Measured bounded per-note production gain applied; no additional WAV normalization.",
+  "human_listening_status": "PENDING: objective evidence and audition files supplied; no claim of having listened or of subjective excellent sound.",
+  "schemes": [
+    {
+      "scheme": "A",
+      "low": 48,
+      "high": 79,
+      "chain": "fx_off",
+      "notes": 32,
+      "silent_notes": [],
+      "unverified_f0": [],
+      "max_abs_tuning_cents": 10.009162444823604,
+      "attack_rms_span_db": 9.293528693116315,
+      "early_rms_span_db": 0.13990756879122657,
+      "early_rms_std_db": 0.02424594285883584,
+      "largest_adjacent_early_rms_db": 0.13990756879122657,
+      "largest_adjacent_attack_rms_db": 0.9208095024149969,
+      "flagged_seams": [],
+      "flagged_four_semitone_intervals": [],
+      "flagged_local_valleys": [],
+      "range_flags": [],
+      "per_note_flags": {},
+      "natural_held_zero_range_s_model": [
+        5.8687708333333335,
+        11.619895833333333
+      ],
+      "quality_screen_pass": true,
+      "human_listening_accepted": false
+    },
+    {
+      "scheme": "B",
+      "low": 60,
+      "high": 91,
+      "chain": "fx_off",
+      "notes": 32,
+      "silent_notes": [],
+      "unverified_f0": [],
+      "max_abs_tuning_cents": 14.46843241789042,
+      "attack_rms_span_db": 5.501838934635227,
+      "early_rms_span_db": 4.856498881308806,
+      "early_rms_std_db": 1.393230755454467,
+      "largest_adjacent_early_rms_db": 2.627532627193929,
+      "largest_adjacent_attack_rms_db": 1.8915525637944803,
+      "flagged_seams": [],
+      "flagged_four_semitone_intervals": [],
+      "flagged_local_valleys": [],
+      "range_flags": [],
+      "per_note_flags": {},
+      "natural_held_zero_range_s_model": [
+        2.5226458333333333,
+        11.510041666666666
+      ],
+      "quality_screen_pass": true,
+      "human_listening_accepted": false
+    },
+    {
+      "scheme": "A",
+      "low": 48,
+      "high": 79,
+      "chain": "fx_on",
+      "notes": 32,
+      "silent_notes": [],
+      "unverified_f0": [],
+      "max_abs_tuning_cents": 10.040454085596247,
+      "attack_rms_span_db": 9.17725864945598,
+      "early_rms_span_db": 2.0621305633875373,
+      "early_rms_std_db": 0.5615405056016493,
+      "largest_adjacent_early_rms_db": 1.5757929787125349,
+      "largest_adjacent_attack_rms_db": 1.7556263969222137,
+      "flagged_seams": [],
+      "flagged_four_semitone_intervals": [],
+      "flagged_local_valleys": [],
+      "range_flags": [],
+      "per_note_flags": {},
+      "natural_held_zero_range_s_model": [
+        5.9298125,
+        11.7206875
+      ],
+      "quality_screen_pass": true,
+      "human_listening_accepted": false
+    },
+    {
+      "scheme": "B",
+      "low": 60,
+      "high": 91,
+      "chain": "fx_on",
+      "notes": 32,
+      "silent_notes": [],
+      "unverified_f0": [],
+      "max_abs_tuning_cents": 14.330042516003237,
+      "attack_rms_span_db": 5.415101653624832,
+      "early_rms_span_db": 6.957616296210386,
+      "early_rms_std_db": 1.6847343368265586,
+      "largest_adjacent_early_rms_db": 3.101607727765458,
+      "largest_adjacent_attack_rms_db": 2.0340840816378396,
+      "flagged_seams": [],
+      "flagged_four_semitone_intervals": [],
+      "flagged_local_valleys": [],
+      "range_flags": [],
+      "per_note_flags": {},
+      "natural_held_zero_range_s_model": [
+        2.6441458333333334,
+        11.573625
+      ],
+      "quality_screen_pass": true,
+      "human_listening_accepted": false
+    }
+  ]
+}

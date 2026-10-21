@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "midi": 66,
+  "current_voice_recheck": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\recheck_voice_66.json",
+  "new_direct_injection": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\direct_equivalence_66.json",
+  "audio_source": "Unchanged algorithm and previous real 3s RTL samples, revalidated in current round",
+  "current_data_integrity": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\PCM_DATA_INTEGRITY.json",
+  "provenance": {
+    "midi": 66,
+    "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_066",
+    "voice_rtl_log_sha256": "cfba4b8a480cca3c8519aa683ca58732a9e1829a9f3058e1ac62dab2763d785c",
+    "fx_rtl_log_sha256": "3f4cb28215c87030353b7db2d666e0c1bca705b672db5c3869188cc92312d37c",
+    "voice_model_rechecked_now": true,
+    "fx_144000_samples_equal_saved_rtl": true
+  }
+}

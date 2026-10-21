@@ -1,0 +1,10 @@
+{
+  "note": 72,
+  "velocity": 100,
+  "samples": 144000,
+  "note_off_tick": 96000,
+  "voice_equivalence": "all computed samples including release; original loader timing",
+  "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+  "status": "PASS",
+  "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\audio_diagnosis\\baseline\\midi_072\\equivalence.log"
+}

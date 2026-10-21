@@ -1,0 +1,128 @@
+{
+  "status": "PASS",
+  "source_header": "D:\\gaoyun\\piano_v2_audio_fix\\ref\\amy_excerpt\\src\\interp_partials.h",
+  "source_json": "D:\\gaoyun\\piano_v2_audio_fix\\tools\\amy_data\\amy_piano_params.json",
+  "checks": [
+    {
+      "array": "piano_sample_times_ms",
+      "words": 20,
+      "exact": true
+    },
+    {
+      "array": "piano_velocities",
+      "words": 3,
+      "exact": true
+    },
+    {
+      "array": "piano_notes",
+      "words": 21,
+      "exact": true
+    },
+    {
+      "array": "piano_num_harmonics",
+      "words": 63,
+      "exact": true
+    },
+    {
+      "array": "piano_harmonics_freq",
+      "words": 1760,
+      "exact": true
+    },
+    {
+      "array": "piano_harmonics_mags",
+      "words": 35200,
+      "exact": true
+    }
+  ],
+  "examples": [
+    {
+      "midi": 60,
+      "fundamental_db_amy_at_4_8_12_16_24ms": [
+        92.0,
+        98.0,
+        103.0,
+        105.5,
+        104.0
+      ],
+      "fundamental_db_amy_at_96_128_192_256_384_512ms": [
+        103.5,
+        102.5,
+        99.5,
+        98.0,
+        95.0,
+        91.0
+      ],
+      "frequency_cents_v80_v120": [
+        6003.0,
+        6004.0
+      ]
+    },
+    {
+      "midi": 64,
+      "fundamental_db_amy_at_4_8_12_16_24ms": [
+        95.0,
+        91.5,
+        91.0,
+        97.0,
+        97.5
+      ],
+      "fundamental_db_amy_at_96_128_192_256_384_512ms": [
+        93.0,
+        94.5,
+        89.0,
+        88.5,
+        85.0,
+        81.5
+      ],
+      "frequency_cents_v80_v120": [
+        6409.0,
+        6410.0
+      ]
+    },
+    {
+      "midi": 68,
+      "fundamental_db_amy_at_4_8_12_16_24ms": [
+        100.0,
+        103.5,
+        105.0,
+        108.5,
+        108.0
+      ],
+      "fundamental_db_amy_at_96_128_192_256_384_512ms": [
+        108.5,
+        107.5,
+        106.0,
+        104.0,
+        99.5,
+        95.0
+      ],
+      "frequency_cents_v80_v120": [
+        6807.0,
+        6808.0
+      ]
+    },
+    {
+      "midi": 72,
+      "fundamental_db_amy_at_4_8_12_16_24ms": [
+        99.5,
+        104.0,
+        107.5,
+        110.0,
+        111.5
+      ],
+      "fundamental_db_amy_at_96_128_192_256_384_512ms": [
+        109.0,
+        108.0,
+        105.0,
+        102.0,
+        95.0,
+        83.0
+      ],
+      "frequency_cents_v80_v120": [
+        7203.0,
+        7203.0
+      ]
+    }
+  ],
+  "conclusion": "E4 fundamental weaker values are already in original AMY source data; no extraction shift between notes detected. AMY dB scale is not digital dBFS."
+}

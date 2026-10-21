@@ -1,0 +1,423 @@
+{
+  "time": "2026-10-18T14:04:37.140215+08:00",
+  "screen_thresholds": "Engineering screening: adjacent attack/early/held RMS >6dB, fundamental:overtones >10dB, normalized centroid ratio >1.5, natural duration ratio >2, |tuning|>15cent; 32-note early RMS span >12dB, four-semitone early RMS change >9dB, center vs mean of +/-4-semitone neighbors >6dB. Diagnostic flags, not universal psychoacoustic standards. No per-note equalization.",
+  "human_listening_status": "PENDING: objective evidence and audition files supplied; no claim of having listened or of subjective excellent sound.",
+  "schemes": [
+    {
+      "scheme": "A",
+      "low": 48,
+      "high": 79,
+      "chain": "fx_off",
+      "notes": 32,
+      "silent_notes": [],
+      "unverified_f0": [],
+      "max_abs_tuning_cents": 10.009161653893369,
+      "attack_rms_span_db": 13.94297201942435,
+      "early_rms_span_db": 13.183681029821141,
+      "early_rms_std_db": 3.5454514618018727,
+      "largest_adjacent_early_rms_db": 3.6523686136539375,
+      "largest_adjacent_attack_rms_db": 4.24698518792421,
+      "flagged_seams": [],
+      "flagged_four_semitone_intervals": [
+        {
+          "scheme": "A",
+          "chain": "fx_off",
+          "from_midi": 64,
+          "to_midi": 68,
+          "early_rms_change_db": 13.183681029821141,
+          "fundamental_overtones_change_db": 13.939608376464903,
+          "normalized_centroid_ratio": 0.5919488710503129,
+          "flag": true
+        },
+        {
+          "scheme": "A",
+          "chain": "fx_off",
+          "from_midi": 65,
+          "to_midi": 69,
+          "early_rms_change_db": 10.085441546930308,
+          "fundamental_overtones_change_db": 11.808828672643614,
+          "normalized_centroid_ratio": 0.7426928539667322,
+          "flag": true
+        }
+      ],
+      "flagged_local_valleys": [
+        {
+          "scheme": "A",
+          "chain": "fx_off",
+          "midi": 60,
+          "neighbors": "56;64",
+          "early_rms_residual_db": 7.28820678109177,
+          "flag": true
+        },
+        {
+          "scheme": "A",
+          "chain": "fx_off",
+          "midi": 64,
+          "neighbors": "60;68",
+          "early_rms_residual_db": -11.054331437672072,
+          "flag": true
+        },
+        {
+          "scheme": "A",
+          "chain": "fx_off",
+          "midi": 65,
+          "neighbors": "61;69",
+          "early_rms_residual_db": -6.847058105970913,
+          "flag": true
+        },
+        {
+          "scheme": "A",
+          "chain": "fx_off",
+          "midi": 68,
+          "neighbors": "64;72",
+          "early_rms_residual_db": 7.16623307068858,
+          "flag": true
+        }
+      ],
+      "range_flags": [
+        "32_note_early_RMS_span_gt_12dB",
+        "four_semitone_RMS_change_gt_9dB",
+        "local_RMS_valley_or_peak_gt_6dB"
+      ],
+      "per_note_flags": {},
+      "natural_held_zero_range_s_model": [
+        5.8687708333333335,
+        11.619895833333333
+      ],
+      "quality_screen_pass": false,
+      "human_listening_accepted": false
+    },
+    {
+      "scheme": "B",
+      "low": 60,
+      "high": 91,
+      "chain": "fx_off",
+      "notes": 32,
+      "silent_notes": [],
+      "unverified_f0": [],
+      "max_abs_tuning_cents": 14.468432500194456,
+      "attack_rms_span_db": 20.20338187421256,
+      "early_rms_span_db": 23.708315037677824,
+      "early_rms_std_db": 7.010384173027323,
+      "largest_adjacent_early_rms_db": 3.6523686136539375,
+      "largest_adjacent_attack_rms_db": 3.612846674887841,
+      "flagged_seams": [],
+      "flagged_four_semitone_intervals": [
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "from_midi": 64,
+          "to_midi": 68,
+          "early_rms_change_db": 13.183681029821141,
+          "fundamental_overtones_change_db": 13.939608376464903,
+          "normalized_centroid_ratio": 0.5919488710503129,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "from_midi": 65,
+          "to_midi": 69,
+          "early_rms_change_db": 10.085441546930308,
+          "fundamental_overtones_change_db": 11.808828672643614,
+          "normalized_centroid_ratio": 0.7426928539667322,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "from_midi": 78,
+          "to_midi": 82,
+          "early_rms_change_db": -9.057824521757524,
+          "fundamental_overtones_change_db": 3.6756468245371536,
+          "normalized_centroid_ratio": 0.9964404616859591,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "from_midi": 79,
+          "to_midi": 83,
+          "early_rms_change_db": -10.154869567521061,
+          "fundamental_overtones_change_db": -1.3522000752136663,
+          "normalized_centroid_ratio": 1.0013083166764647,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "from_midi": 80,
+          "to_midi": 84,
+          "early_rms_change_db": -11.62598403700084,
+          "fundamental_overtones_change_db": -7.085545956647902,
+          "normalized_centroid_ratio": 1.0066521435871068,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "from_midi": 84,
+          "to_midi": 88,
+          "early_rms_change_db": 10.644440852920312,
+          "fundamental_overtones_change_db": 6.791669046642017,
+          "normalized_centroid_ratio": 0.9934539832399046,
+          "flag": true
+        }
+      ],
+      "flagged_local_valleys": [
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "midi": 64,
+          "neighbors": "60;68",
+          "early_rms_residual_db": -11.054331437672072,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "midi": 65,
+          "neighbors": "61;69",
+          "early_rms_residual_db": -6.847058105970913,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "midi": 68,
+          "neighbors": "64;72",
+          "early_rms_residual_db": 7.16623307068858,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "midi": 83,
+          "neighbors": "79;87",
+          "early_rms_residual_db": -7.324934275813611,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "midi": 84,
+          "neighbors": "80;88",
+          "early_rms_residual_db": -11.13521244496058,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_off",
+          "midi": 85,
+          "neighbors": "81;89",
+          "early_rms_residual_db": -6.607205749962304,
+          "flag": true
+        }
+      ],
+      "range_flags": [
+        "32_note_early_RMS_span_gt_12dB",
+        "four_semitone_RMS_change_gt_9dB",
+        "local_RMS_valley_or_peak_gt_6dB"
+      ],
+      "per_note_flags": {},
+      "natural_held_zero_range_s_model": [
+        2.5226458333333333,
+        11.510041666666666
+      ],
+      "quality_screen_pass": false,
+      "human_listening_accepted": false
+    },
+    {
+      "scheme": "A",
+      "low": 48,
+      "high": 79,
+      "chain": "fx_on",
+      "notes": 32,
+      "silent_notes": [],
+      "unverified_f0": [],
+      "max_abs_tuning_cents": 10.040425716553688,
+      "attack_rms_span_db": 14.413127580287922,
+      "early_rms_span_db": 12.35233291473899,
+      "early_rms_std_db": 3.4674495868513717,
+      "largest_adjacent_early_rms_db": 3.639590801951101,
+      "largest_adjacent_attack_rms_db": 4.030405620760563,
+      "flagged_seams": [],
+      "flagged_four_semitone_intervals": [
+        {
+          "scheme": "A",
+          "chain": "fx_on",
+          "from_midi": 64,
+          "to_midi": 68,
+          "early_rms_change_db": 11.904751764166669,
+          "fundamental_overtones_change_db": 12.087088357906302,
+          "normalized_centroid_ratio": 0.66645894777148,
+          "flag": true
+        },
+        {
+          "scheme": "A",
+          "chain": "fx_on",
+          "from_midi": 65,
+          "to_midi": 69,
+          "early_rms_change_db": 9.17287934792251,
+          "fundamental_overtones_change_db": 9.968285766086616,
+          "normalized_centroid_ratio": 0.7936813514496491,
+          "flag": true
+        }
+      ],
+      "flagged_local_valleys": [
+        {
+          "scheme": "A",
+          "chain": "fx_on",
+          "midi": 60,
+          "neighbors": "56;64",
+          "early_rms_residual_db": 7.112675788764811,
+          "flag": true
+        },
+        {
+          "scheme": "A",
+          "chain": "fx_on",
+          "midi": 64,
+          "neighbors": "60;68",
+          "early_rms_residual_db": -10.021580866050488,
+          "flag": true
+        }
+      ],
+      "range_flags": [
+        "32_note_early_RMS_span_gt_12dB",
+        "four_semitone_RMS_change_gt_9dB",
+        "local_RMS_valley_or_peak_gt_6dB"
+      ],
+      "per_note_flags": {},
+      "natural_held_zero_range_s_model": [
+        5.8687708333333335,
+        11.619895833333333
+      ],
+      "quality_screen_pass": false,
+      "human_listening_accepted": false
+    },
+    {
+      "scheme": "B",
+      "low": 60,
+      "high": 91,
+      "chain": "fx_on",
+      "notes": 32,
+      "silent_notes": [],
+      "unverified_f0": [],
+      "max_abs_tuning_cents": 14.3304143399118,
+      "attack_rms_span_db": 21.576891742621847,
+      "early_rms_span_db": 24.23454706043365,
+      "early_rms_std_db": 7.155315982653797,
+      "largest_adjacent_early_rms_db": 3.639590801951101,
+      "largest_adjacent_attack_rms_db": 3.6664596355154515,
+      "flagged_seams": [],
+      "flagged_four_semitone_intervals": [
+        {
+          "scheme": "B",
+          "chain": "fx_on",
+          "from_midi": 64,
+          "to_midi": 68,
+          "early_rms_change_db": 11.904751764166669,
+          "fundamental_overtones_change_db": 12.087088357906302,
+          "normalized_centroid_ratio": 0.66645894777148,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_on",
+          "from_midi": 65,
+          "to_midi": 69,
+          "early_rms_change_db": 9.17287934792251,
+          "fundamental_overtones_change_db": 9.968285766086616,
+          "normalized_centroid_ratio": 0.7936813514496491,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_on",
+          "from_midi": 78,
+          "to_midi": 82,
+          "early_rms_change_db": -10.104388298658211,
+          "fundamental_overtones_change_db": 2.3788526616719317,
+          "normalized_centroid_ratio": 0.9981347902286234,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_on",
+          "from_midi": 79,
+          "to_midi": 83,
+          "early_rms_change_db": -9.863336356532251,
+          "fundamental_overtones_change_db": -1.1783490056260035,
+          "normalized_centroid_ratio": 1.0011550838576184,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_on",
+          "from_midi": 80,
+          "to_midi": 84,
+          "early_rms_change_db": -11.612461158019435,
+          "fundamental_overtones_change_db": -7.160618300312013,
+          "normalized_centroid_ratio": 1.0066211081924965,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_on",
+          "from_midi": 84,
+          "to_midi": 88,
+          "early_rms_change_db": 10.920125253825628,
+          "fundamental_overtones_change_db": 6.769565551710372,
+          "normalized_centroid_ratio": 0.9934943697642259,
+          "flag": true
+        }
+      ],
+      "flagged_local_valleys": [
+        {
+          "scheme": "B",
+          "chain": "fx_on",
+          "midi": 64,
+          "neighbors": "60;68",
+          "early_rms_residual_db": -10.021580866050488,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_on",
+          "midi": 83,
+          "neighbors": "79;87",
+          "early_rms_residual_db": -6.991883053486639,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_on",
+          "midi": 84,
+          "neighbors": "80;88",
+          "early_rms_residual_db": -11.26629320592253,
+          "flag": true
+        },
+        {
+          "scheme": "B",
+          "chain": "fx_on",
+          "midi": 85,
+          "neighbors": "81;89",
+          "early_rms_residual_db": -6.973083645286842,
+          "flag": true
+        }
+      ],
+      "range_flags": [
+        "32_note_early_RMS_span_gt_12dB",
+        "four_semitone_RMS_change_gt_9dB",
+        "local_RMS_valley_or_peak_gt_6dB"
+      ],
+      "per_note_flags": {},
+      "natural_held_zero_range_s_model": [
+        2.5226458333333333,
+        11.510041666666666
+      ],
+      "quality_screen_pass": false,
+      "human_listening_accepted": false
+    }
+  ]
+}

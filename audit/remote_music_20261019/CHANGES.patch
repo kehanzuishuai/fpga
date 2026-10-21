@@ -1,0 +1,643 @@
+--- before/src/display/audio_visualizer.sv
++++ after/src/display/audio_visualizer.sv
+@@ -1,5 +1,5 @@
+ `default_nettype none
+-module audio_visualizer #(parameter LOGN=11,parameter SAMPLE_RATE=48000,parameter STATUS_ENABLE=0,parameter MAPPING_CONFIRMED=1)(
++module audio_visualizer #(parameter LOGN=11,parameter SAMPLE_RATE=48000,parameter REMOTE_STATUS=0,parameter STATUS_ENABLE=0,parameter MAPPING_CONFIRMED=1)(
+  input wire audio_clk,audio_rst_n,pcm_valid,input wire signed [23:0] pcm,
+  input wire xy_enable,input wire signed [23:0] xy_x,xy_y,
+  input wire pixel_clk,pixel_rst_n,
+@@ -69,7 +69,7 @@
+  if(!display_rst_n)begin sx1<=0;sy1<=0;sx2<=0;sy2<=0;sx3<=0;sy3<=0;sx4<=0;sy4<=0;end
+  else begin sx1<=10'(x/12'd3);sy1<=10'(y/12'd3);sx2<=sx1;sy2<=sy1;sx3<=sx2;sy3<=sy2;sx4<=sx3;sy4<=sy3;end
+  wire status_ink,key_area,key_on;
+- piano_status_overlay_pipeline #(.MAPPING_CONFIRMED(MAPPING_CONFIRMED),.INFO_Y(164),.DETAIL_Y(176),
++ piano_status_overlay_pipeline #(.REMOTE_STATUS(REMOTE_STATUS),.MAPPING_CONFIRMED(MAPPING_CONFIRMED),.INFO_Y(164),.DETAIL_Y(176),
+  .KEY_X(8),.KEY_Y(198),.KEY_PITCH(24),.KEY_WIDTH(20),.KEY_HEIGHT(10)) hud(
+  sx4,sy4,status_pixel,pixel_clk,display_rst_n,status_ink,key_area,key_on);
+ 
+--- before/src/display/piano_status_overlay.sv
++++ after/src/display/piano_status_overlay.sv
+@@ -1,19 +1,19 @@
+ `default_nettype none
+ // Keep the combinational interface for existing HUD verification and previews.
+-module piano_status_overlay #(parameter MAPPING_CONFIRMED=1,parameter INFO_Y=168,DETAIL_Y=184,KEY_X=400,KEY_Y=168,KEY_PITCH=12,KEY_WIDTH=10,KEY_HEIGHT=12)(input wire [9:0] x,y,input wire [57:0] status,
++module piano_status_overlay #(parameter REMOTE_STATUS=0,parameter MAPPING_CONFIRMED=1,parameter INFO_Y=168,DETAIL_Y=184,KEY_X=400,KEY_Y=168,KEY_PITCH=12,KEY_WIDTH=10,KEY_HEIGHT=12)(input wire [9:0] x,y,input wire [57:0] status,
+  output wire ink,key_area,key_on);
+  wire [7:0] ch;wire [2:0] col,row;wire [34:0] bits;
+- piano_status_decode #(.MAPPING_CONFIRMED(MAPPING_CONFIRMED),.INFO_Y(INFO_Y),.DETAIL_Y(DETAIL_Y),.KEY_X(KEY_X),.KEY_Y(KEY_Y),.KEY_PITCH(KEY_PITCH),.KEY_WIDTH(KEY_WIDTH),.KEY_HEIGHT(KEY_HEIGHT)) decode(x,y,status,ch,col,row,key_area,key_on);
++ piano_status_decode #(.REMOTE_STATUS(REMOTE_STATUS),.MAPPING_CONFIRMED(MAPPING_CONFIRMED),.INFO_Y(INFO_Y),.DETAIL_Y(DETAIL_Y),.KEY_X(KEY_X),.KEY_Y(KEY_Y),.KEY_PITCH(KEY_PITCH),.KEY_WIDTH(KEY_WIDTH),.KEY_HEIGHT(KEY_HEIGHT)) decode(x,y,status,ch,col,row,key_area,key_on);
+  piano_status_font font(ch,bits);
+  assign ink=col<5 && row<7?bits[6'd34-({3'd0,row}*6'd5+{3'd0,col})]:1'b0;
+ endmodule
+ // Production path: register character decode and then glyph lookup.
+-module piano_status_overlay_pipeline #(parameter MAPPING_CONFIRMED=1,parameter INFO_Y=168,DETAIL_Y=184,KEY_X=400,KEY_Y=168,KEY_PITCH=12,KEY_WIDTH=10,KEY_HEIGHT=12)(input wire [9:0] x,y,input wire [57:0] status,
++module piano_status_overlay_pipeline #(parameter REMOTE_STATUS=0,parameter MAPPING_CONFIRMED=1,parameter INFO_Y=168,DETAIL_Y=184,KEY_X=400,KEY_Y=168,KEY_PITCH=12,KEY_WIDTH=10,KEY_HEIGHT=12)(input wire [9:0] x,y,input wire [57:0] status,
+  input wire clk,rst_n,output wire ink,output reg key_area,key_on);
+  wire [7:0] ch;wire [2:0] col,row;wire area,on;wire [34:0] glyph_bits;
+  reg [7:0] char_d;reg [2:0] col_d,row_d;reg area_d,on_d;
+  reg [34:0] bits_d;reg [5:0] index_d;reg valid_d;
+- piano_status_decode #(.MAPPING_CONFIRMED(MAPPING_CONFIRMED),.INFO_Y(INFO_Y),.DETAIL_Y(DETAIL_Y),.KEY_X(KEY_X),.KEY_Y(KEY_Y),.KEY_PITCH(KEY_PITCH),.KEY_WIDTH(KEY_WIDTH),.KEY_HEIGHT(KEY_HEIGHT)) decode(x,y,status,ch,col,row,area,on);
++ piano_status_decode #(.REMOTE_STATUS(REMOTE_STATUS),.MAPPING_CONFIRMED(MAPPING_CONFIRMED),.INFO_Y(INFO_Y),.DETAIL_Y(DETAIL_Y),.KEY_X(KEY_X),.KEY_Y(KEY_Y),.KEY_PITCH(KEY_PITCH),.KEY_WIDTH(KEY_WIDTH),.KEY_HEIGHT(KEY_HEIGHT)) decode(x,y,status,ch,col,row,area,on);
+  piano_status_font font(char_d,glyph_bits);
+  always @(posedge clk or negedge rst_n)
+  if(!rst_n)begin
+@@ -72,14 +72,14 @@
+ 
+  assign bits=glyph(ch);
+ endmodule
+-module piano_status_decode #(parameter MAPPING_CONFIRMED=1,parameter INFO_Y=168,DETAIL_Y=184,KEY_X=400,KEY_Y=168,KEY_PITCH=12,KEY_WIDTH=10,KEY_HEIGHT=12)(input wire [9:0] x,y,input wire [57:0] status,
++module piano_status_decode #(parameter REMOTE_STATUS=0,parameter MAPPING_CONFIRMED=1,parameter INFO_Y=168,DETAIL_Y=184,KEY_X=400,KEY_Y=168,KEY_PITCH=12,KEY_WIDTH=10,KEY_HEIGHT=12)(input wire [9:0] x,y,input wire [57:0] status,
+  output reg [7:0] ch,output reg [2:0] col,row,output wire key_area,key_on);
+  wire [15:0] keys=status[57:42];wire [5:0] voices=status[41:36];
+  wire [23:0] peak=status[35:12];wire [6:0] note=status[11:5];
+  wire note_valid=status[4];wire [3:0] stage=status[3:0];
+  wire [127:0] instrument_name;wire [2:0] actual_id;wire switching;
+- // This build selects only the original piano: ID0 is real, fixed state.
+- yinse_display_info instrument(3'd0,1'b0,instrument_name,actual_id,switching);
++ // In the integrated build the existing status mailbox carries actual timbre and switching.
++ yinse_display_info instrument(REMOTE_STATUS?status[2:0]:3'd0,REMOTE_STATUS?status[3]:1'b0,instrument_name,actual_id,switching);
+  function automatic [7:0] hexchar(input [3:0] n);
+  hexchar=(n<10)?8'd48+{4'd0,n}:8'd55+{4'd0,n};
+  endfunction
+@@ -155,13 +155,13 @@
+     19:ch=hexchar(peak[11-:4]);
+     20:ch=hexchar(peak[7-:4]);
+     21:ch=hexchar(peak[3-:4]);
+-    24:ch=8'd83;
+-    25:ch=8'd84;
+-    26:ch=8'd65;
+-    27:ch=8'd71;
+-    28:ch=8'd69;
++    24:ch=REMOTE_STATUS?"S":8'd83;
++    25:ch=REMOTE_STATUS?"W":8'd84;
++    26:ch=REMOTE_STATUS?"I":8'd65;
++    27:ch=REMOTE_STATUS?"T":8'd71;
++    28:ch=REMOTE_STATUS?"C":8'd69;
+     29:ch=8'd61;
+-    30:ch=hexchar(stage);
++    30:ch=REMOTE_STATUS?(switching?"1":"0"):hexchar(stage);
+     33:ch=8'd77;
+     34:ch=8'd65;
+     35:ch=8'd80;
+--- before/src/display/visual_xy_plot.sv
++++ after/src/display/visual_xy_plot.sv
+@@ -11,7 +11,7 @@
+  output reg signal_valid,output reg direct_mode,mixed_mode,
+  output reg signed [5:0] scale_shift
+ );
+- localparam [3:0] IDLE=0,CLEAR=1,COPY=2,PEAK=3,GAIN=4,READ_POINT=5,WAIT_POINT=6,BEGIN_LINE=7,DRAW_LINE=8,MAP_POINT=9,PEAK_READ=10,PEAK_ABS=11,PEAK_UPDATE=12;
++ localparam [3:0] IDLE=0,CLEAR=1,COPY=2,PEAK=3,GAIN=4,READ_POINT=5,WAIT_POINT=6,BEGIN_LINE=7,DRAW_LINE=8,MAP_POINT=9,PEAK_READ=10,PEAK_ABS=11,PEAK_UPDATE=12,PEAK_MAX=13;
+  wire [15:0] unused_wave=sample_data[48:33];
+  reg [3:0] state;
+  reg [13:0] clear_index;
+@@ -31,9 +31,9 @@
+  wire step_y=twice_error<= $signed({3'b0,delta_x});
+  wire signed [16:0] centered_x=$signed({xq[15],xq})-mean_x;
+  wire signed [16:0] centered_y=$signed({yq[15],yq})-mean_y;
+- reg [16:0] ax,ay;
++ reg [16:0] ax,ay,candidate_r;
+  wire [16:0] candidate=ax>ay?ax:ay;
+- wire [16:0] next_peak=candidate>peak?candidate:peak;
++ wire [16:0] next_peak=candidate_r>peak?candidate_r:peak;
+  wire signed [25:0] next_sum_x=sum_x+{{10{sample_data[31]}},sample_data[31:16]};
+  wire signed [25:0] next_sum_y=sum_y+{{10{sample_data[15]}},sample_data[15:0]};
+  reg signed [16:0] point_x,point_y;
+@@ -68,7 +68,7 @@
+   peak<=0;signal_valid<=0;direct_mode<=0;mixed_mode<=0;scale_shift<=0;sample_release<=0;
+   line_x<=0;line_y<=0;target_x<=0;target_y<=0;previous_x<=0;previous_y<=0;
+   delta_x<=0;delta_y<=0;x_positive<=0;y_positive<=0;error<=0;
+-  point_x<=0;point_y<=0;mapped_x<=0;mapped_y<=0;ax<=0;ay<=0;
++  point_x<=0;point_y<=0;mapped_x<=0;mapped_y<=0;ax<=0;ay<=0;candidate_r<=0;
+  end else begin
+   sample_release<=0;
+   case(state)
+@@ -91,8 +91,10 @@
+    PEAK_ABS:begin
+     ax<=point_x[16]?17'(-point_x):17'(point_x);
+     ay<=point_y[16]?17'(-point_y):17'(point_y);
+-    state<=PEAK_UPDATE;
++    state<=PEAK_MAX;
+    end
++   // Separate max(X,Y) from max(candidate,peak) to avoid serial comparators.
++   PEAK_MAX:begin candidate_r<=candidate;state<=PEAK_UPDATE;end
+    PEAK_UPDATE:begin
+     peak<=next_peak;
+     if(index==511)state<=GAIN;
+--- before/src/integrated.cst
++++ after/src/integrated.cst
+@@ -137,3 +137,17 @@
+ IO_PORT "ttp229_2_scl" IO_TYPE=LVCMOS33;
+ IO_LOC "ttp229_2_sdo" A17;
+ IO_PORT "ttp229_2_sdo" IO_TYPE=LVCMOS33 PULL_MODE=UP;
++
++// ESP32-S3, 3.3 V, independent of the two TTP229 buses.
++IO_LOC "esp_uart_rx" B21;
++IO_PORT "esp_uart_rx" IO_TYPE=LVCMOS33 PULL_MODE=UP;
++IO_LOC "esp_uart_tx" A20;
++IO_PORT "esp_uart_tx" IO_TYPE=LVCMOS33;
++IO_LOC "esp_spi_sck" L17;
++IO_PORT "esp_spi_sck" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
++IO_LOC "esp_spi_cs_n" H14;
++IO_PORT "esp_spi_cs_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
++IO_LOC "esp_spi_mosi" E25;
++IO_PORT "esp_spi_mosi" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
++IO_LOC "esp_spi_miso" D25;
++IO_PORT "esp_spi_miso" IO_TYPE=LVCMOS33;
+--- before/src/integrated.sdc
++++ after/src/integrated.sdc
+@@ -10,6 +10,10 @@
+ # All audio/pixel crossings use stable bundled-data request/ack mailboxes.
+ # Pixel and serial clocks remain synchronous.
+ set_clock_groups -asynchronous -group [get_clocks {audio_clk}] -group [get_clocks {video_ref video_pixel_pll video_pixel video_serial video_serial_global video_serial_reset video_serial_reset_regional}]
++# New 50MHz WAV transport <-> audio crossings are only explicit request/ack
++# mailboxes and two-stage control synchronizers in u_wav. Stereo hold_pcm stays
++# fixed until the destination acknowledges it. No free-running PCM bus crosses.
++set_clock_groups -asynchronous -group [get_clocks {clk_50m}] -group [get_clocks {audio_clk}]
+ # Strengthen same-domain pixel hold margin so routing repairs short data paths.
+ set_clock_uncertainty 0.150 -hold -from [get_clocks {video_pixel}] -to [get_clocks {video_pixel}]
+ set_false_path -to [get_pins {pll_lock_sync_0_s0/D}]
+--- before/src/keyboard_debug.rao
++++ after/src/keyboard_debug.rao
+@@ -1,7 +1,7 @@
+ <GAO_CONFIG>
+     <Version>3.0</Version>
+     <Mode>Standard</Mode>
+-    <AoCore index="0" sample_clock="clk_12m288" trig_type="0" storage_depth="4096" window_num="1" capture_amount="4096" implementation="0" trigger_pos="64" module_name="tang_mega_138k_pro_top" force_trigger_by_falling_edge="false" capture_init_data_enabled="false">
++    <AoCore index="0" sample_clock="clk_12m288" trig_type="0" storage_depth="1024" window_num="1" capture_amount="1024" implementation="0" trigger_pos="64" module_name="tang_mega_138k_pro_top" force_trigger_by_falling_edge="false" capture_init_data_enabled="false">
+         <SignalList>
+             <Bus capture_enable="true" name="key_raw_frame32[31:0]">
+                 <Signal>key_raw_frame32[31]</Signal>
+--- before/src/synth_core.v
++++ after/src/synth_core.v
+@@ -1,5 +1,6 @@
+ 
+ module synth_core #(
++    parameter REMOTE_ENABLE = 0,
+     parameter SAMPLE_RATE        = 48000,
+     parameter SAMPLE_W           = 24,
+     parameter VOICES             = 32,
+@@ -32,6 +33,7 @@
+     input                              clk,
+     input                              rst_n,
+     input                              sample_tick,
++    input [2:0] instrument_id,
+ 
+     input                              note_on,
+     input                              note_off,
+@@ -87,6 +89,14 @@
+     {{(MIX_W-SAMPLE_W){1'b1}}, 1'b1, {(SAMPLE_W-1){1'b0}}};
+ 
+ wire [VOICES*SAMPLE_W-1:0] samples;
++wire [VOICES-1:0] piano_active;
++wire piano_ready,aux_ready;
++wire signed [23:0] aux_pcm;
++wire [VOICES-1:0] aux_active;
++wire auxiliary=REMOTE_ENABLE!=0 && instrument_id!=0;
++assign active_debug=auxiliary?aux_active:piano_active;
++assign event_ready=auxiliary?aux_ready:piano_ready;
++
+ wire signed [MIX_W-1:0] sum;
+ wire signed [MIX_W-1:0] normalized_sum;
+ 
+@@ -122,6 +132,18 @@
+  if(diagnostic_mix_abs>diagnostic_mix_peak)diagnostic_mix_peak<=diagnostic_mix_abs;
+  if(diagnostic_fx_abs>diagnostic_fx_peak)diagnostic_fx_peak<=diagnostic_fx_abs;
+ end
++
++generate if(REMOTE_ENABLE!=0)begin:G_AUX
++ wire valid, rejected;wire [VOICES-1:0] overruns,clips;
++ yinse_aux_bank #(.VOICES(VOICES),.MIX_SHIFT(3)) bank(
++ .clk(clk),.rst_n(rst_n),.sample_tick(sample_tick),.all_notes_off(test_disable_pulse),
++ .event_valid(auxiliary && (bank_on || bank_off)),.event_note_on(bank_on),
++ .instrument_id(instrument_id),.event_note(bank_note),.event_velocity(bank_velocity),
++ .event_ready(aux_ready),.pcm(aux_pcm),.pcm_valid(valid),.active_mask(aux_active),
++ .overrun_mask(overruns),.clipped_mask(clips),.rejected(rejected));
++end else begin:G_NO_AUX
++ assign aux_ready=0;assign aux_pcm=0;assign aux_active=0;
++end endgenerate
+ 
+ assign test_disable_pulse = test_enable_q && !test_enable;
+ 
+@@ -205,8 +227,8 @@
+     .clk              (clk),
+     .rst_n            (rst_n),
+     .sample_tick      (sample_tick),
+-    .note_on          (bank_on),
+-    .note_off         (bank_off),
++    .note_on          (bank_on && !auxiliary),
++    .note_off         (bank_off && !auxiliary),
+     .all_notes_off    (test_disable_pulse),
+     .midi_note        (bank_note),
+     .velocity         (bank_velocity),
+@@ -214,9 +236,9 @@
+     .morph_enable     (bank_morph_enable),
+     .morph            (morph_smooth),
+     .hammer_enable    (hammer_enable),
+-    .event_ready      (event_ready),
++    .event_ready      (piano_ready),
+     .voice_samples    (samples),
+-    .voice_active     (active_debug),
++    .voice_active     (piano_active),
+     .allocation_valid (allocation_valid),
+     .allocation_index (allocation_index),
+     .diagnostic_counts(diagnostic_counts)
+@@ -259,12 +281,13 @@
+  */
+ 
+ wire signed [SAMPLE_W-1:0] sat_out;
++wire signed [MIX_W-1:0] selected_sum=auxiliary?{{(MIX_W-24){aux_pcm[23]}},aux_pcm}:normalized_sum;
+ 
+ saturator #(
+     .IN_W (MIX_W),
+     .OUT_W(SAMPLE_W)
+ ) u_sat (
+-    .in (normalized_sum),
++    .in (selected_sum),
+     .out(sat_out)
+ );
+ 
+@@ -282,8 +305,8 @@
+             .clk               (clk),
+             .rst_n             (rst_n),
+             .in_valid          (sample_tick),
+-            .in_sample         (normalized_sum),
+-            .soundboard_enable (fx_ctrl[0]),
++            .in_sample         (selected_sum),
++            .soundboard_enable (fx_ctrl[0] && !auxiliary),
+             .reverb_enable     (fx_ctrl[1]),
+             .eq_preset         (fx_ctrl[3:2]),
+             .limiter_soft      (fx_ctrl[4]),
+--- before/src/synth_event_frontend.v
++++ after/src/synth_event_frontend.v
+@@ -1,5 +1,6 @@
+ 
+ module synth_event_frontend #(
++    parameter REMOTE_ENABLE = 0,
+     parameter VOICES      = 32,
+     parameter SAMPLE_W    = 24,
+     parameter SAMPLE_RATE = 48000,
+@@ -16,6 +17,8 @@
+     input                              clk,
+     input                              rst_n,
+     input                              sample_tick,
++    input [2:0] instrument_id,
++    output wire engine_idle,
+ 
+     input                              event_valid,
+     input                              event_note_on,
+@@ -63,6 +66,7 @@
+  * Note Off stay in order.
+  */
+ wire       core_ready;
++assign engine_idle=core_ready && fifo_level==0;
+ wire [95:0] diagnostic_audio;
+ reg [15:0] diagnostic_read_on,diagnostic_read_off;
+ assign diagnostic_chain={diagnostic_read_off,diagnostic_read_on,diagnostic_audio};
+@@ -95,7 +99,7 @@
+ );
+ 
+ synth_core #(
+-    .VOICES      (VOICES),
++    .REMOTE_ENABLE(REMOTE_ENABLE),    .VOICES      (VOICES),
+     .SAMPLE_W    (SAMPLE_W),
+     .SAMPLE_RATE (SAMPLE_RATE),
+     .IDX_W       (IDX_W),
+@@ -109,6 +113,7 @@
+     .clk                 (clk),
+     .rst_n               (rst_n),
+     .sample_tick         (sample_tick),
++    .instrument_id(instrument_id),
+     .note_on             (out_valid && core_ready && out_note_on),
+     .note_off            (out_valid && core_ready && !out_note_on),
+     .midi_note           (out_note),
+--- before/src/synth_top.v
++++ after/src/synth_top.v
+@@ -1,4 +1,5 @@
+ module synth_top #(
++    parameter REMOTE_ENABLE=0,
+     parameter CLK_HZ         = 12288000,
+     parameter SAMPLE_RATE    = 48000,
+ 
+@@ -69,6 +70,12 @@
+      * ======================================================== */
+ 
+     input                           test_enable,
++    input [2:0] instrument_id,
++    input engine_clear,
++    input [15:0] remote_volume,
++    input [15:0] synth_gain,
++    input signed [23:0] wav_left,wav_right,
++    output wire remote_sample_tick,engine_idle,
+ 
+     /* 0: piano hammer noise muted */
+     input                           hammer_enable,
+@@ -175,17 +182,35 @@
+  * Synth最终24bit PCM
+  */
+ wire signed [SAMPLE_W-1:0] audio_out;
+-assign visual_pcm = audio_out;
++wire pcm_strobe;
++wire signed [SAMPLE_W-1:0] pcm_sample;
++wire signed [23:0] final_left,final_right;
++wire master_clipped,engine_clipped;
++wire [23:0] engine_peak;wire engine_pcm_strobe;wire signed [23:0] engine_pcm;
++assign dbg_clip=engine_clipped || (REMOTE_ENABLE!=0 && master_clipped);
++
++assign remote_sample_tick=sample_tick;
++wire engine_rst_n=rst_n && !(REMOTE_ENABLE!=0 && engine_clear);
++generate if(REMOTE_ENABLE!=0)begin:G_MASTER
++ stereo_master master(clk,rst_n,remote_volume,synth_gain,audio_out,wav_left,wav_right,
++                      final_left,final_right,visual_pcm,master_clipped);
++ wire [23:0] abs_left=final_left[23]?-final_left:final_left;
++ wire [23:0] abs_right=final_right[23]?-final_right:final_right;
++ wire signed [23:0] meter_pcm=abs_left>=abs_right?final_left:final_right;
++ wire [COUNT_W-1:0] unused_count;
++ audio_telemetry #(.VOICES(VOICES),.SAMPLE_W(SAMPLE_W),.COUNT_W(COUNT_W)) meter(
++ .clk(clk),.rst_n(rst_n),.sample_tick(sample_tick),.active_voices(active_debug),
++ .audio(meter_pcm),.active_voice_count(unused_count),.audio_peak(audio_peak),
++ .pcm_strobe(pcm_strobe),.pcm_sample(pcm_sample));
++end else begin:G_ORIGINAL
++ assign final_left=audio_out;assign final_right=audio_out;assign visual_pcm=audio_out;
++ assign master_clipped=0;assign audio_peak=engine_peak;assign pcm_strobe=engine_pcm_strobe;assign pcm_sample=engine_pcm;
++end endgenerate
+ 
+ 
+ /*
+  * Telemetry输出
+  */
+-wire pcm_strobe;
+-
+-wire signed [SAMPLE_W-1:0] pcm_sample;
+-
+-
+ /* ============================================================
+  * I2S Transmitter
+  *
+@@ -207,9 +232,9 @@
+      *
+      * 左右声道发送同一个audio_out
+      */
+-    .left_sample  (audio_out),
+-
+-    .right_sample (audio_out),
++    .left_sample  (final_left),
++
++    .right_sample (final_right),
+ 
+     .i2s_bclk     (i2s_bclk),
+ 
+@@ -240,9 +265,9 @@
+ 
+     .sample_valid (sample_tick),
+ 
+-    .left_sample  (audio_out),
+-
+-    .right_sample (audio_out),
++    .left_sample  (final_left),
++
++    .right_sample (final_right),
+ 
+     .pcm5102_bclk (pcm5102_bclk),
+ 
+@@ -257,7 +282,7 @@
+  * ============================================================ */
+ 
+ synth_event_frontend #(
+-    .VOICES      (VOICES),
++    .REMOTE_ENABLE(REMOTE_ENABLE),    .VOICES      (VOICES),
+ 
+     .SAMPLE_W    (SAMPLE_W),
+ 
+@@ -283,9 +308,10 @@
+ ) u_synth (
+     .clk                 (clk),
+ 
+-    .rst_n               (rst_n),
++    .rst_n               (engine_rst_n),
+ 
+     .sample_tick         (sample_tick),
++    .instrument_id(instrument_id),.engine_idle(engine_idle),
+ 
+ 
+     /* --------------------------------------------------------
+@@ -342,17 +368,17 @@
+ 
+     .active_voice_count  (active_voice_count),
+ 
+-    .audio_peak          (audio_peak),
+-
+-    .pcm_strobe          (pcm_strobe),
+-
+-    .pcm_sample          (pcm_sample),
++    .audio_peak          (engine_peak),
++
++    .pcm_strobe          (engine_pcm_strobe),
++
++    .pcm_sample          (engine_pcm),
+ 
+     .dbg_note_event      (dbg_note_event),
+ 
+     .dbg_audio_onset     (dbg_audio_onset),
+ 
+-    .dbg_clip            (dbg_clip),
++    .dbg_clip            (engine_clipped),
+ 
+     .latency_valid       (latency_valid),
+ 
+--- before/src/tang_mega_138k_pro_top.v.v
++++ after/src/tang_mega_138k_pro_top.v.v
+@@ -77,6 +77,8 @@
+ 
+     input  wire clk_50m,
+     input  wire rst_n,
++    input wire esp_uart_rx,output wire esp_uart_tx,
++    input wire esp_spi_sck,esp_spi_cs_n,esp_spi_mosi,output wire esp_spi_miso,
+ 
+ 
+     /* ========================================================
+@@ -289,8 +291,27 @@
+ wire [1:0] event_waveform;
+ 
+ wire       event_ready;
+-
+-wire [4:0]  event_key_index;
++wire [4:0] event_key_index,fifo_level;
++wire key_event_ready,bridge_reset_n,remote_tick,engine_idle,engine_clear,switching,score_playing;
++wire [2:0] actual_instrument;wire [15:0] master_volume;wire [4:0] remote_fx;
++wire [223:0] remote_key_map;
++wire [15:0] synth_gain;
++wire remote_valid,remote_on;wire [6:0] remote_note,mapped_key_note;
++wire [7:0] remote_velocity;wire [1:0] remote_waveform;
++wire signed [23:0] wav_left,wav_right;
++remote_control #(.DEFAULT_KEYS({KEY2_NOTE_TABLE,KEY_NOTE_TABLE})) u_remote(
++ .clk(clk_12m288),.rst_n(synth_rst_n),.sample_tick(remote_tick),
++ .uart_rx(esp_uart_rx),.uart_tx(esp_uart_tx),.keys(key_state32),
++ .key_valid(event_valid),.key_on(event_note_on),.key_index(event_key_index),
++ .key_velocity(event_velocity),.key_waveform(event_waveform),.key_ready(key_event_ready),
++ .bridge_reset_n(bridge_reset_n),.event_valid(remote_valid),.event_on(remote_on),
++ .event_note(remote_note),.event_velocity(remote_velocity),.event_waveform(remote_waveform),
++ .event_ready(event_ready),.engine_idle(engine_idle),.fifo_level(fifo_level),
++ .instrument(actual_instrument),.switching(switching),.engine_clear(engine_clear),
++ .volume(master_volume),.effects(remote_fx),.score_playing(score_playing),.mapped_key_note(mapped_key_note),.key_map(remote_key_map),.synth_gain(synth_gain));
++wav_remote u_wav(clk_50m,clk_12m288,synth_rst_n,remote_tick,
++ esp_spi_sck,esp_spi_cs_n,esp_spi_mosi,esp_spi_miso,wav_left,wav_right);
++
+ wire [31:0] key_reported_state32;
+ wire [15:0] key_reported_state=key_reported_state32[15:0];
+ 
+@@ -311,7 +332,7 @@
+         (clk_12m288),
+ 
+     .rst_n
+-        (synth_rst_n),
++        (bridge_reset_n),
+ 
+     .frame_valid
+         (key_frame_valid),
+@@ -327,7 +348,7 @@
+         (8'd100),
+ 
+     .event_ready
+-        (event_ready),
++        (key_event_ready),
+ 
+     .event_valid
+         (event_valid),
+@@ -355,7 +376,7 @@
+ 
+ // Scheduled state belongs to the original bridge. This separate state counts
+ // only real valid/ready transfers accepted by the FIFO.
+-wire key_event_accepted=event_valid && event_ready;
++wire key_event_accepted=event_valid && key_event_ready;
+ reg [31:0] key_fifo_accepted_state;
+ reg [15:0] key_note_on_count,key_note_off_count;
+ (* syn_keep=1 *) reg [6:0] key_last_accepted_midi;
+@@ -365,7 +386,7 @@
+ if(!synth_rst_n)begin
+  key_last_accepted_midi<=0;key_frame_count<=0;key_stall_count<=0;key_was_stalled<=0;
+ end else begin
+- if(key_event_accepted)key_last_accepted_midi<=event_note;
++ if(key_event_accepted)key_last_accepted_midi<=mapped_key_note;
+  if(key_frame_valid)key_frame_count<=key_frame_count+1'b1;
+  key_was_stalled<=event_valid && !event_ready;
+  // Number of stall episodes, not a claim that a pending event was dropped.
+@@ -373,6 +394,7 @@
+ end
+ always @(posedge clk_12m288 or negedge synth_rst_n)
+ if(!synth_rst_n)begin key_fifo_accepted_state<=0;key_note_on_count<=0;key_note_off_count<=0;end
++else if(engine_clear)key_fifo_accepted_state<=0;
+ else if(key_event_accepted)begin
+  key_fifo_accepted_state[event_key_index]<=event_note_on;
+  if(event_note_on)key_note_on_count<=key_note_on_count+1'b1;
+@@ -413,7 +435,6 @@
+ 
+ wire [31:0] active_debug;
+ wire [5:0]  active_voice_count;
+-wire [4:0]  fifo_level;
+ wire [23:0] audio_peak;
+ (* syn_keep=1 *) wire [127:0] diagnostic_chain;
+ 
+@@ -441,7 +462,7 @@
+  * ============================================================ */
+ 
+ synth_top #(
+-
++    .REMOTE_ENABLE(1),
+     .CLK_HZ
+         (12288000),
+ 
+@@ -493,19 +514,19 @@
+     /* Note Event */
+ 
+     .event_valid
+-        (event_valid),
++        (remote_valid),
+ 
+     .event_note_on
+-        (event_note_on),
++        (remote_on),
+ 
+     .event_note
+-        (event_note),
++        (remote_note),
+ 
+     .event_velocity
+-        (event_velocity),
++        (remote_velocity),
+ 
+     .event_waveform
+-        (event_waveform),
++        (remote_waveform),
+ 
+     .event_ready
+         (event_ready),
+@@ -539,7 +560,7 @@
+      * Stage 2 uses that: output = mix x2, plain clipping.
+      */
+     .fx_ctrl
+-        ((BUILD_STAGE >= 3) ? 5'b1_00_1_1 : 5'b0_00_0_0),
++        ((BUILD_STAGE >= 3) ? remote_fx : 5'b0_00_0_0),
+ 
+ 
+     /* Board PT8211 */
+@@ -635,6 +656,9 @@
+         (lissajous_y),
+  .visual_pcm(visual_pcm),.visual_pcm_valid(visual_pcm_valid),
+  .diagnostic_chain(diagnostic_chain)
++    ,.instrument_id(actual_instrument),.engine_clear(engine_clear),.remote_volume(master_volume),.synth_gain(synth_gain),
++    .wav_left(wav_left),.wav_right(wav_right),.remote_sample_tick(remote_tick),.engine_idle(engine_idle)
++
+ );
+ 
+ 
+@@ -652,15 +676,15 @@
+  status_note=0;status_note_valid=0;
+  for(status_key=15;status_key>=0;status_key=status_key-1)
+  if(key_state[status_key])begin
+-  status_note=KEY_NOTE_TABLE[status_key*7+:7];status_note_valid=1;
++  status_note=remote_key_map[status_key*7+:7];status_note_valid=1;
+  end
+ end
+ wire [57:0] status_audio={key_state,active_voice_count,audio_peak,
+- status_note,status_note_valid,4'(BUILD_STAGE)};
++ status_note,status_note_valid,switching,actual_instrument};
+ wire [9:0] video_blue,video_green,video_red;
+ wire [31:0] fft_dropped,wave_dropped,spectrum_dropped;
+ generate if(DISPLAY_ENABLE!=0)begin:G_DISPLAY
+-audio_visualizer #(.LOGN(11),.SAMPLE_RATE(48000),.STATUS_ENABLE(1),.MAPPING_CONFIRMED(KEY_MAPPING_CONFIRMED)) u_visual(
++audio_visualizer #(.LOGN(11),.SAMPLE_RATE(48000),.STATUS_ENABLE(1),.REMOTE_STATUS(1),.MAPPING_CONFIRMED(KEY_MAPPING_CONFIRMED)) u_visual(
+  .audio_clk(clk_12m288),.audio_rst_n(synth_rst_n),.pcm_valid(visual_pcm_valid),.pcm(visual_pcm),
+  .xy_enable(1'b0),.xy_x(24'sd0),.xy_y(24'sd0),
+  .pixel_clk(pixel_clk),.pixel_rst_n(video_rst_n),
+--- before/yinyue_fashengqi.gprj
++++ after/yinyue_fashengqi.gprj
+@@ -165,5 +165,28 @@
+         <File path="tests/lissajous_video_20261018/verify_hilbert.py" type="file.other" enable="0"/>
+         <File path="tests/lissajous_video_20261018/response_44.csv" type="file.other" enable="0"/>
+         <File path="src/keyboard/ttp229_keyboard_pair.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/uart/wifi_packet_rx.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/uart/wifi_packet_tx.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/uart/wifi_uart_rx.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/uart/wifi_uart_tx.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/control/wifi_control.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/control/wifi_score_player.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/remote_control.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/stereo_master.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/wav_pcm_player.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/wav_remote.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/wav_spi_stream.sv" type="file.verilog" enable="1"/>
++        <File path="src/remote/wifi_core.sv" type="file.verilog" enable="1"/>
++        <File path="src/instruments/gongyong/yinse_aux_bank.sv" type="file.verilog" enable="1"/>
++        <File path="src/instruments/gongyong/yinse_aux_voice.sv" type="file.verilog" enable="1"/>
++        <File path="src/instruments/gongyong/yinse_envelope.sv" type="file.verilog" enable="1"/>
++        <File path="src/instruments/gongyong/yinse_note_table.sv" type="file.verilog" enable="1"/>
++        <File path="src/instruments/gongyong/yinse_sine_rom.sv" type="file.verilog" enable="1"/>
++        <File path="src/instruments/yushe/yinse_preset.sv" type="file.verilog" enable="1"/>
++        <File path="src/instruments/guanfengqin/yinse_organ_profile.sv" type="file.verilog" enable="1"/>
++        <File path="src/instruments/jianhuachangdi/yinse_flute_profile.sv" type="file.verilog" enable="1"/>
++        <File path="src/instruments/zhongqin/yinse_bell_profile.sv" type="file.verilog" enable="1"/>
++        <File path="src/instruments/jita/yinse_ks_loop.sv" type="file.verilog" enable="1"/>
++        <File path="src/instruments/jita/yinse_ks_tuning.sv" type="file.verilog" enable="1"/>
+     </FileList>
+ </Project>

@@ -1,0 +1,102 @@
+{
+  "64": {
+    "gate_onset": {
+      "midi": 64,
+      "tick": 29,
+      "slot": 0,
+      "level_q22": 54525952,
+      "exp_q18": 262143,
+      "amp_raw": 2047,
+      "amp_off": 998,
+      "amp_gated": 0,
+      "wave_q17": 0,
+      "product_s45": 0
+    },
+    "minimum_nonzero_amplitude": {
+      "midi": 64,
+      "tick": 55,
+      "slot": 10,
+      "level_q22": 54084420,
+      "exp_q18": 141013,
+      "amp_raw": 2203,
+      "amp_off": 1154,
+      "amp_gated": 1154,
+      "wave_q17": 22175,
+      "product_s45": 25589950
+    },
+    "negative_product": {
+      "midi": 64,
+      "tick": 38,
+      "slot": 7,
+      "level_q22": 54013690,
+      "exp_q18": 142742,
+      "amp_raw": 2230,
+      "amp_off": 1181,
+      "amp_gated": 1181,
+      "wave_q17": -2778,
+      "product_s45": -3280818
+    },
+    "largest_explicitly_gated_amplitude": {
+      "midi": 64,
+      "tick": 47,
+      "slot": 13,
+      "level_q22": 54088192,
+      "exp_q18": 140918,
+      "amp_raw": 2201,
+      "amp_off": 1152,
+      "amp_gated": 0,
+      "wave_q17": -119706,
+      "product_s45": 0
+    }
+  },
+  "75": {
+    "gate_onset": {
+      "midi": 75,
+      "tick": 29,
+      "slot": 0,
+      "level_q22": 54525952,
+      "exp_q18": 262143,
+      "amp_raw": 2047,
+      "amp_off": 998,
+      "amp_gated": 0,
+      "wave_q17": 0,
+      "product_s45": 0
+    },
+    "minimum_nonzero_amplitude": {
+      "midi": 75,
+      "tick": 430,
+      "slot": 8,
+      "level_q22": 54085056,
+      "exp_q18": 141013,
+      "amp_raw": 2203,
+      "amp_off": 1154,
+      "amp_gated": 1154,
+      "wave_q17": 90667,
+      "product_s45": 104629718
+    },
+    "negative_product": {
+      "midi": 75,
+      "tick": 36,
+      "slot": 5,
+      "level_q22": 54047488,
+      "exp_q18": 141875,
+      "amp_raw": 2216,
+      "amp_off": 1167,
+      "amp_gated": 1167,
+      "wave_q17": -46169,
+      "product_s45": -53879223
+    },
+    "largest_explicitly_gated_amplitude": {
+      "midi": 75,
+      "tick": 429,
+      "slot": 8,
+      "level_q22": 54091712,
+      "exp_q18": 140918,
+      "amp_raw": 2201,
+      "amp_off": 1152,
+      "amp_gated": 0,
+      "wave_q17": -757,
+      "product_s45": 0
+    }
+  }
+}

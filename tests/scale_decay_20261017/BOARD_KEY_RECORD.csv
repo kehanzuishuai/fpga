@@ -1,0 +1,17 @@
+physical_key,target_midi,measured_raw_hex,logical_key,last_accepted_midi,write_on_delta,read_on_delta,allocation_delta,loader_delta,VOICE_held,PEAK_held,pre_peak,post_peak,write_off_delta,read_off_delta,physical_status
+1,60,,,,,,,,,,,,,,待GAO确认
+2,61,,,,,,,,,,,,,,待GAO确认
+3,62,,,,,,,,,,,,,,待GAO确认
+4,63,,,,,,,,,,,,,,待GAO确认
+5,64,,,,,,,,,,,,,,待GAO确认
+6,65,,,,,,,,,,,,,,待GAO确认
+7,66,,,,,,,,,,,,,,待GAO确认
+8,67,,,,,,,,,,,,,,待GAO确认
+9,68,,,,,,,,,,,,,,待GAO确认
+10,69,,,,,,,,,,,,,,待GAO确认
+11,70,,,,,,,,,,,,,,待GAO确认
+12,71,,,,,,,,,,,,,,待GAO确认
+13,72,,,,,,,,,,,,,,待GAO确认
+14,73,,,,,,,,,,,,,,待GAO确认
+15,74,,,,,,,,,,,,,,待GAO确认
+16,75,,,,,,,,,,,,,,待GAO确认

@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "midi": 57,
+  "velocity": 100,
+  "samples": 144000,
+  "sample_rate": 48000,
+  "note_off_tick": 96000,
+  "loads": [
+    [
+      13,
+      57,
+      100
+    ]
+  ],
+  "computed_voice_samples": 100661,
+  "released_nonzero_samples": 4673,
+  "fresh_voice_rtl": true,
+  "all_computed_voice_samples_bit_exact": true,
+  "fresh_fx_rtl": true,
+  "fx_bit_exact_samples": 144000,
+  "sha256": {
+    "fx.npy": "b7f9528ac14ba1f06e23f8c51120ab6705f8aa3bd1eb7137d6d002ffe1dc136a",
+    "fx_input.txt": "633a5e23a57cccc95fc2bbfed29fcf68361cfd1991efabfd2d435cbf7d7d433b",
+    "gain.npy": "e9dcbb917f3536bd27b0e0123765bc8d8fc56a3df68737c966e93bbee6f6a8c3",
+    "rtl_fx.txt": "a2b83fd9d0af70cbd8e6092b84b58fd0fbfe72f311dc3581cdeef1c070432514",
+    "rtl_voice.txt": "0a738ad896e4cb0ccc89c90dfd08ad00dadf2ff7e85d380bbfbaae26eb800598",
+    "voice.npy": "a78f9ac67df8221f440f7e078541d042c21c91c185f351aae1bd8c8619b07360"
+  }
+}

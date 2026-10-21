@@ -1,0 +1,251 @@
+{
+  "status": "FAIL",
+  "netlist_sha256": "10f17f3a2ddcbebd85af4b5e26d60ee56089d621a39029e38653fae38d329ba6",
+  "source": "D:\\gaoyun\\piano_v2_audio_fix\\audit\\recording_20261018_150135\\backup\\impl\\gwsynthesis\\yinyue_fashengqi.vg",
+  "notes": 16,
+  "words": 6400,
+  "mismatches": 3690,
+  "examples": [
+    {
+      "midi": 61,
+      "addr": 0,
+      "actual": 13955978,
+      "expected": 1555037
+    },
+    {
+      "midi": 61,
+      "addr": 4,
+      "actual": 2356,
+      "expected": 1332
+    },
+    {
+      "midi": 61,
+      "addr": 5,
+      "actual": 2202,
+      "expected": 1178
+    },
+    {
+      "midi": 61,
+      "addr": 6,
+      "actual": 2048,
+      "expected": 1024
+    },
+    {
+      "midi": 61,
+      "addr": 7,
+      "actual": 1904,
+      "expected": 880
+    },
+    {
+      "midi": 61,
+      "addr": 8,
+      "actual": 1946,
+      "expected": 922
+    },
+    {
+      "midi": 61,
+      "addr": 9,
+      "actual": 1952,
+      "expected": 928
+    },
+    {
+      "midi": 61,
+      "addr": 10,
+      "actual": 2016,
+      "expected": 992
+    },
+    {
+      "midi": 61,
+      "addr": 11,
+      "actual": 1968,
+      "expected": 944
+    },
+    {
+      "midi": 61,
+      "addr": 12,
+      "actual": 2011,
+      "expected": 987
+    },
+    {
+      "midi": 61,
+      "addr": 13,
+      "actual": 2026,
+      "expected": 1002
+    },
+    {
+      "midi": 61,
+      "addr": 14,
+      "actual": 2181,
+      "expected": 1157
+    },
+    {
+      "midi": 61,
+      "addr": 15,
+      "actual": 2233,
+      "expected": 1209
+    },
+    {
+      "midi": 61,
+      "addr": 16,
+      "actual": 2366,
+      "expected": 1342
+    },
+    {
+      "midi": 61,
+      "addr": 17,
+      "actual": 2531,
+      "expected": 1507
+    },
+    {
+      "midi": 61,
+      "addr": 18,
+      "actual": 2850,
+      "expected": 1826
+    },
+    {
+      "midi": 61,
+      "addr": 19,
+      "actual": 3222,
+      "expected": 2198
+    },
+    {
+      "midi": 61,
+      "addr": 20,
+      "actual": 3387,
+      "expected": 2363
+    },
+    {
+      "midi": 61,
+      "addr": 21,
+      "actual": 3520,
+      "expected": 2496
+    },
+    {
+      "midi": 61,
+      "addr": 22,
+      "actual": 3701,
+      "expected": 2677
+    },
+    {
+      "midi": 61,
+      "addr": 23,
+      "actual": 3520,
+      "expected": 2496
+    },
+    {
+      "midi": 61,
+      "addr": 24,
+      "actual": 3694,
+      "expected": 2670
+    },
+    {
+      "midi": 61,
+      "addr": 32,
+      "actual": 15508792,
+      "expected": 3107851
+    },
+    {
+      "midi": 61,
+      "addr": 36,
+      "actual": 2941,
+      "expected": 1917
+    },
+    {
+      "midi": 61,
+      "addr": 37,
+      "actual": 2845,
+      "expected": 1821
+    },
+    {
+      "midi": 61,
+      "addr": 38,
+      "actual": 2707,
+      "expected": 1683
+    },
+    {
+      "midi": 61,
+      "addr": 39,
+      "actual": 2584,
+      "expected": 1560
+    },
+    {
+      "midi": 61,
+      "addr": 40,
+      "actual": 2547,
+      "expected": 1523
+    },
+    {
+      "midi": 61,
+      "addr": 41,
+      "actual": 2510,
+      "expected": 1486
+    },
+    {
+      "midi": 61,
+      "addr": 42,
+      "actual": 2334,
+      "expected": 1310
+    },
+    {
+      "midi": 61,
+      "addr": 43,
+      "actual": 2308,
+      "expected": 1284
+    },
+    {
+      "midi": 61,
+      "addr": 44,
+      "actual": 2329,
+      "expected": 1305
+    },
+    {
+      "midi": 61,
+      "addr": 45,
+      "actual": 2350,
+      "expected": 1326
+    },
+    {
+      "midi": 61,
+      "addr": 46,
+      "actual": 2409,
+      "expected": 1385
+    },
+    {
+      "midi": 61,
+      "addr": 47,
+      "actual": 2499,
+      "expected": 1475
+    },
+    {
+      "midi": 61,
+      "addr": 48,
+      "actual": 2696,
+      "expected": 1672
+    },
+    {
+      "midi": 61,
+      "addr": 49,
+      "actual": 2871,
+      "expected": 1847
+    },
+    {
+      "midi": 61,
+      "addr": 50,
+      "actual": 2924,
+      "expected": 1900
+    },
+    {
+      "midi": 61,
+      "addr": 51,
+      "actual": 2935,
+      "expected": 1911
+    },
+    {
+      "midi": 61,
+      "addr": 52,
+      "actual": 2999,
+      "expected": 1975
+    }
+  ],
+  "scope": "Actual production integrated Loader and synthesized ROMs, Gowin GW5A primitive simulation. Captured request pitch/inc forced; keyboard/allocator not covered."
+}

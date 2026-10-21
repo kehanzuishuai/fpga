@@ -1,0 +1,9 @@
+midi_hypothesis,window_start_s,window_end_s,recorded_line_hz,old_netlist_first_partial_hz,correct_first_partial_hz,measured_minus_old_hz,correct_to_erroneous_line_db,recording_midi_assignment_scope
+60,1.02,1.47,262.22094441771645,262.23224401474,262.23224401474,-0.011299597023537444,0.0,"Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+61,3.98,4.4,2495.5664342114665,2495.5233335494995,278.06228399276733,0.04310066196694606,-47.636523841890906,"Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+64,10.12,10.55,331.5855618919881,331.53873682022095,331.53873682022095,0.04682507176715944,0.0,"Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+65,13.05,13.47,3144.9563201916976,3144.972324371338,351.1465787887573,-0.01600417964027656,-42.60322487041329,"Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+68,19.42,19.85,417.24415522825035,417.231023311615,417.231023311615,0.013131916635359175,0.0,"Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+69,22.61,23.03,3961.728047248115,3961.718738079071,441.7186975479126,0.00930916904417245,-61.697490040445906,"Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+72,28.55,28.96,524.2116353882778,524.1612195968628,524.1612195968628,0.05041579141504826,0.0,"Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+73,31.02,31.44,4990.6723680709965,4990.572988986969,555.6508898735046,0.09937908402753237,-46.90715781226868,"Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"

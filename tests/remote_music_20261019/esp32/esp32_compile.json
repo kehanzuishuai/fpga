@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "fqbn": "esp32:esp32:esp32s3",
+  "scope": "Compile only. Generic S3 configuration; match flash/PSRAM options to the physical board before upload.",
+  "sources": {
+    "ControlLink.h": "f387a29ec224da43ea583aaead970d7d87ac262de7edd06bf3ebbc59b421e782",
+    "ESP32_FPGA_Music_Controller.ino": "b99eb057dceebad6e95d017c79c130d70d2bc461df8f6551459a7bdfdad75cc3",
+    "sketch.yaml": "35fe29d61cc5c668a62c86702de96d72d673903827cbf6ad6dcf350ca43d8ca8",
+    "WavLink.h": "5649c931c445e0c89178309c98c20497dbccc9e780a32905d76a3e97192a4fe4",
+    "WavService.h": "79e1fe7d18f0f0d3bd135036f04a58200f18d0dc40377bc12c807d0c78861f7c",
+    "web_page.h": "5428444eaa7aad9c41b0537b720fe516ef80e1186605d6154d6dbf38bfe253cf"
+  },
+  "toolchain": {
+    "cli_sha256": "ba1890afcfc08524f76191b5cc801b0779cb25e81a5e6693eb0e26b50a3f3538",
+    "core_version": "3.3.10-cn",
+    "config": "D:\\gaoyun\\piano_v2_audio_fix\\tools\\toolchains\\arduino\\arduino-cli.yaml",
+    "no_programming": true
+  },
+  "binaries": {
+    "boot_app0.bin": {
+      "bytes": 8192,
+      "sha256": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0"
+    },
+    "ESP32_FPGA_Music_Controller.ino.bin": {
+      "bytes": 1221888,
+      "sha256": "8cc3813a3ab5feb41ae5baba880365cf6f32c1c34b0894cd25a3516cff07436f"
+    },
+    "ESP32_FPGA_Music_Controller.ino.bootloader.bin": {
+      "bytes": 19984,
+      "sha256": "cc521020f118145ddb9841692442976c0feda6c5969147d51fb64dca8e1e497d"
+    },
+    "ESP32_FPGA_Music_Controller.ino.merged.bin": {
+      "bytes": 4194304,
+      "sha256": "46f6ea63f7420a1b3f3ba97d6fbf73d82050145f74e7c1b492a39fbef2bf22ec"
+    },
+    "ESP32_FPGA_Music_Controller.ino.partitions.bin": {
+      "bytes": 3072,
+      "sha256": "148b959cbff1c38aa8e1d5c0ba9d612c54997b945e56a63f41223eef650653a1"
+    }
+  },
+  "no_auto_programming": true
+}

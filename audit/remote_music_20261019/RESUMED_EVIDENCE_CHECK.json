@@ -1,0 +1,115 @@
+{
+  "status": "SAVED_EVIDENCE_VERIFIED_TIMING_PENDING",
+  "checked_utc": "2026-10-20T13:35:55.516662+00:00",
+  "scope": "Read-only hash and result audit. No simulator, synthesis or firmware build rerun. Full implementation acceptance still requires fresh PnR and all five timing checks.",
+  "checks": {
+    "share_equiv": {
+      "receipt_sha256": "a98c60b43f8d8ece005eba7f01f77eef65fdee38169237a9c6558f5b9618bd03",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "wav_formats": {
+      "receipt_sha256": "bfb14332827a4c7c7c66f96b101690023508597492e374042329dfeaedd2de4c",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "wav_errors": {
+      "receipt_sha256": "aa3f977e13fb5516e1a93128de8a3ac9acc8ded81fdd5710d67ab43a83c09016",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "wav_dac": {
+      "receipt_sha256": "c6887c707b792264ddb62f6ab816c5e66e1efba45fab303808f3aadf6f22170f",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "native_wav": {
+      "receipt_sha256": "3a5cc7825d28ee036841fcbca774ce708569374dc9e4ab3eb13a743324e2560f",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "native_replay": {
+      "receipt_sha256": "9fdb7b6b53f067b667df7a80c97c7498e0fef98d95b5f570bf7acbbe3b240920",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "native_http": {
+      "receipt_sha256": "d27ab2d4a0826d8fa2d207d90489376d09727ecdbc819e0114db71ee36d24a47",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "control": {
+      "receipt_sha256": "feb4d57b6108fc128cf6b8945ae937d8930f92355d170ef7356c059ff618328e",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "aux": {
+      "receipt_sha256": "5dbacc61951462f0d81eba72996184aa03b23cab12bfa9f65d0c86452cd9c1a3",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "preserve": {
+      "receipt_sha256": "41b80cc2c97da9f9672d1097ae8612d4d287831d8d52abe7c105f0e5ee0a70a8",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "gate_aux": {
+      "receipt_sha256": "3806af1aa58b988ca0806099ca94273e3f6d85c3da52ed9452c2c4907c0023f5",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "audio_top": {
+      "receipt_sha256": "253b57217f2095fb89997915941909fd9c2523ad81331f9a50b88946f0265b3d",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "score_top": {
+      "receipt_sha256": "c074f4bdb2fdda4fe1b28fdbdbc5ca0e4602b9976e84231ae74277ce2eeb5643",
+      "later_changes_checked_separately": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ]
+    },
+    "xy_timing": {
+      "receipt_sha256": "bf0bea3b3f2ced9e370765d90cf77c047c7bee968c48f7e418b43a08fc84b423",
+      "later_changes_checked_separately": []
+    },
+    "spi_timing": {
+      "receipt_sha256": "452057e0e3becfa700826cc7eb2f85e8caf542a47fabd2560198b2d07ed2a181",
+      "later_changes_checked_separately": []
+    }
+  },
+  "phone_log_sha256": "0c89a4144caaa9d48c7fb0ddfe83ea727cce65305b93cbad71bffc798ffc4236",
+  "enabled_GPRJ_inputs": 91,
+  "UI_unchanged_sha256": "5428444eaa7aad9c41b0537b720fe516ef80e1186605d6154d6dbf38bfe253cf",
+  "netlist_sha256": "6ceb8babb23d570ae4b1dcc3744f1ba806b5fcecae836f9a79160de1ed6d6c41",
+  "mapped_loader_words": 12800,
+  "current_system_status": "STOPPED_PER_USER",
+  "current_long_wav_status": "STOPPED_TO_LIMIT_SIMULATION_PER_USER",
+  "hardware_tested": false,
+  "no_auto_programming": true
+}

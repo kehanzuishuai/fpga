@@ -1,0 +1,2 @@
+PASS real UART control: physical keys remain piano under all phone timbre selections, score-only timbre and final NoteOff/piano rearm, volume, FX, duplicate map rejection, atomic 32-key commit/retry and busy rejection
+tests/remote_music_20261019/tb_control.sv:90: $finish called at 46614880000 (1ps)

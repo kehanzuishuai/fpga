@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "rom_words_equal_generated_reference": 23168,
+  "loader_requests": 810,
+  "loader_words_checked": 324000,
+  "mismatches": [],
+  "max_retained_partial_hz": 17694.0096616745,
+  "missing_breakpoint_results": 38115,
+  "scope": "MIDI24..104, velocities1/39/40/60/79/80/100/119/120/127; exact actual ROM and independent floor integer arithmetic"
+}

@@ -1,0 +1,421 @@
+{
+  "recording_confirmed_latest_fs_by_user": true,
+  "recording_user_order": "left to right independently",
+  "strong_attacks_spectrally_matched": 8,
+  "max_line_error_hz": 0.09937908402753237,
+  "wrong_note_first_partial_examples": [
+    {
+      "midi_hypothesis": 60,
+      "window_start_s": 1.02,
+      "window_end_s": 1.47,
+      "recorded_line_hz": 262.22094441771645,
+      "old_netlist_first_partial_hz": 262.23224401474,
+      "correct_first_partial_hz": 262.23224401474,
+      "measured_minus_old_hz": -0.011299597023537444,
+      "correct_to_erroneous_line_db": 0.0,
+      "recording_midi_assignment_scope": "Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+    },
+    {
+      "midi_hypothesis": 61,
+      "window_start_s": 3.98,
+      "window_end_s": 4.4,
+      "recorded_line_hz": 2495.5664342114665,
+      "old_netlist_first_partial_hz": 2495.5233335494995,
+      "correct_first_partial_hz": 278.06228399276733,
+      "measured_minus_old_hz": 0.04310066196694606,
+      "correct_to_erroneous_line_db": -47.636523841890906,
+      "recording_midi_assignment_scope": "Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+    },
+    {
+      "midi_hypothesis": 64,
+      "window_start_s": 10.12,
+      "window_end_s": 10.55,
+      "recorded_line_hz": 331.5855618919881,
+      "old_netlist_first_partial_hz": 331.53873682022095,
+      "correct_first_partial_hz": 331.53873682022095,
+      "measured_minus_old_hz": 0.04682507176715944,
+      "correct_to_erroneous_line_db": 0.0,
+      "recording_midi_assignment_scope": "Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+    },
+    {
+      "midi_hypothesis": 65,
+      "window_start_s": 13.05,
+      "window_end_s": 13.47,
+      "recorded_line_hz": 3144.9563201916976,
+      "old_netlist_first_partial_hz": 3144.972324371338,
+      "correct_first_partial_hz": 351.1465787887573,
+      "measured_minus_old_hz": -0.01600417964027656,
+      "correct_to_erroneous_line_db": -42.60322487041329,
+      "recording_midi_assignment_scope": "Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+    },
+    {
+      "midi_hypothesis": 68,
+      "window_start_s": 19.42,
+      "window_end_s": 19.85,
+      "recorded_line_hz": 417.24415522825035,
+      "old_netlist_first_partial_hz": 417.231023311615,
+      "correct_first_partial_hz": 417.231023311615,
+      "measured_minus_old_hz": 0.013131916635359175,
+      "correct_to_erroneous_line_db": 0.0,
+      "recording_midi_assignment_scope": "Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+    },
+    {
+      "midi_hypothesis": 69,
+      "window_start_s": 22.61,
+      "window_end_s": 23.03,
+      "recorded_line_hz": 3961.728047248115,
+      "old_netlist_first_partial_hz": 3961.718738079071,
+      "correct_first_partial_hz": 441.7186975479126,
+      "measured_minus_old_hz": 0.00930916904417245,
+      "correct_to_erroneous_line_db": -61.697490040445906,
+      "recording_midi_assignment_scope": "Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+    },
+    {
+      "midi_hypothesis": 72,
+      "window_start_s": 28.55,
+      "window_end_s": 28.96,
+      "recorded_line_hz": 524.2116353882778,
+      "old_netlist_first_partial_hz": 524.1612195968628,
+      "correct_first_partial_hz": 524.1612195968628,
+      "measured_minus_old_hz": 0.05041579141504826,
+      "correct_to_erroneous_line_db": 0.0,
+      "recording_midi_assignment_scope": "Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+    },
+    {
+      "midi_hypothesis": 73,
+      "window_start_s": 31.02,
+      "window_end_s": 31.44,
+      "recorded_line_hz": 4990.6723680709965,
+      "old_netlist_first_partial_hz": 4990.572988986969,
+      "correct_first_partial_hz": 555.6508898735046,
+      "measured_minus_old_hz": 0.09937908402753237,
+      "correct_to_erroneous_line_db": -46.90715781226868,
+      "recording_midi_assignment_scope": "Spectral match to actual defective Loader; audible attacks only, not GAO raw-bit confirmation"
+    }
+  ],
+  "audio_stats": [
+    {
+      "midi": 60,
+      "variant": "before",
+      "first_partial_hz": 262.23224401474,
+      "min_tonal_bp": 790,
+      "dry_rms_100_500ms_dbfs": -30.01908232539862,
+      "dry_peak_dbfs": -18.50888158511922,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 60,
+      "variant": "after",
+      "first_partial_hz": 262.23224401474,
+      "min_tonal_bp": 790,
+      "dry_rms_100_500ms_dbfs": -30.01908232539862,
+      "dry_peak_dbfs": -18.50888158511922,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 61,
+      "variant": "before",
+      "first_partial_hz": 2495.5233335494995,
+      "min_tonal_bp": 1904,
+      "dry_rms_100_500ms_dbfs": -54.39428524311539,
+      "dry_peak_dbfs": -41.561296451891494,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 61,
+      "variant": "after",
+      "first_partial_hz": 278.06228399276733,
+      "min_tonal_bp": 880,
+      "dry_rms_100_500ms_dbfs": -30.00657267537529,
+      "dry_peak_dbfs": -18.361531928769196,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 62,
+      "variant": "before",
+      "first_partial_hz": 4993.493020534515,
+      "min_tonal_bp": 3019,
+      "dry_rms_100_500ms_dbfs": -85.700190447587,
+      "dry_peak_dbfs": -70.69756973596088,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 62,
+      "variant": "after",
+      "first_partial_hz": 294.8566675186157,
+      "min_tonal_bp": 971,
+      "dry_rms_100_500ms_dbfs": -29.999035771933762,
+      "dry_peak_dbfs": -18.305584829293903,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 63,
+      "variant": "before",
+      "first_partial_hz": 7779.703080654144,
+      "min_tonal_bp": 4094,
+      "dry_rms_100_500ms_dbfs": null,
+      "dry_peak_dbfs": null,
+      "entire_dry_zero": true,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 63,
+      "variant": "after",
+      "first_partial_hz": 312.65562772750854,
+      "min_tonal_bp": 1061,
+      "dry_rms_100_500ms_dbfs": -30.015427986193323,
+      "dry_peak_dbfs": -17.15539508917361,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 64,
+      "variant": "before",
+      "first_partial_hz": 331.53873682022095,
+      "min_tonal_bp": 1130,
+      "dry_rms_100_500ms_dbfs": -30.005978799034338,
+      "dry_peak_dbfs": -15.590075469508644,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 64,
+      "variant": "after",
+      "first_partial_hz": 331.53873682022095,
+      "min_tonal_bp": 1130,
+      "dry_rms_100_500ms_dbfs": -30.005978799034338,
+      "dry_peak_dbfs": -15.590075469508644,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 65,
+      "variant": "before",
+      "first_partial_hz": 3144.972324371338,
+      "min_tonal_bp": 2042,
+      "dry_rms_100_500ms_dbfs": -54.53046265236488,
+      "dry_peak_dbfs": -39.83254572760519,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 65,
+      "variant": "after",
+      "first_partial_hz": 351.1465787887573,
+      "min_tonal_bp": 1018,
+      "dry_rms_100_500ms_dbfs": -30.004672186884413,
+      "dry_peak_dbfs": -17.05988505002505,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 66,
+      "variant": "before",
+      "first_partial_hz": 6291.835963726044,
+      "min_tonal_bp": 2933,
+      "dry_rms_100_500ms_dbfs": -82.55208691233716,
+      "dry_peak_dbfs": -70.31578720257865,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 66,
+      "variant": "after",
+      "first_partial_hz": 371.92511558532715,
+      "min_tonal_bp": 885,
+      "dry_rms_100_500ms_dbfs": -30.008824055703517,
+      "dry_peak_dbfs": -18.60993356227241,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 67,
+      "variant": "before",
+      "first_partial_hz": 9801.811873912811,
+      "min_tonal_bp": 3824,
+      "dry_rms_100_500ms_dbfs": null,
+      "dry_peak_dbfs": null,
+      "entire_dry_zero": true,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 67,
+      "variant": "after",
+      "first_partial_hz": 393.9213752746582,
+      "min_tonal_bp": 752,
+      "dry_rms_100_500ms_dbfs": -30.015571806800594,
+      "dry_peak_dbfs": -19.87730963554436,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 68,
+      "variant": "before",
+      "first_partial_hz": 417.231023311615,
+      "min_tonal_bp": 577,
+      "dry_rms_100_500ms_dbfs": -30.008930878056674,
+      "dry_peak_dbfs": -19.84539326575261,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 68,
+      "variant": "after",
+      "first_partial_hz": 417.231023311615,
+      "min_tonal_bp": 577,
+      "dry_rms_100_500ms_dbfs": -30.008930878056674,
+      "dry_peak_dbfs": -19.84539326575261,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 69,
+      "variant": "before",
+      "first_partial_hz": 3961.718738079071,
+      "min_tonal_bp": 1580,
+      "dry_rms_100_500ms_dbfs": -54.190382883058916,
+      "dry_peak_dbfs": -42.42721912137972,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 69,
+      "variant": "after",
+      "first_partial_hz": 441.7186975479126,
+      "min_tonal_bp": 556,
+      "dry_rms_100_500ms_dbfs": -30.008665181245114,
+      "dry_peak_dbfs": -18.952367618017306,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 70,
+      "variant": "before",
+      "first_partial_hz": 7926.263272762299,
+      "min_tonal_bp": 2583,
+      "dry_rms_100_500ms_dbfs": -79.67921285009878,
+      "dry_peak_dbfs": -67.53308001063115,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 70,
+      "variant": "after",
+      "first_partial_hz": 467.643141746521,
+      "min_tonal_bp": 535,
+      "dry_rms_100_500ms_dbfs": -30.019384155103438,
+      "dry_peak_dbfs": -18.21525748878121,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 71,
+      "variant": "before",
+      "first_partial_hz": 12348.288238048553,
+      "min_tonal_bp": 3585,
+      "dry_rms_100_500ms_dbfs": null,
+      "dry_peak_dbfs": null,
+      "entire_dry_zero": true,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 71,
+      "variant": "after",
+      "first_partial_hz": 495.08893489837646,
+      "min_tonal_bp": 513,
+      "dry_rms_100_500ms_dbfs": -30.005008711449936,
+      "dry_peak_dbfs": -17.56614126795599,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 72,
+      "variant": "before",
+      "first_partial_hz": 524.1612195968628,
+      "min_tonal_bp": 492,
+      "dry_rms_100_500ms_dbfs": -30.017610684599127,
+      "dry_peak_dbfs": -16.786398330475475,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 72,
+      "variant": "after",
+      "first_partial_hz": 524.1612195968628,
+      "min_tonal_bp": 492,
+      "dry_rms_100_500ms_dbfs": -30.017610684599127,
+      "dry_peak_dbfs": -16.786398330475475,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 73,
+      "variant": "before",
+      "first_partial_hz": 4990.572988986969,
+      "min_tonal_bp": 1537,
+      "dry_rms_100_500ms_dbfs": -54.18846593477775,
+      "dry_peak_dbfs": -40.55982346624524,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 73,
+      "variant": "after",
+      "first_partial_hz": 555.6508898735046,
+      "min_tonal_bp": 513,
+      "dry_rms_100_500ms_dbfs": -30.004386040269367,
+      "dry_peak_dbfs": -16.38361193610035,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 74,
+      "variant": "before",
+      "first_partial_hz": 9986.304759979248,
+      "min_tonal_bp": 2582,
+      "dry_rms_100_500ms_dbfs": -79.95784977758095,
+      "dry_peak_dbfs": -65.35950701305715,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 74,
+      "variant": "after",
+      "first_partial_hz": 589.032232761383,
+      "min_tonal_bp": 534,
+      "dry_rms_100_500ms_dbfs": -30.029973991534785,
+      "dry_peak_dbfs": -16.11624021462233,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 75,
+      "variant": "before",
+      "first_partial_hz": 15558.513700962067,
+      "min_tonal_bp": 3606,
+      "dry_rms_100_500ms_dbfs": null,
+      "dry_peak_dbfs": null,
+      "entire_dry_zero": true,
+      "fx_hard_rail_samples": 0
+    },
+    {
+      "midi": 75,
+      "variant": "after",
+      "first_partial_hz": 624.4186162948608,
+      "min_tonal_bp": 534,
+      "dry_rms_100_500ms_dbfs": -30.02076652871045,
+      "dry_peak_dbfs": -15.643059263044856,
+      "entire_dry_zero": false,
+      "fx_hard_rail_samples": 0
+    }
+  ],
+  "wav_scope": "Connect the saved hardware defect to measured recording lines and audition.\n\nWAV reconstructions use actual post-synthesis Loader words and the previously\nbit-exact verified integer Voice/gain/FX models. They are NOT board recordings\nor a gate-level simulation of the whole synth audio path.\n",
+  "physical_silent_key_timing_and_raw_bit_identity": "not established by audio alone",
+  "recording_absolute_rms_comparison": "Phone gain/room/AGC unknown; no claim of calibrated acoustic loudness"
+}

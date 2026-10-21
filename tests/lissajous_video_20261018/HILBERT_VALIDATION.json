@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "actual_RTL_sample_pairs": 9217,
+  "warmup_samples": 1024,
+  "sample_interval_audio_clocks": 256,
+  "overruns_normal": 0,
+  "forced_overload_reports_drops": true,
+  "sample_bit_exact_against_independent_convolution": true,
+  "pure_tone_fitted_metrics": [
+    {
+      "Hz": 130.81278265,
+      "fitted_Y_over_X": 1.0017107799591414,
+      "relative_phase_deg": -89.99999721524222
+    },
+    {
+      "Hz": 261.6255653,
+      "fitted_Y_over_X": 0.9993314904124239,
+      "relative_phase_deg": -89.99999581163101
+    },
+    {
+      "Hz": 440.0,
+      "fitted_Y_over_X": 1.0007437907279877,
+      "relative_phase_deg": -90.00003449837428
+    },
+    {
+      "Hz": 1567.9817439,
+      "fitted_Y_over_X": 0.9999259801785347,
+      "relative_phase_deg": -90.00000659206142
+    }
+  ],
+  "response_notes": 44,
+  "source_sha256": "6aec53fe59717e1a58e98071321ba9ee334928bfa75fbbb04ecddcb0c55fdc0f"
+}

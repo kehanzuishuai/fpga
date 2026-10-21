@@ -1,0 +1,441 @@
+{
+  "scope": "Current full regression data preserved before a future run can replace build outputs",
+  "files": {
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_inside_s1.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_inside_s1.log",
+      "sha256": "adf1b2a0dff240eb2f0d10d16fa464bc2a1385839e7ee6fa2d944e77260edfbd"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_inside_s1_pt8211.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_inside_s1_pt8211.txt",
+      "sha256": "9df03d7ad291a3c20d57dbf456257cf9b8f1d25baae6bc11572aede43aa94616"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_inside_s2.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_inside_s2.log",
+      "sha256": "63478739f17448ef4611a06607c2e8ae32e45fdf39373010d964926b9a2bf8f2"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_inside_s2_pt8211.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_inside_s2_pt8211.txt",
+      "sha256": "d31b4e8b232b7aac63f790e84a562bf5665ee4c52a5e860680f18b91f27229ee"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_inside_s3.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_inside_s3.log",
+      "sha256": "6ee72786d87745a7d7fa51e53db23279256403d8b9b46782cd9c6aa48c463ca6"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_inside_s3_pt8211.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_inside_s3_pt8211.txt",
+      "sha256": "f5b77ec7a194f8eae45440ea5754f9afe2c187f9086721b45e061384d467b3bd"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_pins_s1.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_pins_s1.log",
+      "sha256": "adf1b2a0dff240eb2f0d10d16fa464bc2a1385839e7ee6fa2d944e77260edfbd"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_pins_s1_pt8211.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_pins_s1_pt8211.txt",
+      "sha256": "9df03d7ad291a3c20d57dbf456257cf9b8f1d25baae6bc11572aede43aa94616"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_pins_s2.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_pins_s2.log",
+      "sha256": "63478739f17448ef4611a06607c2e8ae32e45fdf39373010d964926b9a2bf8f2"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_pins_s2_pt8211.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_pins_s2_pt8211.txt",
+      "sha256": "d31b4e8b232b7aac63f790e84a562bf5665ee4c52a5e860680f18b91f27229ee"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_pins_s3.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_pins_s3.log",
+      "sha256": "6ee72786d87745a7d7fa51e53db23279256403d8b9b46782cd9c6aa48c463ca6"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\dualdac_pins_s3_pt8211.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\dualdac_pins_s3_pt8211.txt",
+      "sha256": "f5b77ec7a194f8eae45440ea5754f9afe2c187f9086721b45e061384d467b3bd"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\fx_in_burst_then_silence.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\fx_in_burst_then_silence.txt",
+      "sha256": "4c7b2933bc52692cc81931b1659fa44ce141a483958b37deb71fd81e3707c063"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\fx_in_impulse.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\fx_in_impulse.txt",
+      "sha256": "fffd654d98dc568148256ae503cdb9d8aa13aec259481a811fef485655d8ee00"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\fx_in_noise_loud.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\fx_in_noise_loud.txt",
+      "sha256": "4d6004eb277ec27eca411ad563baa3789fd31916ce32bd1b75361c6da8617661"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\fx_in_overload_square.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\fx_in_overload_square.txt",
+      "sha256": "4a321616dcf6542edee85fcf278f48b6c0ec00069e2b53bb7da8a21d4cc56d53"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\fx_in_piano_chord.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\fx_in_piano_chord.txt",
+      "sha256": "f6458f4359266f04a59a9368e05345eecce31c1a27cf1ef8ed604170f840be81"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\fx_in_sine_110_loud.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\fx_in_sine_110_loud.txt",
+      "sha256": "2f2f7e5bd0eab0624ceb4a439042b5971890321a6f712ececb27041116380cfc"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\fx_out.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\fx_out.txt",
+      "sha256": "13e3754442294a7d9e08ff12b5de160812144ffac3d3dc8b5ac68d4575e6b0b8"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_pcm.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_pcm.txt",
+      "sha256": "d6c00898fc884c45be0e093985cb2af7be03ca1882af124d3e7ea1677320fb8e"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_0.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_0.txt",
+      "sha256": "9be3fd84e06d5476764c996ad8aa493f6dd2681d933f0e15b4f424a3a8574f3b"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_1.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_1.txt",
+      "sha256": "9d13f085c7bed07d4322cc609aad966d3c47db093b299454fe9e04cea0484999"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_10.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_10.txt",
+      "sha256": "87667b9270425fcb82488c24ebb9d510cd4f07a22892eae36373cc35f938a492"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_11.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_11.txt",
+      "sha256": "388c24cc000cb67a5f17264a5eb05d22f6df49090087407198048e5743058f3c"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_12.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_12.txt",
+      "sha256": "c0546ef303e0edcde50de49fc1074e54d398448ec7fc58d8e956d53a77240c7e"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_13.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_13.txt",
+      "sha256": "a5c4a72fb45639d48ddfeb86c428372ea0ac4f014228fb18489b13f6e91e93aa"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_14.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_14.txt",
+      "sha256": "768f8f1986c9d67cde7e4ad343655600acd9acd1e10cf8fe30fc4c929c8cf266"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_15.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_15.txt",
+      "sha256": "f13288307fd1ccbcc391ee6cc10aef95971e6e94ac5ecdf50623ff32aa2fd78f"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_16.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_16.txt",
+      "sha256": "8975e70dd5693af8a46bb61cd905b175deaf4bfe74b679632c1bf9c12f6254a3"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_17.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_17.txt",
+      "sha256": "907b8bfdbb6e4e7291a861e431f3e6883e47c55d3aab24c540cc074752bed836"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_18.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_18.txt",
+      "sha256": "15ea47e74918e66aeba9f6ea4358cf137a379a7e134e046bff24f8d7896669f2"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_19.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_19.txt",
+      "sha256": "a66190dac3ab93a6e0ab35a972eede59aec41467827bff7248fa20e839616431"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_2.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_2.txt",
+      "sha256": "1ecc68e16097d833780c71bac646c81358a3ce2565a37abbdab6c9569ca94771"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_20.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_20.txt",
+      "sha256": "d5762fe9191553ffab76fcfbd16f738e8ac9dce52d3ef98c1438c6eeaac70d6e"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_21.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_21.txt",
+      "sha256": "07a0e9fd86f467f0874b06e6a3637adb9a2a6d20ff5b60416d01c8e6a027fb91"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_22.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_22.txt",
+      "sha256": "283441a62adabe65cbb6223036194472738829d25ce596ea04eb6b9ae913f2cf"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_23.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_23.txt",
+      "sha256": "8c3325219ef2158f7e5ee33ddc65ee425c1e12b4b5ecc1c96f0b5082d5804165"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_24.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_24.txt",
+      "sha256": "2eed4cd6a0ae022a81f438bd6b8f40e4ee09ac2bcefe9b8c3268e4e6f9040b07"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_25.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_25.txt",
+      "sha256": "d4751b4302e8d02e206c514d5bc0bcc937e3f4e4d296c07702f93401f8f4a33c"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_26.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_26.txt",
+      "sha256": "df5dcb82bb710a0ce5a94db4f268306039209233e9a0fcda05e2fcf52b11d212"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_27.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_27.txt",
+      "sha256": "01a0327e58f2cb1b7d1dd2360fd9f913a5a4c6646c85c3ca7ccba11e60b14f71"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_28.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_28.txt",
+      "sha256": "b78e5b97e30198d89bcdd86b373c746e0d2c1d279ac44e04161964138f73bab9"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_29.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_29.txt",
+      "sha256": "8e3af455d4348419dfb7a1c0c5cac658cf647104be95150d6e7c93249f3d1622"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_3.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_3.txt",
+      "sha256": "fe17dff61e64f963be5aba77475c781bb98450395117585cd4b46001ed9e7e1a"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_30.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_30.txt",
+      "sha256": "636de467ac2fa2f0b592266f5a4187c724c8954943824c5edfbdd9f3c3406b78"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_31.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_31.txt",
+      "sha256": "fcee85c40123dda83a594d9b5256f3092518f35170725143b0e5d029e4174379"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_4.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_4.txt",
+      "sha256": "9ae583e14a5ca335f7d92b529ee560b5f592d1208b628143d0617e09f2cb2106"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_5.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_5.txt",
+      "sha256": "8ba06605151d67cddeb40d3d0c66cba9f61e1b5094db5545ea47b5f6d668aad3"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_6.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_6.txt",
+      "sha256": "7f0e45f96c852c86b8d051422032495664b846ef4340156967cae65f7a8e975a"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_7.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_7.txt",
+      "sha256": "e095f9a604b9a30f52eb68476ce5483cce41b5d60267026d245ad46b8afbd99d"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_8.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_8.txt",
+      "sha256": "1d586efbc4214531ab0932f052ae6be986158ba2d0c12671e58c588647c4bc66"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\stress_voice_9.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\stress_voice_9.txt",
+      "sha256": "e38a5082d7f2267ebbfa516814936dc70a875bde136a08d5fb59501d094fb079"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_pcm.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_pcm.txt",
+      "sha256": "e4927e5b68681f39a0ef981b1903dc04e5649e253f08aec67dd421edba6d1223"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_0.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_0.txt",
+      "sha256": "969184488bcb98434715629911dce5892fc19020c04087da564c0c20d25e255d"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_1.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_1.txt",
+      "sha256": "04a5ae8df0766cffe9d5709494bdde2c68d023ee576241ac3f8c440e149b87ee"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_10.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_10.txt",
+      "sha256": "a6ebd131b6cda51c0028f9275cee335e51296c55026d4972d69e09c0da8e0960"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_11.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_11.txt",
+      "sha256": "401758a2ed17b8ed89eef303c15b53d11067a985f8b534ca140dc6e2b72cc8b4"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_12.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_12.txt",
+      "sha256": "8b117e52ef615201bebc3cc0e1f9817c32216a92d859113ab41d9c77c1382622"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_13.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_13.txt",
+      "sha256": "88460fc8b2cf24d747a10c5a28fdcc21f1f0c6a447a3ef17443207ae2ce0aa77"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_14.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_14.txt",
+      "sha256": "a26892ac5c72b591547a7284eef45b981bcf1611a95f4282e67a784af6540e99"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_15.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_15.txt",
+      "sha256": "36109ac3d1e1ab29bfd19b0ae524090e1abac0a0e1b240df9bfc98cb09e45c52"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_16.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_16.txt",
+      "sha256": "b3fcf4a51fda9cfa12e4541a6571d724ec3618ae4baa5315b1f81cdd59c6ee9c"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_17.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_17.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_18.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_18.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_19.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_19.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_2.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_2.txt",
+      "sha256": "81b8f7007f800db876e5a270369220fee0947e5d074324edcf919163dc278eea"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_20.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_20.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_21.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_21.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_22.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_22.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_23.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_23.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_24.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_24.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_25.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_25.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_26.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_26.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_27.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_27.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_28.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_28.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_29.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_29.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_3.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_3.txt",
+      "sha256": "b9d0f510339dd7e10114f0b40e3d6174e6f80558e6d631bc4ee5fcc097461f30"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_30.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_30.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_31.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_31.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_4.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_4.txt",
+      "sha256": "a2e2b7fe86c391dc2b4029b3dc2758af62c6c5e182213ee237947c153447ec41"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_5.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_5.txt",
+      "sha256": "d27ad6ac28c15c184af34646eed74859b27d15ad92fded373ac04e83006edfb2"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_6.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_6.txt",
+      "sha256": "9e59241ce430e2c6d74649eba767353d94a3ef663d5df411c3b253374c2fb25a"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_7.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_7.txt",
+      "sha256": "2b16acf668e2ee4df7131cdb5f4d8b76dc4495d299e747869983e9d321b50003"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_8.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_8.txt",
+      "sha256": "172932732ad204b84b94084ef73e8cb9d96c362bf925e2f62b837e1ff6246aba"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\sys_voice_9.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\sys_voice_9.txt",
+      "sha256": "4479fbf618a3936663462a750ea3caca9fbb6b66fe2ec698842aeaf82045fbd9"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_c3_v100.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_c3_v100.txt",
+      "sha256": "4cead89e8dc236a1be7c1245464c217362882f51367e1c909d8521f556ab7a06"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_c4_ff.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_c4_ff.txt",
+      "sha256": "40c3cc3bd3e0c83ceafefbba59b6c83577686248bbb514ca0438064e81e5e118"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_c4_mf.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_c4_mf.txt",
+      "sha256": "4227a931fb731c1148fc3d2de5136e14f5b9f12a51a4fbe9a9922a822f02d73d"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_c4_no_hammer.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_c4_no_hammer.txt",
+      "sha256": "4d04c351e608a44dcfc44c0ac8351ddc7db78923186b0fc17379befc3926d840"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_c4_pp.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_c4_pp.txt",
+      "sha256": "882a2e97c44ab576c2b71032fe87cc20e725c5034563da7a5b46711bd4e39ab1"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_c4_v100.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_c4_v100.txt",
+      "sha256": "342762c1f50bdc512f848a58f068ab3b655e1ad43442165511191de1206eaff5"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_c5_v100.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_c5_v100.txt",
+      "sha256": "48032c6ba26124234648ebfde060ed93eabcc544df5f5ec0ce0d7a04535fd2cf"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_d4_v93.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_d4_v93.txt",
+      "sha256": "c17a10a49f4490183d233ebe1b7bc6c0d5e5f162c43fe821c2848c57f661be10"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_eb5_v100.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_eb5_v100.txt",
+      "sha256": "b070f476ead80bc4bc05480750094ce145b4e4ca66658be65f33f67c21ab4e49"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_f4_v61.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_f4_v61.txt",
+      "sha256": "f35ef18258ff93495c860d65d69a3db8009e657ddb21ea5e400ccd643f8ac8a0"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_long_c3_held.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_long_c3_held.txt",
+      "sha256": "35f1439b1a9d7b2c0b2fab920329dbc85fb8c753a99f068499e96269ab1e61aa"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_long_c4_held.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_long_c4_held.txt",
+      "sha256": "87ff1ddf7ba0b495467c443173a08e5c789d408241b385fd27bd5f4c331f4980"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_long_eb5_rel.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_long_eb5_rel.txt",
+      "sha256": "da0620fdfb893d6a83792211a66239c65f359181e42d8e01c812c40979249af1"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_note_0.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_note_0.txt",
+      "sha256": "4e42852b7385bc583105efeac856f2c877f230aefb27cb0cefe9d05a5ed0d427"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_note_104.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_note_104.txt",
+      "sha256": "b2aeaf55df95d6ed3512fcd411a22ab337a5d92bee874dd0d1e62b3abb891ea5"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_note_127.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_note_127.txt",
+      "sha256": "8f759b8bfc3d4810f9188da824b28ee574c80984d90408d7ecdcf26e25ab3196"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_note_24.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_note_24.txt",
+      "sha256": "3b2416848d38d3561d6f6571eed5f58528f1787c5ad5639435f82f35700e57ab"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_off_in_load.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_off_in_load.txt",
+      "sha256": "9d17326c563127f68fffbb19c734f3a2f90d292ad50f17adb954cabc1254d831"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_retrigger.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_retrigger.txt",
+      "sha256": "13e884308a2811d0706dc12a5fdcce6eee08ec97d0ace20faa59bf89999070e6"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_steal_loud.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_steal_loud.txt",
+      "sha256": "5f0254208a1023d794930b78a65d93d745f9a38bd0ace6ec58556b7905c54e28"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_steal_release.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_steal_release.txt",
+      "sha256": "0f5ea613100ee1f60b723a80dbf285aa8d63fee8c88264889c36831eb08b8d98"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_tap_2ms.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_tap_2ms.txt",
+      "sha256": "8086ef16bd8f72bf1f4be28bdafa03daa6a44142c4226f816f2898e1dd17fdd6"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_vel_1.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_vel_1.txt",
+      "sha256": "7966e9612ca24e3eba8f9075c003748f9f607c5ca670af23436d8b4df8b134d4"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\regression_streams\\voice_vel_127.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\build\\voice_vel_127.txt",
+      "sha256": "3882b8ac89a690e3a58aea1c4d427b7688611b2e3c4a5d090f219269820aa37e"
+    }
+  }
+}

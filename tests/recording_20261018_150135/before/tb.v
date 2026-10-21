@@ -1,0 +1,138 @@
+`timescale 1ns/1ps
+module tb_post_loader;
+reg clk=0,rst_n=0,req=0;always #5 clk=~clk;
+reg[6:0]note=7'bx;wire[31:0]inc;wire[4:0]state;
+wire[31:0]we,done;wire[27:0]data;wire[8:0]addr;wire[12:0]release_slope;
+note_freq_table f(.midi_note(note),.phase_inc(inc));
+GSR GSR(.GSRI(1'b1));
+piano_note_loader d(.clk_12m288 (clk),
+.n290_6 (!rst_n),
+.n3804_5 (1'b1),
+.n3804_5_83 (1'b1),
+.n3804_5_84 (1'b1),
+.n3804_5_85 (1'b1),
+.n3804_5_86 (1'b1),
+.n3804_5_87 (1'b1),
+.n3804_5_88 (1'b1),
+.n3804_5_89 (1'b1),
+.n3804_5_90 (1'b1),
+.n3804_5_91 (1'b1),
+.n3804_5_92 (1'b1),
+.n3804_5_93 (1'b1),
+.n3804_5_94 (1'b1),
+.n135_6 ((state[3:0]==0)),
+.chosen_3_29 (1'b0),
+.out_note_on_Z (1'b1),
+.n135_4 (req),
+.chosen_0 (1'b0),
+.chosen_1 (1'b0),
+.chosen_2 (1'b0),
+.chosen_4 (1'b0),
+.out_note_Z_0 (note[0]),
+.out_note_Z_1 (note[1]),
+.out_note_Z_2 (note[2]),
+.out_note_Z_3 (note[3]),
+.out_note_Z_5 (note[5]),
+.out_note_Z_6 (note[6]),
+.out_velocity_Z (1'b1),
+.eng (2'd0),
+.eng_95 (2'd0),
+.eng_96 (2'd0),
+.eng_97 (2'd0),
+.eng_98 (2'd0),
+.eng_99 (2'd0),
+.eng_100 (2'd0),
+.eng_101 (2'd0),
+.eng_102 (2'd0),
+.eng_103 (2'd0),
+.eng_104 (2'd0),
+.eng_105 (2'd0),
+.eng_106 (2'd0),
+.eng_107 (2'd0),
+.vstate (2'd2),
+.eng_108 (2'd0),
+.vstate_109 (2'd2),
+.eng_110 (2'd0),
+.vstate_111 (2'd2),
+.eng_112 (2'd0),
+.vstate_113 (2'd2),
+.eng_114 (2'd0),
+.vstate_115 (2'd2),
+.eng_116 (2'd0),
+.vstate_117 (2'd2),
+.eng_118 (2'd0),
+.vstate_119 (2'd2),
+.eng_120 (2'd0),
+.vstate_121 (2'd2),
+.eng_122 (2'd0),
+.vstate_123 (2'd2),
+.eng_124 (2'd0),
+.vstate_125 (2'd2),
+.eng_126 (2'd0),
+.vstate_127 (2'd2),
+.vstate_128 (2'd2),
+.eng_129 (2'd0),
+.eng_130 (2'd0),
+.vstate_131 (2'd2),
+.eng_132 (2'd0),
+.vstate_133 (2'd2),
+.eng_134 (2'd0),
+.vstate_135 (2'd2),
+.eng_136 (2'd0),
+.vstate_137 (2'd2),
+.eng_138 (2'd0),
+.vstate_139 (2'd2),
+.vstate_140 (2'd2),
+.eng_141 (2'd0),
+.eng_142 (2'd0),
+.vstate_143 (2'd2),
+.n776_98 (),
+.n776_102 (),
+.n776_118 (),
+.n776_120 (),
+.n776_126 (),
+.n776_135 (),
+.n776_137 (),
+.n776_139 (),
+.n776_141 (),
+.n776_143 (),
+.n776_145 (),
+.n776_147 (),
+.n776_149 (),
+.n776_151 (),
+.n776_153 (),
+.n776_155 (),
+.n776_157 (),
+.n776_159 (),
+.n776_161 (),
+.n776_163 (),
+.n776_165 (),
+.n776_167 (),
+.n776_169 (),
+.n776_171 (),
+.n1387_15 (),
+.state (state),
+.\G_PARTIAL.ld_we (we),
+.\G_PARTIAL.ld_done (done),
+.\G_PARTIAL.ld_rel_slope (release_slope),
+.\G_PARTIAL.ld_addr (addr),
+.\G_PARTIAL.ld_data (data),
+.voice_r ());
+integer n,cycles,fo,writes=0;
+always @(posedge clk) if(rst_n && |we) begin
+if(^data===1'bx)$fatal(1,"unknown loader data note%0d addr%0d data%h ratio_q%h ratio_a%h inc_prod%h ratio_w%h mr%h inc%h",note,addr,data,d.ratio_q,d.ratio_a,d.inc_prod,d.ratio_w,d.mr,d.inc0_r);
+$fdisplay(fo,"%0d,%0d,%0d",note,addr,data);writes=writes+1;
+end
+initial begin
+fo=$fopen("tests/recording_20261018_150135/before/words.csv","w");
+force d.note_r=note;force d.inc0_r=inc;
+for(n=60;n<=75;n=n+1)begin
+ rst_n=0;req=0;note=n;repeat(6)@(negedge clk);rst_n=1;repeat(4)@(negedge clk);
+ req=1;@(negedge clk);req=0;cycles=0;
+ while(!(|done))begin @(negedge clk);cycles=cycles+1;if(cycles>4000)$fatal(1,"Loader timeout state%0d",state);end
+ @(negedge clk);
+end
+$fclose(fo);if(writes!=6400)$fatal(1,"Expected6400 writes got%0d",writes);
+$display("PASS post-synthesis integrated Loader stimulus 16 notes,6400 words");$finish;
+end
+endmodule

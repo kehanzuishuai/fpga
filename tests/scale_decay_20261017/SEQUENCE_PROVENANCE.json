@@ -1,0 +1,97 @@
+{
+  "status": "PASS",
+  "files": [
+    {
+      "path": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\sequence_logical_midi60_75_fx_off.wav",
+      "midi_order": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75
+      ],
+      "sha256": "15c805323477346297fb530d7dcc2c59de5c98770881af7ad63aa7e9d341cf4a",
+      "source": "Concatenation of revalidated real RTL streams; old order is raw-bit order, physical order unconfirmed"
+    },
+    {
+      "path": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\sequence_old_raw_order_fx_off.wav",
+      "midi_order": [
+        60,
+        64,
+        68,
+        72,
+        61,
+        65,
+        69,
+        73,
+        62,
+        66,
+        70,
+        74,
+        63,
+        67,
+        71,
+        75
+      ],
+      "sha256": "74052405814424536aacae4be8b0b5ba089b9325fde18fe6dec596033f8e26ff",
+      "source": "Concatenation of revalidated real RTL streams; old order is raw-bit order, physical order unconfirmed"
+    },
+    {
+      "path": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\sequence_logical_midi60_75_fx_on.wav",
+      "midi_order": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75
+      ],
+      "sha256": "9ec97a186361f4d2899098e8da6928e69dca4476bf3b2287cb91b25bc85f9fb9",
+      "source": "Concatenation of revalidated real RTL streams; old order is raw-bit order, physical order unconfirmed"
+    },
+    {
+      "path": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\sequence_old_raw_order_fx_on.wav",
+      "midi_order": [
+        60,
+        64,
+        68,
+        72,
+        61,
+        65,
+        69,
+        73,
+        62,
+        66,
+        70,
+        74,
+        63,
+        67,
+        71,
+        75
+      ],
+      "sha256": "d97baba1934795e6a347a2d2b4835f44de0b6fd2e81cd3a18df097ed7d70fcf8",
+      "source": "Concatenation of revalidated real RTL streams; old order is raw-bit order, physical order unconfirmed"
+    }
+  ]
+}

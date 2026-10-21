@@ -1,0 +1,1 @@
+PASS phone: WAV format rejection, byte-exact long upload with backpressure, FPGA completion feedback; real SMF0/1 tempo/running-status/rest conversion, chord/truncation rejection, JSON 32-event segmentation and distinct32 defaults

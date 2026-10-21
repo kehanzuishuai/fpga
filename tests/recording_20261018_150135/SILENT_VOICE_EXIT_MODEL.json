@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "scope": "Integer Voice model driven by actual old post-synthesis Loader words; not a fresh Voice RTL or board measurement",
+  "rows": [
+    {
+      "midi": 63,
+      "received_note_on_and_loaded": true,
+      "all_pcm_exact_zero": true,
+      "active_samples_after_load_model": 385,
+      "retirement_ms_after_load_model": 8.020833333333334,
+      "future_audible_mask": 0
+    },
+    {
+      "midi": 67,
+      "received_note_on_and_loaded": true,
+      "all_pcm_exact_zero": true,
+      "active_samples_after_load_model": 385,
+      "retirement_ms_after_load_model": 8.020833333333334,
+      "future_audible_mask": 0
+    },
+    {
+      "midi": 71,
+      "received_note_on_and_loaded": true,
+      "all_pcm_exact_zero": true,
+      "active_samples_after_load_model": 385,
+      "retirement_ms_after_load_model": 8.020833333333334,
+      "future_audible_mask": 0
+    },
+    {
+      "midi": 75,
+      "received_note_on_and_loaded": true,
+      "all_pcm_exact_zero": true,
+      "active_samples_after_load_model": 385,
+      "retirement_ms_after_load_model": 8.020833333333334,
+      "future_audible_mask": 0
+    }
+  ]
+}

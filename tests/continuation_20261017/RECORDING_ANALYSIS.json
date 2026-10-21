@@ -1,0 +1,100 @@
+{
+  "duration_s": 33.23733333333333,
+  "decoded": true,
+  "windows": [
+    {
+      "window_s": [
+        5.15,
+        5.7
+      ],
+      "candidate_f0_hz": 262.29096949728796,
+      "rms_dbfs_recording": -12.182282828646734,
+      "harmonics": [
+        {
+          "multiple": 1,
+          "peak_hz": 262.29096949728796,
+          "relative_db": 0.0
+        },
+        {
+          "multiple": 2,
+          "peak_hz": 524.7440815547321,
+          "relative_db": -3.7577548257146445
+        },
+        {
+          "multiple": 3,
+          "peak_hz": 787.9344701706895,
+          "relative_db": -21.24351168493764
+        },
+        {
+          "multiple": 4,
+          "peak_hz": 1051.326016314714,
+          "relative_db": -22.635350004362706
+        }
+      ],
+      "physical_key": "unknown"
+    },
+    {
+      "window_s": [
+        6.85,
+        7.3
+      ],
+      "candidate_f0_hz": 331.5792911735763,
+      "rms_dbfs_recording": -17.306820000495094,
+      "harmonics": [
+        {
+          "multiple": 1,
+          "peak_hz": 331.5792911735763,
+          "relative_db": 0.0
+        },
+        {
+          "multiple": 2,
+          "peak_hz": 660.0320227736759,
+          "relative_db": -22.343084547574676
+        },
+        {
+          "multiple": 3,
+          "peak_hz": 993.4548102078951,
+          "relative_db": -16.671211696950472
+        },
+        {
+          "multiple": 4,
+          "peak_hz": 1327.6396925387478,
+          "relative_db": -27.274748113515997
+        }
+      ],
+      "physical_key": "unknown"
+    },
+    {
+      "window_s": [
+        8.2,
+        8.75
+      ],
+      "candidate_f0_hz": 417.23685913555903,
+      "rms_dbfs_recording": -13.184942515326892,
+      "harmonics": [
+        {
+          "multiple": 1,
+          "peak_hz": 417.23685913555903,
+          "relative_db": 0.0
+        },
+        {
+          "multiple": 2,
+          "peak_hz": 834.0135942524627,
+          "relative_db": -20.973418250603736
+        },
+        {
+          "multiple": 3,
+          "peak_hz": 1254.6903078016985,
+          "relative_db": -29.705152652867454
+        },
+        {
+          "multiple": 4,
+          "peak_hz": 1675.6974829371222,
+          "relative_db": -35.04630659223291
+        }
+      ],
+      "physical_key": "unknown"
+    }
+  ],
+  "limitations": "No key/event labels, acoustic recording gain/AGC/room unknown. Later weak sections cannot establish a reliable fundamental or prove missing RTL sound."
+}

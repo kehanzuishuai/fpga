@@ -244,8 +244,32 @@ wire signed [16:0] hi_w;
 assign dp_lo = $signed({1'b0, lv_c}) - $signed({1'b0, lv_a});
 assign dp_hi = $signed({1'b0, lv_d}) - $signed({1'b0, lv_b});
 
-assign mp_lo = dp_lo * $signed({1'b0, ap});
-assign mp_hi = dp_hi * $signed({1'b0, ap});
+/*
+ * Keep pitch weighting in fabric. Gowin 1.9.12 folds (zero-extended
+ * unsigned ROM word - another ROM word) * ap into a DSP pre-adder,
+ * but extends the subtrahend with ones in the synthesized netlist.
+ * That adds 4096 to level differences and 2^20 to ratio differences:
+ * grid notes sound correct, intermediate notes become bells/silence.
+ * Explicit quarter weights avoid that faulty DSP transformation while
+ * preserving the signed product and its subsequent floor shift exactly.
+ */
+function signed [24:0] pitch_weight;
+    input signed [24:0] delta;
+    input [2:0] quarters;
+    begin
+        case (quarters)
+            3'd0: pitch_weight = 25'sd0;
+            3'd1: pitch_weight = delta;
+            3'd2: pitch_weight = delta <<< 1;
+            3'd3: pitch_weight = delta + (delta <<< 1);
+            3'd4: pitch_weight = delta <<< 2;
+            default: pitch_weight = 25'sd0;
+        endcase
+    end
+endfunction
+
+assign mp_lo = pitch_weight($signed({{12{dp_lo[12]}}, dp_lo}), ap);
+assign mp_hi = pitch_weight($signed({{12{dp_hi[12]}}, dp_hi}), ap);
 
 assign lo_w = $signed({5'd0, lv_a}) + (mp_lo >>> 2);
 assign hi_w = $signed({5'd0, lv_b}) + (mp_hi >>> 2);
@@ -293,7 +317,7 @@ reg  [19:0]        ratio_r;
 reg  [51:0]        inc_prod;
 
 assign dr      = $signed({1'b0, ratio_q}) - $signed({1'b0, ratio_a});
-assign mr      = dr * $signed({1'b0, ap});
+assign mr      = pitch_weight($signed({{4{dr[20]}}, dr}), ap);
 assign ratio_w = $signed({5'd0, ratio_a}) + (mr >>> 2);
 
 

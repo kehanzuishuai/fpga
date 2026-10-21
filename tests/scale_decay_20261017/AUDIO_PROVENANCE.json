@@ -1,0 +1,146 @@
+{
+  "status": "PASS",
+  "time": "2026-10-17T20:27:33.405352+08:00",
+  "scope": "Previously generated real RTL streams, current voice/model equivalence rechecked for every MIDI; algorithm/ROM/FX sources unchanged. Not a new 3-second RTL run. New direct-event simulation is separately recorded.",
+  "unchanged_relevant_inputs": {
+    "src/piano_partial_voice.v": true,
+    "src/piano_note_loader.v": true,
+    "src/note_freq_table.v": true,
+    "sim/models/piano_roms_fast.v": true,
+    "tools/fpga_piano_model.py": true,
+    "tools/piano_tables.py": true,
+    "tools/pianolib.py": true,
+    "src/piano_fx.v": true,
+    "tools/fx_model.py": true
+  },
+  "notes": [
+    {
+      "midi": 60,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_060",
+      "voice_rtl_log_sha256": "ff8f2cabf8890b82b43240a30a8d2ec8d0edcfbe14a6ec50dadb5dd05e5e806f",
+      "fx_rtl_log_sha256": "96b2e2eeb14c3176ff61d987f3ca1f165ecc4d5c58b192123b6734495ac26fc7",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 61,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_061",
+      "voice_rtl_log_sha256": "3fb29a69c1f2e453c00f9b9d8ed7de026479a5ca7aceed50a699391c7240c5c3",
+      "fx_rtl_log_sha256": "c620c111371fdeb8c0e44b5525f32c6da73c2197bf414881dc8cdc67403060e4",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 62,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_062",
+      "voice_rtl_log_sha256": "351a11143638d012f82cddd6be26fc500aedf92368d0a773013790611a7bedfe",
+      "fx_rtl_log_sha256": "e15c95413d5f5da606bdea3d0fcc98917951ea4b1305f1b7619dfd7a57f5a33e",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 63,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_063",
+      "voice_rtl_log_sha256": "8a6aa0e46b8f83e0d3de74d73b7b1b21146eb71a6dab7e64d75bb442669a3575",
+      "fx_rtl_log_sha256": "7083bdd0967050745ce85f9cf8fcb9181e6a8fddf9bbf3477257694483344b57",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 64,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_064",
+      "voice_rtl_log_sha256": "b5f544306331e4d6ec5ff76d7d72b43f0d0d2ffc6d7037ff028847b705a33fe5",
+      "fx_rtl_log_sha256": "093c165f975d296290a49eec80859e9623a90febd189e923f9912e574bb351b5",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 65,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_065",
+      "voice_rtl_log_sha256": "bb233fd1d7eb2db0982de13ac754aa4c72958c1a716625a4e203a748de2f5788",
+      "fx_rtl_log_sha256": "5b7364b284be036a92bc00466c7953dd1bef86a859f5947c9427b5625a1763b5",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 66,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_066",
+      "voice_rtl_log_sha256": "cfba4b8a480cca3c8519aa683ca58732a9e1829a9f3058e1ac62dab2763d785c",
+      "fx_rtl_log_sha256": "3f4cb28215c87030353b7db2d666e0c1bca705b672db5c3869188cc92312d37c",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 67,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_067",
+      "voice_rtl_log_sha256": "692cc444383d5c7f849f45fd44e65e3e741835cbf9f65045229da13b692784a2",
+      "fx_rtl_log_sha256": "5bb02a3144be53c13c10c2696f1727a9d3be689ff0f1bbe683f79199ffb0e34f",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 68,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_068",
+      "voice_rtl_log_sha256": "829c83263d33ca3ad900249b336253268ac37696c714bca635f36fba3e142697",
+      "fx_rtl_log_sha256": "ccee316e31afe3fe6212077061046f6794c886aa3889284d6d5ab43bf7955fb5",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 69,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_069",
+      "voice_rtl_log_sha256": "ff2f2f6ff2304660c822af5159d8c59482c23d22b64bdad6a6d4d14a3bf9997e",
+      "fx_rtl_log_sha256": "4e3a6e2f7b82bbd9ad04a7314a418cf043ff0fc22f01247f6da27be401016d34",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 70,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_070",
+      "voice_rtl_log_sha256": "345dcf0eb67bba9297083222375c7e673084533887014e6658b990530cf4d3f2",
+      "fx_rtl_log_sha256": "0efe7175a4cd2c21dd568d0d8041aa46e04b29cbe4ace79f575ecfbda4ea43a6",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 71,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_071",
+      "voice_rtl_log_sha256": "d04095b21e0ff6f43aa4db998adf27a5cb6c2e5f811b6941591f84bd732e62a3",
+      "fx_rtl_log_sha256": "2287362cfb36d4013ddabccf7a1ccad2e2fa10f879a22d433763bc0fe4862293",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 72,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_072",
+      "voice_rtl_log_sha256": "aee0d8ac3f2e2e4ecce025fd8e7fbfa54dcd7720932f631ecee31c9da4058f94",
+      "fx_rtl_log_sha256": "611ad8c8a1c93715bf8197b97c39bef7ae91327ea096979241970f3be252a692",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 73,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_073",
+      "voice_rtl_log_sha256": "15d3f12d64c1c4f7c6f90cdb04859ba2445a4da085749c28d749bf92fb3043be",
+      "fx_rtl_log_sha256": "44525d44d3f909c60cae3dfbf6a0c9aecd88b07175b3ddde5d794493d0e1149c",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 74,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_074",
+      "voice_rtl_log_sha256": "1fc908e8801a1f97b5e253c3a69c656096c2575fc1f0fb7e3f19ea92edab1a62",
+      "fx_rtl_log_sha256": "5d6d9f46697f12c7fb22ebe47155ee1d8856eac7cfde29481db02753aee2dea4",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    },
+    {
+      "midi": 75,
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_075",
+      "voice_rtl_log_sha256": "ccbc7318a7b402e0246ca9976684bb6601316a75ca39887588f0a0664f567c42",
+      "fx_rtl_log_sha256": "2710a1c6b285819f363df4fed0dfa31256f2f8e26338a9d9335be9768ba17277",
+      "voice_model_rechecked_now": true,
+      "fx_144000_samples_equal_saved_rtl": true
+    }
+  ]
+}

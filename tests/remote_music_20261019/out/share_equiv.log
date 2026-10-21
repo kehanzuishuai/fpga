@@ -1,0 +1,26 @@
+progress shared arithmetic instrument1: all 61 note requests accepted at cycle969
+progress shared arithmetic instrument1 frame128 cycle33536
+progress shared arithmetic instrument1 frame256 cycle66304
+progress shared arithmetic instrument1 frame384 cycle99072
+progress shared arithmetic instrument1 frame512 cycle131840
+PASS shared arithmetic instrument 1: all 61 supported pitches, 32 voice samples/notes/masks and PCM frame-exact
+progress shared arithmetic instrument2: all 61 note requests accepted at cycle166345
+progress shared arithmetic instrument2 frame128 cycle198912
+progress shared arithmetic instrument2 frame256 cycle231680
+progress shared arithmetic instrument2 frame384 cycle264448
+progress shared arithmetic instrument2 frame512 cycle297216
+PASS shared arithmetic instrument 2: all 61 supported pitches, 32 voice samples/notes/masks and PCM frame-exact
+progress shared arithmetic instrument3: all 61 note requests accepted at cycle331735
+progress shared arithmetic instrument3 frame128 cycle364288
+progress shared arithmetic instrument3 frame256 cycle397056
+progress shared arithmetic instrument3 frame384 cycle429824
+progress shared arithmetic instrument3 frame512 cycle462592
+PASS shared arithmetic instrument 3: all 61 supported pitches, 32 voice samples/notes/masks and PCM frame-exact
+progress shared arithmetic instrument4: all 61 note requests accepted at cycle497097
+progress shared arithmetic instrument4 frame128 cycle529664
+progress shared arithmetic instrument4 frame256 cycle562432
+progress shared arithmetic instrument4 frame384 cycle595200
+progress shared arithmetic instrument4 frame512 cycle627968
+PASS shared arithmetic instrument 4: all 61 supported pitches, 32 voice samples/notes/masks and PCM frame-exact
+PASS time-shared arithmetic: 2048 checked PCM frames plus note transitions, zero per-voice frame differences; internal computation latency intentionally differs
+D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_share_equiv.sv:32: $finish called at 6615045000 (1ps)

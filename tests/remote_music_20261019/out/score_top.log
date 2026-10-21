@@ -1,0 +1,2 @@
+PASS phone-only flute score, exclusive ownership, graceful final NoteOff, clear auxiliary bank, then all 32 held physical keys rearmed as piano; 2752 exact PCM5102 frames
+D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_score_top.sv:68: $finish called at 57376604790 (1ps)

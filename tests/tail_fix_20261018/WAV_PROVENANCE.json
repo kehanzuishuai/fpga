@@ -1,0 +1,716 @@
+{
+  "status": "PASS",
+  "time": "2026-10-18T14:04:37.131522+08:00",
+  "sample_rate": 48000,
+  "bits": 24,
+  "velocity": 100,
+  "note_off_s": 2,
+  "duration_s": 3,
+  "fresh_rtl_each_note": true,
+  "files": [
+    {
+      "midi": 48,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_048_C3.wav",
+      "sha256": "937508f2c03bb5ccb1948308a62129766cdd42201700a30531c2cca6318e608d",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 48,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_048_C3.wav",
+      "sha256": "f9a14ec8eba3b8066862a18c9d6468ed3695bfec4acd2d8b76405b4a7627ecba",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 49,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_049_Cs3.wav",
+      "sha256": "78afa2e4f9c08ceff0196eaa3739a685b051a4f61b52707bc6ecadae2823d59a",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 49,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_049_Cs3.wav",
+      "sha256": "27e3bb969e49d59cabe5be772ab49a5bbcf1e2bff37062ecdc849de085ce9e53",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 50,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_050_D3.wav",
+      "sha256": "5acc89b2fcdbe45c0a111d3ccfd74298d458f91680d7a1236901cf72dae91b37",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 50,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_050_D3.wav",
+      "sha256": "baf7f6dc2961e4500f7b05f3b38ff2c88ac88c5b789617c36c3bb73d66d9cb8d",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 51,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_051_Ds3.wav",
+      "sha256": "663b5fe78f6dff2309804f204707d2fbf5a622924133e5c600fbd6464cb68482",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 51,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_051_Ds3.wav",
+      "sha256": "3d8d8b26080397f829ff7cb423b33321abb6247b21cfef2299e0e8bcca995c64",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 52,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_052_E3.wav",
+      "sha256": "556d072bd67de44b38ffd009092913e046ef9f7ed9df1c6c0558ba57ec0e4323",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 52,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_052_E3.wav",
+      "sha256": "892d04ef8b0e9fa4fe5b1469a9de07eacc07317c28a96477378c7afebe3a0928",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 53,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_053_F3.wav",
+      "sha256": "2eac483759da3ba7e11afad81660694070831ecf09ad22c987057a6f1bf112a7",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 53,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_053_F3.wav",
+      "sha256": "8d5fe2a83099813971ee8c9b8460db5c7200bc1d5eef99580ded84836da3d5ee",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 54,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_054_Fs3.wav",
+      "sha256": "a595ec473f9a50ee5b388ca4dd0d9fa108d46458ca4a382cf637d84c5c77f6b0",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 54,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_054_Fs3.wav",
+      "sha256": "7f4b5b2c1ab78626443995795041ec43c1c09d598db3634beff28bc150d3a447",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 55,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_055_G3.wav",
+      "sha256": "2d6097c8d63b6ea6603b31e7fa629ed04d9817420c36fb5a7247843fc538bc9f",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 55,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_055_G3.wav",
+      "sha256": "ba3d015e32f3a2c5c2e32ca2c2d658f47b10289e5d18ffcec86ec825d97b4b13",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 56,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_056_Gs3.wav",
+      "sha256": "8334f81ca0279b22e74610c1b656ce5927b0aa31d0a6079ed964ca0ba9c68bcb",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 56,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_056_Gs3.wav",
+      "sha256": "5b0e460b9b073a776bc7cb23040fdb4e3a98d47a5f3eee1d1163ebc3d22bbef0",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 57,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_057_A3.wav",
+      "sha256": "71d2c804a9bc7ffa6b1cd54f84b8397f7c7fd7211159e82ba1344a416d24a056",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 57,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_057_A3.wav",
+      "sha256": "b5b94f10d8618adc6288e506fc79eb619db500efdffae00b3dbfb946970478d4",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 58,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_058_As3.wav",
+      "sha256": "766391f3f2a9351f71e0a9d0ba2278bae61ace344057d544eab13e090f8a4606",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 58,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_058_As3.wav",
+      "sha256": "663507434b1209bd8b9211db1d072cd4009cbf0e14ddb22e236d12ec58088452",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 59,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_059_B3.wav",
+      "sha256": "c509304b6b0bff9512c417449ab67efaa63a9db69f411b64eec3cac5a2ee4461",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 59,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_059_B3.wav",
+      "sha256": "a1aeb86880e7f5973d0a1aa4278f919c9aceca51c6c8d3469b1e4682f956d94b",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 60,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_060_C4.wav",
+      "sha256": "4d9a7f14c548623b4d52df589b329948d2718f20cacded3ea26a9d3d765ac60f",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 60,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_060_C4.wav",
+      "sha256": "339e6c71b5c6a08f358de61facb783208a14a672def0fbd95f02331ca8ab3842",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 61,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_061_Cs4.wav",
+      "sha256": "8dd6cb294650a058518668bea6e068187585af532ddc8540f2b6e58abd554ecf",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 61,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_061_Cs4.wav",
+      "sha256": "a0c078120f54731ad7fcf18ed962347ea8769845aed279fceb4a86a892925d48",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 62,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_062_D4.wav",
+      "sha256": "80953e3e892abf41c2d9c777b59cb7610283ac70bcf14bd5366442b2b972ac42",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 62,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_062_D4.wav",
+      "sha256": "c62cde012d6dbeaa6ce162cf554284612be32c9bef06907c7e201bd4302b8186",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 63,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_063_Ds4.wav",
+      "sha256": "32a868ebef65bbd2733ac623c1b89fa0160084e6ea5bb1e99d8c5b39ed9b33dd",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 63,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_063_Ds4.wav",
+      "sha256": "43919fd427092f8b1df26773a541986c187f8d0aef55763108980a257aa8c2a0",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 64,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_064_E4.wav",
+      "sha256": "8a4976d16d60ac0c2ac263d004fd1321a4afe03f4b458db028a618b85ab1d082",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 64,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_064_E4.wav",
+      "sha256": "b434854c9b8d24c5189724c74260b177ce54be7bf0b3c087611540747c83cbf7",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 65,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_065_F4.wav",
+      "sha256": "539896eae7cce83e5711966f07450eaa35ff9dc642d57fca37f0ac2d70b6ff88",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 65,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_065_F4.wav",
+      "sha256": "5bacc9f1204a6da0619d766fdfca07417e5742b330a6a1974cc140c462066a0b",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 66,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_066_Fs4.wav",
+      "sha256": "dae604b0de9a3862ad5d1d543025aed261d6ce12023f491ec7f1c436f6a28d68",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 66,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_066_Fs4.wav",
+      "sha256": "4f252085d52684fe466eca3f73400df863c727e4c85fc7bf26702be6ba1145a3",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 67,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_067_G4.wav",
+      "sha256": "f49949c8fbffcd0b92cd601d2d2cb564f16de7d040ec4007d4fe1df29a575fbc",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 67,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_067_G4.wav",
+      "sha256": "d7686b06af6deceef148320659d3a7ee5c20007f4d15e8ba7cdf57ad78671ca5",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 68,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_068_Gs4.wav",
+      "sha256": "5c33c26ff309be563c629b0086a0f9988cdebbf6e77c02a7b9e2ea499f15b712",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 68,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_068_Gs4.wav",
+      "sha256": "1066fc7946b587386b89290caea673facc92ce9526194efcce11147e820f3b0f",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 69,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_069_A4.wav",
+      "sha256": "3a58e9c67299eca8924e13ff499cd636a97a4159723a305df32d19f47c2530f6",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 69,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_069_A4.wav",
+      "sha256": "bfdb2ceeafd30036a9e23da104ef35565e8bfed32728b15fa7787a94a4a5e620",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 70,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_070_As4.wav",
+      "sha256": "74c2107f363329a0efa0c8b3f62cbbf66a09c4222ef75402c46e70b556cb7d78",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 70,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_070_As4.wav",
+      "sha256": "3f4fbd562517658f42a6c81849a9124a76a17d15149d274bc30f34c0678ee521",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 71,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_071_B4.wav",
+      "sha256": "7f344a2755b5dbcd2075d1ad9ec5593a0e8a2c68845e285fc80470620cb0384d",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 71,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_071_B4.wav",
+      "sha256": "e06a862910a78f7fc75680ace7772ef3839881e4d1eea80cc346255fbf961fee",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 72,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_072_C5.wav",
+      "sha256": "8803378f24cbe44ab19e383ec8b88f3a80cff6115246d527e40da916c5f079a8",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 72,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_072_C5.wav",
+      "sha256": "70b1de08c96c37f4c7497e395c75ce2cc225e2ef1e97d525128e7323c759ee5e",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 73,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_073_Cs5.wav",
+      "sha256": "af3b372fcdabd393ca897d0251738349818b992a9b7250dcf8af5d2952d3373a",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 73,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_073_Cs5.wav",
+      "sha256": "004375127185af15f61536fb785f14f7bdf20722b435a164c9f8f52cf8adf3ce",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 74,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_074_D5.wav",
+      "sha256": "6d64cdaa07b0add32909237c28f21e693cbe1187dec6b53998912e65ef4356a7",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 74,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_074_D5.wav",
+      "sha256": "f5efeb6302663ece1cefc7c7977a8c974e2b5e3aa5d901031be4dca6f1f75cfe",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 75,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_075_Ds5.wav",
+      "sha256": "a67a6e6ceca674e2cb30375decfd821a53c60da65a8f7b831c87227d5c5c9684",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 75,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_075_Ds5.wav",
+      "sha256": "8e432afd112cc70fbeff770c5085a795171b5fd782573551d4d7e69118c0725b",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 76,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_076_E5.wav",
+      "sha256": "929f4571f04de3a35d96137d47802f29874612e771f83f27add68d6ee393a2a5",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 76,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_076_E5.wav",
+      "sha256": "da5130049fe84bc3682df230ef1056bab0e362e9550e57d8a18ae4b33ecd563d",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 77,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_077_F5.wav",
+      "sha256": "170c3280a87cac04dd4901c49d94faf0ac47fd2165530401a7d221dd401ce60c",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 77,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_077_F5.wav",
+      "sha256": "80eb3581ec9810939ad3f316e914cdb2972c328a0054b64e910db6ea52047f91",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 78,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_078_Fs5.wav",
+      "sha256": "42c5b6e6bb2158b7fdcae9edcc37b80b7a5974278a0b0a9f4c5f3faacd4a25ac",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 78,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_078_Fs5.wav",
+      "sha256": "2c468fbd78309850d349fb0f0c0132972dab0a8d11873f04a63450a32da847ea",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 79,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_079_G5.wav",
+      "sha256": "7b65f665f4903bf575d19a3d8aa289727307d7ff31a37cfab1e4900a12228bc2",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 79,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_079_G5.wav",
+      "sha256": "b43abc2021f0bb20277fd3e293f11474bab3ccc0c2243cb74bfe67a17e754177",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 80,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_080_Gs5.wav",
+      "sha256": "907d09408e4f16fdef47d5437fbe8df6110f7eea6203ca2faefd5fb372c7c9a4",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 80,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_080_Gs5.wav",
+      "sha256": "ac69fc894aa40abca3fdbfdf057bb60dd66bb1344bf147210c02cb422d8efbc0",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 81,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_081_A5.wav",
+      "sha256": "95d1d262ba2077400ba8c7a3d0ed6b69065537a7e424574458e53b4c233dc174",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 81,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_081_A5.wav",
+      "sha256": "dc9b68d81ad9bbae9016205313b6f26a45174ba1c2b49c9349beeb4c7d5be554",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 82,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_082_As5.wav",
+      "sha256": "5faff815ba4a9e871f20139b027186f390549e05f43fed2fd00b19f6744e494d",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 82,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_082_As5.wav",
+      "sha256": "ba433de08c4bc3432cc41c6dd5c7a35201a9ba9c4dc6dcb3d0a58a4d751226e9",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 83,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_083_B5.wav",
+      "sha256": "0762954cd244567de4f11cd6bfa12c4037c98c9bbd5ee7f70590c82c9e8ce72d",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 83,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_083_B5.wav",
+      "sha256": "eeef93a332e48a84abb309b52c49481cbee1d37d15a51121fbd00c94ab605282",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 84,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_084_C6.wav",
+      "sha256": "77f0b1baa35c5a56b5846ad8c139b6991e648e9a036321389f052e6c3e888bd3",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 84,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_084_C6.wav",
+      "sha256": "69f7b7428bba2e2120020889f880b63a481a4034e35afb01c836291e67b956aa",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 85,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_085_Cs6.wav",
+      "sha256": "b1489528d2e9a15e79732cab0da0c63dee727bc7faedf5b72d9cfd9993d439d9",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 85,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_085_Cs6.wav",
+      "sha256": "9fac28bb62ec1044b5851424e0fb57f50ffc49b6653c92acc35445a527fb6991",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 86,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_086_D6.wav",
+      "sha256": "1d4fe0eb26e399e2a5c07c88513bc19b64f1f4d6c01854f15100ed9b5c21f454",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 86,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_086_D6.wav",
+      "sha256": "346c1fad08af518e706064d0a00f510100ebdbf50d261ea2a501680bbb4774db",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 87,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_087_Ds6.wav",
+      "sha256": "276504fe7f53690bb1311d47e322869c74e63eb35005b81b9714259bd54f90a8",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 87,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_087_Ds6.wav",
+      "sha256": "7c6fe8ff4bfb658a8717ee014bf221c08f65fbb8d8dbebaac9ac5ddd5e27b90a",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 88,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_088_E6.wav",
+      "sha256": "869ed4d7a13fee955c8862b9186ccf4f3b37d876da4a3bd37beb912e2da5965f",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 88,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_088_E6.wav",
+      "sha256": "43795d54ae4ffbd544736e531870ced5e779cc13ef0a42acd37666e293ed5d99",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 89,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_089_F6.wav",
+      "sha256": "fd918b3187008c69540e81053296b9becfb89009be48dac312c82cde97706f06",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 89,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_089_F6.wav",
+      "sha256": "d5e27e6dc8cea30c7dbd617896b45ab5e5dede78b246d984da33471481425921",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 90,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_090_Fs6.wav",
+      "sha256": "0d0fb090375465eb2932e444a6e5ae6d842679cf5960d4f0f805f6bd29f45d13",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 90,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_090_Fs6.wav",
+      "sha256": "2dc37958135caab35fd56250716bbbaedfeab1a6a879f176a9f005e61bbb4081",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 91,
+      "chain": "fx_off",
+      "path": "tests/tail_fix_20261018/wav/fx_off/midi_091_G6.wav",
+      "sha256": "9c272ff241831bf9abe12188f613d32127b837559a27e744b54409d66839c4f3",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    },
+    {
+      "midi": 91,
+      "chain": "fx_on",
+      "path": "tests/tail_fix_20261018/wav/fx_on/midi_091_G6.wav",
+      "sha256": "1833e90bc585ed32d692bab240f6575f9ca1641ecc1a0bac8d2897f2d7d378d7",
+      "samples": 144000,
+      "gain": "unchanged integer PCM; common 24-bit full scale; no individual normalization"
+    }
+  ]
+}

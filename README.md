@@ -1,82 +1,149 @@
-# 弦动智音：FPGA 实时多音色合成与视听演示系统
+# Tang Mega 138K Pro FPGA电子钢琴
 
-基于FPGA的实时电子乐器：独立Voice逐样本合成，经板载PT8211和外接PCM5102A输出声音，由FPGA内部计算FFT、绘制波形和李萨如图，经J11视频输出到显示器。运行时不依赖电脑计算FFT或绘图，不播放预录PCM。
+主工程：**[yinyue_fashengqi.gprj](yinyue_fashengqi.gprj)**。本机路径：`D:\gaoyun\piano_v2_audio_fix\yinyue_fashengqi.gprj`。硬件为Tang Mega 138K Pro + Pro Dock。
 
-**当前开发入口是 [Tang Mega 138K Pro 板级工程](boards/tang_mega_138k_pro/README.md)，不是根目录的旧板卡无关基线。** 板级工程整理于2026-10-08，包含Gowin工程、PLL封装、管脚/时序约束、测试和验证报告。新视频功能尚未完成Gowin布局布线和显示器实测，没有提供已验收的新固件。
+手机ESP32 Wi-Fi控制、五音色、WAV在FPGA解码播放已集成；保留两块16键、32 Voice、原16键屏幕对应、FFT、HDMI和双DAC。
 
-## 当前功能与状态
+[接线与使用说明](docs/REMOTE_MUSIC_20261019.md) · [最终验证结果](docs/REMOTE_MUSIC_RESULTS_20261019.md)
 
-| 功能 | 当前状态 |
+完整工程综合、布局布线、五类时序和ESP32固件编译通过。本轮针对性验证通过；按用户要求停止重复的完整显示回归，未改动部分复用已有验证，改动的XY峰值及SPI CRC流水线补做短验证。未自动烧录；真实接线、Wi-Fi长时间连续播放和主观音质仍待上板确认。
+
+实体32键固定为原来的32 Voice钢琴，不叠加其他乐器。手机五音色仅作用于MIDI/JSON曲谱，WAV保留录音原声。网页包已恢复修改前的原样，SHA256为`5428444eaa7aad9c41b0537b720fe516ef80e1186605d6154d6dbf38bfe253cf`。
+
+- 工程：`D:\gaoyun\piano_v2_audio_fix\yinyue_fashengqi.gprj`
+- FS：`impl/pnr/ao_0.fs`
+- FS SHA256：`e483552fc9993df6e9464790a9ca29d7e8253e02a51002507d05ee2234884e0b`
+- 固件和FS归档：`tests/remote_music_20261019/final_build`
+
+## 功能和范围
+
+| 功能 | 当前实现 |
 |---|---|
-| 多声部合成 | 保留默认32个独立Voice的phase、frequency、ADSR、note、velocity状态，以及事件FIFO、分配和混音链 |
-| 混音增益 | 按实际Voice数量归一化，立即限制过大增益、缓慢恢复；参数化Q15 master默认0.9，单音不固定除32 |
-| 触摸输入 | 已有TTP229读取和音符事件转换；不代表多维表情交互已全部完成 |
-| 板载DAC | 保留PT8211的16bit输出和原有合成节拍来源 |
-| 外接DAC | PCM5102A标准I2S，默认24bit、双声道32bit slot；与板载同时工作，当前同一单声道混音复制到左右声道 |
-| 波形 | 旁路采集实际送DAC的数字PCM，过零触发显示；不是模拟输出回采 |
-| 频谱 | FPGA定点FFT，默认2048点/Hann窗；系数查表不是预制频谱 |
-| 李萨如/相图 | Voice0/1均活跃时使用真实双Voice输出，否则显示混音与延迟信号的相图 |
-| 视频 | 已加入640×480绘图、TMDS和J11 DVI TX，经HDMI线传视频；不传HDMI音频，实物待验证 |
-| LED教学、连续Morph、测试模式 | LED教学尚未接通板级输出，Morph固定关闭；编译期DIAGNOSTIC_MODE可开启真实32 Voice诊断音，默认关闭 |
+| 实体键盘 | 两块独立16键TTP229，32个不同音高，默认MIDI60～91 |
+| 实体音色 | 原钢琴，保留32 Voice，不叠加其他乐器 |
+| 手机控制 | ESP32-S3 Wi-Fi热点和原网页，音量、效果、曲谱及32键音高映射 |
+| 曲谱音色 | 钢琴、长笛、吉他、管风琴、钟琴，每次选择一种 |
+| 曲谱格式 | MIDI格式0/1、PPQN及兼容JSON，单旋律、分段机制 |
+| WAV播放 | FPGA解析未压缩PCM WAV，16/24位、单/双声道、44.1/48kHz |
+| 显示 | FFT、波形、李萨如、HDMI，键位显示保持原第一块16键对应 |
+| 输出 | PT8211和PCM5102双DAC，立体声、主音量及饱和保护 |
 
-## 工程目录
+手机五音色用于MIDI/JSON重新合成；WAV保留录音原声；实体键保持钢琴。曲谱播放期间独占合成事件，停止或自然结束后恢复实体键。WAV可与实体钢琴混音。
+
+## 目录说明
 
 ```text
-boards/tang_mega_138k_pro/        最新板级工程，当前开发和上板入口
-  yinyue_fashengqi.gprj          Gowin工程，GW5AST-LV138FPG676AC1/I0
-  src/                          活动RTL、PLL封装、CST和SDC
-  sim/                          双DAC、FFT、CDC、复位、视频及集成自检
-  scripts/                      板级专项回归入口与Python黄金模型
-  verification/                 已通过运行的归档报告与FFT结果
-rtl/                            独立保留的板卡无关RTL基线
-tb/                             仅对应根目录基线的testbench
-scripts/                        仅对应根目录基线的回归和模型
-docs/PORTABLE_RTL_BASELINE.md     基线模块与接口参考
+yinyue_fashengqi.gprj        高云主工程
+src/                        RTL、ROM、PLL、CST/SDC和调试配置
+src/keyboard/               双键盘与映射
+src/remote/                 UART、SPI、WAV解码及立体声混音
+src/instruments/            曲谱辅助音色及共享运算
+src/display/                FFT、波形、李萨如、HDMI
+firmware/remote_music/      ESP32源码及网页资源
+sim/、tests/                仿真模型、测试平台与验证脚本
+tools/                      构建、集成和分析脚本
+docs/、ref/                 文档与参考资料
+audit/remote_music_20261019/ 构建及验收收据
+release/latest/             GitHub发布的FS、固件与SHA256清单
 ```
 
-两套工程有同名模块，**不要混合编译**。根目录的 `scripts/filelist.f` 不用于编译最新板级工程。本机工具、临时仿真产物、原理图附件、旧固件和Gowin用户设置不随仓库发布。
+本地还保留`impl/`、历史备份、试听音频和构建缓存。GitHub发布保留源码、工程、文档、测试入口、关键验证证据和最新产物，排除本机工具链、批量波形/音频输出及大体积中间文件。历史文档中的绝对路径和旧收据应结合日期阅读，以本README和最终报告为准。
 
-## 打开最新工程
+GitHub仓库原有的`boards/tang_mega_138k_pro/`、`rtl/`、`tb/`及`scripts/`保留为历史参考；**本次最新入口是仓库根目录的GPRJ**。这些历史工程有同名模块，不要与当前`src/`混合编译。更新前的仓库首页保存在`docs/REPOSITORY_README_BEFORE_20261021.md`。
 
-在Gowin中打开 [yinyue_fashengqi.gprj](boards/tang_mega_138k_pro/yinyue_fashengqi.gprj)。工程使用相对路径，克隆后不要求保留原来的E盘路径。
+## 打开与构建FPGA工程
 
-- [板级工程入口与工具配置](boards/tang_mega_138k_pro/README.md)
-- [PCM5102A接线、I2S时序及双DAC说明](boards/tang_mega_138k_pro/PCM5102A_README.md)
-- [FFT、波形、李萨如、J11接线与视频时钟风险](boards/tang_mega_138k_pro/VISUALIZATION_README.md)
-- [磁轴/Hall校准、滤波与按键力度识别（尚未接板/发声）](boards/tang_mega_138k_pro/HALL_KEYS_README.md)
-- [新增Hall解释后的六项完整回归报告](boards/tang_mega_138k_pro/verification/hall_keys_20261009.md)
+验证工具：**Gowin V1.9.12 x64**。器件：**GW5AST-LV138FPG676AC1/I0，版本C**。
 
-接线和供电先阅读上述说明。PCM5102A的VIN未指定，不能接到GPIO；J11是视频输出口，不要接到输入口。下载前必须重新综合、布局布线，确认PLL、约束、资源和时序；没有可直接代表本次新功能的已验证FS文件。
+1. 用Gowin Designer打开根目录`yinyue_fashengqi.gprj`。
+2. 顶层模块为`tang_mega_138k_pro_top`，源码为`src/tang_mega_138k_pro_top.v.v`；选择SystemVerilog 2017。
+3. 有效约束为`src/integrated.cst`和`src/integrated.sdc`；91个有效工程输入，测试平台不参与综合。
+4. 依次执行综合、布局布线、时序分析。最终通过选项为**Placement 3 / Route 0**，Timing Driven和Hold修复开启，保持原时钟及约束。
+5. 核对新生成FS和报告：Setup/Hold违例端点为0，五类时序裕量均非负。修改RTL后必须重新构建。
 
-## 验证与复现
+`tools/build_gowin.tcl`执行完整构建；`tools/remote_retime.tcl`用于复用已验证综合网表的PnR。`tests/remote_music_20261019/retime.py`先校验输入并归档，需显式提供`--archive <新目录名> --place <0..4> --route <0..2>`。Python脚本包含本机Gowin/Icarus路径，异机使用前需配置；一次性修改脚本不要批量重跑。已有FS不代表后续修改后的版本。
 
-先安装Icarus Verilog、Verilator、Yosys和Python，运行板级 `scripts/requirements.txt` 安装numpy/Pillow。脚本从PATH发现工具，也可用 `FPGA_PYTHON/FPGA_IVERILOG/FPGA_VVP/FPGA_VERILATOR/FPGA_YOSYS` 指定；不再要求修改原开发机器路径。仓库不自带工具或Python运行时。
+## ESP32代码、构建和供电
 
-从仓库根目录运行：
+Arduino IDE主文件：[ESP32_FPGA_Music_Controller.ino](firmware/remote_music/esp32/ESP32_FPGA_Music_Controller/ESP32_FPGA_Music_Controller.ino)。请复制整个同名目录，保留全部头文件。
 
-```powershell
-Set-Location .\boards\tang_mega_138k_pro
-.\scripts\run_visual_tests.ps1
-```
+| 文件 | 职责 |
+|---|---|
+| `ESP32_FPGA_Music_Controller.ino` | 热点、网页服务、控制接口、任务调度 |
+| `ControlLink.h` | UART控制、曲谱、键位事务、应答与重试 |
+| `WavService.h` | HTTP二进制上传、队列及SPI工作任务 |
+| `WavLink.h` | SPI包、CRC、序号、状态和反压 |
+| `web_page.h` | 嵌入网页，保持已恢复的原界面 |
 
-此入口先做脚本迁移自检，再跑独立ADC采集、音频增益/音质、显示/TMDS接收和双DAC专项回归。ADC当前仅完成未接板的原始采集层，见[MCP3208说明](boards/tang_mega_138k_pro/MCP3208_README.md)，没有改动现有声音/显示链。音视频证据见[音频与TMDS报告](boards/tang_mega_138k_pro/verification/audio_tmds_20261009.md)，前一轮见[32 Voice离线验证](boards/tang_mega_138k_pro/verification/offline_visualization_20261008.md)。原始归档仍保留：[显示链报告](boards/tang_mega_138k_pro/verification/visualization.md)、[FFT机器结果](boards/tang_mega_138k_pro/verification/visualization.json)、[双DAC报告](boards/tang_mega_138k_pro/verification/pcm5102a.md)。
+已验证目标`esp32:esp32:esp32s3`，Arduino-ESP32 core `3.3.10-cn`，默认4MB分区、PSRAM关闭。烧录前按实际开发板Flash/PSRAM选择配置，不绑定固定COM口。本机隔离工具链不上传；复用`compile.py`需先配置其Arduino CLI路径，也可用Arduino IDE构建。
 
-- 1024/2048/4096点硬件FFT测试共14,336个复数/功率bin与黄金模型bit-exact一致，每种配置检出32/32个已知、间距足够的测试峰。
-- 合成器到显示分别测试四音和32 Voice；32 Voice实际PCM进入RTL FFT，并逐bin比对黄金模型、核对512列柱高和主峰Hz读数。双DAC另验证四音/32音与I2S逐bit数据。
-- CDC快照、单侧复位、TMDS编码和视频帧时序自检通过。
-- 增益、波形/velocity定点缩放、FIFO随机反压及完整TMDS反向接收纳入回归；接收端还原两幅640×480画面，与原始像素逐字节核对。该检查位于OSER10之前，不代表物理HDMI线路已通过。
-- 新增可移植显示链和PCM5102A发送器严格Verilator检查无RTL warning，Yosys通用检查通过；不代表整个板级工程零warning或厂商布局布线通过。
+带USB供电电路的ESP32-S3开发板可通过USB接稳定5V电源，上电自动运行已烧录程序。FPGA按原方式单独供电；**两板必须共地**。分别供电时不额外连接两板的5V/3.3V电源脚。信号使用3.3V；裸ESP32模组不能直接接5V。
 
-**区分两种FFT：** 根目录基线回归中的16384点Python FFT是开发期音频验证工具；板级2048点RTL FFT才是运行时显示的数据来源。32/32测试向量峰不等于已完成实物32 Voice频谱展示。
+## 接线
 
-每次本地回归产物写入板级目录的 `sim_out_visual/`、`sim_out_pcm5102a/`、`sim_out_adc/`、`sim_out_keys/`，不会自动上传。完整汇总记录PASS/FAIL、源码SHA256和运行时间，尚在执行时标记RUNNING；历史归档不能代替当前源码回归。上一轮发布前五suite结果见[历史完整报告](boards/tang_mega_138k_pro/verification/full_regression_20261009.md)，新增Hall解释后的最新六suite结果见[本轮完整报告](boards/tang_mega_138k_pro/verification/hall_keys_20261009.md)，均限定仿真与实物验收的范围。
+下表ESP32侧为GPIO编号，Dock侧为排针针号，请核对排针方向。
 
-## 仍需完成
+| ESP32-S3 | 方向 | FPGA信号 / 管脚 | Pro Dock |
+|---|---|---|---|
+| GPIO17 TX | ESP→FPGA | esp_uart_rx / B21 | J26第12脚 |
+| GPIO18 RX | FPGA→ESP | esp_uart_tx / A20 | J26第10脚 |
+| GPIO12 SCK | ESP→FPGA | esp_spi_sck / L17 | J24第7脚 |
+| GPIO11 MOSI | ESP→FPGA | esp_spi_mosi / E25 | J24第9脚 |
+| GPIO10 CS | ESP→FPGA | esp_spi_cs_n / H14 | J24第5脚 |
+| GPIO13 MISO | FPGA→ESP | esp_spi_miso / D25 | J24第10脚 |
+| GND | 共地 | GND | J24/J26第3或4脚 |
 
-1. Gowin原生综合和布局布线，验证视频PLL、OSER10、RAM/DSP映射、SDC节点及实际时序。
-2. 显示器锁定和双DAC同时发声实测。当前25MHz像素时钟对应约59.52Hz，显示器兼容性尚未验证。
-3. 用编译期32 Voice诊断模式实测屏幕频谱，确认实物32峰与离线结果一致；目前没有物理模式切换按钮。
-4. 接通LED教学、所需表情控制和明确的音色切换；已有模块不等于已完成物理交互。
-5. 断开电脑冷启动演示，并实测控制输入到DAC模拟输出的延迟。默认FFT观察窗约42.7ms，不是发声延迟；内部数字计数不能证明赛题端到端≤5ms。
+| 琴键模块 | SCL | SDO |
+|---|---|---|
+| 第一块16键 | C21 / J26第11脚 | B20 / J26第9脚 |
+| 第二块16键 | B19 / J26第7脚 | A17 / J26第5脚 |
 
-本阶段不以新增蓝牙、App或复杂UI替代上述验证。原板卡无关接口、模块和回归说明见[独立基线参考](docs/PORTABLE_RTL_BASELINE.md)。
+琴键模块VCC接J26第1或2脚3.3V，GND接第3或4脚。原资料UART的B19/A17与第二块键盘冲突，当前已改用B21/A20。不要将5V接入FPGA信号脚，SPI建议使用短线。
+
+## 手机连接与音乐播放
+
+1. 断电接线，给FPGA供电并加载匹配FS，再给已烧录固件的ESP32供电。
+2. 手机连接热点 **`FPGA_MUSIC`**，密码 **`fpga2026`**。
+3. 浏览器打开 **`http://192.168.4.1`**，确认FPGA连接状态，再控制或播放。
+4. 上传WAV期间保持Wi-Fi连接及页面前台；上板先测试16位48kHz，再检查其他格式和长时间播放。
+
+链路：`手机 --Wi-Fi/HTTP--> ESP32 --UART/SPI--> FPGA`。
+
+- **UART 115200、8N1**：音量、音色、播放、键位、曲谱事件和状态。
+- **SPI Mode0、4MHz，ESP32为主机**：WAV数据与状态，包含CRC-16、序号、重试去重及缓冲余量反馈，支持边传边播。
+
+WAV原始字节由ESP32转发，FPGA解析RIFF/WAVE的`fmt`和`data`块、检查边界、还原PCM并统一为24位。单声道复制为左右声道，44.1kHz线性插值至48kHz，经跨时钟邮箱、混音和主音量送到双DAC。**不支持MP3、浮点WAV、WAVE_EXTENSIBLE。**
+
+MIDI/JSON先由手机网页解析为音高、力度和时长等事件，再由FPGA计时、合成。目前保留单旋律及分段机制，不是任意复调MIDI原文件的FPGA解码器。仅播WAV时合成VOICE计数为0正常。
+
+## 最新验证结果
+
+最后通过时间：**2026-10-20 21:53（UTC+8）**。
+
+| 时序 | 最差裕量/ns |
+|---|---:|
+| Setup | +0.105 |
+| Hold | +0.010 |
+| Recovery | +6.742 |
+| Removal | +0.341 |
+| 最小脉宽 | +3.272 |
+
+Setup/Hold违例端点均为0。Logic 103455/138240，寄存器43274/139140，BSRAM 296/340，DSP 186/298，PLL 3/12。
+
+验证包括32键钢琴隔离、曲谱切换、WAV八格式、传输异常、双DAC及实际映射Loader等。按要求复用依赖未变化的有效结果；重复的完整HDMI整帧和长WAV回归曾停止，没有将中断运行记为新的完整通过。XY峰值和SPI CRC流水线改动分别有针对性新检查。
+
+- [最终验证报告](docs/REMOTE_MUSIC_RESULTS_20261019.md)
+- [完整接线与使用说明](docs/REMOTE_MUSIC_20261019.md)
+- [构建收据](audit/remote_music_20261019/BUILD.json)
+- [最终验收收据](audit/remote_music_20261019/FINAL_ACCEPTANCE.json)
+- [44音响度校准与限制](docs/NOTE_GAIN_CALIBRATION_20261018.md)
+- [续接及历史记录](README_HANDOFF.md)
+
+GitHub最新发布产物保存在`release/latest/`，包含FS、ESP32二进制、编译收据及SHA256清单；本机原产物和历史证据保持不变。
+
+## 实板验收仍需完成
+
+两块键盘的真实左右键序、32音实体演奏、Wi-Fi长时间传输、左右声道及模拟输出、屏幕和主观音质仍需实板确认。音源测量建议MIDI48～79作为更均匀的32键候选，当前默认映射仍为60～91。PCM非零或时序通过不等于音质优秀。
+
+没有自动烧录。加载前核对板型、接线、FS哈希及ESP32 Flash/PSRAM参数；实板验收结果另行记录。
+

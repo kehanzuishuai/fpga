@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "notes": 44,
+  "velocities": [
+    1,
+    40,
+    80,
+    100,
+    127
+  ],
+  "words": 88000,
+  "mismatches": 0,
+  "examples": [],
+  "netlist_sha256": "f504ae68f4181c9195290da7b254d75c12fb9b31ad0854653a7026f1464b7eed",
+  "scope": "Separate unconstrained piano_note_loader synthesis; real GW5A primitive cells and initialized ROMs; all request inputs exposed. Not the optimized production top."
+}

@@ -135,6 +135,14 @@ reg [4:0]  seg;         /* 0..20: segment in progress, 21: tail      */
 reg [17:0] seg_cnt;     /* samples done in this segment               */
 reg [21:0] rel_slope;
 
+/* A quiet sample does not end a held note if a later breakpoint can sound.
+ * Q4.8 level 3301 is the last code above AMP_OFFSET+AMP_GATE in the exp ROM.
+ * Build the union over all slots while the loader writes their breakpoints,
+ * then retire one bit at each completed segment. No extra RAM reads/cycles.
+ */
+localparam [11:0] LAST_AUDIBLE_BP = 12'd3301;
+reg [20:0] future_audible;
+
 assign active    = (vstate != V_IDLE);
 assign env_level = {SAMPLE_W{1'b0}};
 
@@ -493,7 +501,7 @@ assign engine_wanted =
 
 wire may_stop;
 
-assign may_stop = rel_s || fade_s || (seg >= 5'd2);
+assign may_stop = rel_s || fade_s || ((seg >= 5'd2) && !(|future_audible));
 
 
 always @(posedge clk or negedge rst_n) begin
@@ -507,6 +515,7 @@ always @(posedge clk or negedge rst_n) begin
         seg         <= 5'd0;
         seg_cnt     <= 18'd0;
         rel_slope   <= 22'd0;
+        future_audible <= 21'd0;
 
         eng         <= E_IDLE;
         slot        <= 4'd0;
@@ -529,6 +538,7 @@ always @(posedge clk or negedge rst_n) begin
 
         sample            <= {SAMPLE_W{1'b0}};
         dbg_sample_strobe <= 1'b0;
+
         dbg_overrun       <= 1'b0;
 
     end
@@ -536,6 +546,15 @@ always @(posedge clk or negedge rst_n) begin
     else begin
 
         dbg_sample_strobe <= 1'b0;
+
+        if ((vstate == V_LOAD) && ld_we) begin
+            if (ld_addr == 9'd0)
+                future_audible <= 21'd0;
+            else if ((ld_addr[4:0] >= W_BP0) &&
+                     (ld_addr[4:0] <= (W_BP0 + 5'd20)) &&
+                     (ld_data[11:0] <= LAST_AUDIBLE_BP))
+                future_audible[ld_addr[4:0] - W_BP0] <= 1'b1;
+        end
 
 
         /* ----------------------------------------------------
@@ -691,6 +710,7 @@ always @(posedge clk or negedge rst_n) begin
                         if (seg_cnt == seg_last) begin
                             seg     <= seg + 1'b1;
                             seg_cnt <= 18'd0;
+                            future_audible[seg] <= 1'b0;
                         end
                         else begin
                             seg_cnt <= seg_cnt + 1'b1;
@@ -698,7 +718,9 @@ always @(posedge clk or negedge rst_n) begin
                     end
 
 
-                    /* All slots silent: the note is over */
+                    /* Release/fade may finish now. A held note must also
+                     * have no remaining audible breakpoint targets.
+                     */
                     if (!audible && may_stop) begin
                         if (vstate == V_FADE)
                             vstate <= V_LOAD;

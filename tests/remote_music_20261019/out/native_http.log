@@ -1,0 +1,1 @@
+PASS actual WavService RAW callbacks: 8192-byte NUL/all-byte bodies exact, header metadata without query args, duplicate/CRC/queue backpressure, overflow/truncation/abort/multipart/stale-session rejection and END retries

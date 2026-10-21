@@ -1,0 +1,2 @@
+PASS preserve16: 518527 clocks, 2025 PCM samples and both DAC pins bit-exact to backed-up old RTL; 4 Note events; unconnected bank2 and ESP32 silent
+D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_preserve.sv:32: $finish called at 42201002000 (1ps)

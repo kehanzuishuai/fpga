@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "midi": 85,
+  "velocity": 100,
+  "samples": 144000,
+  "source_kind": "fresh 3s raw Voice RTL;2s held/1s release",
+  "source_sha256": "98497a8bbd615fe9f04c4b05b5b6d3ccf95460d9329989e8c820e0c841d72a08",
+  "q13": 28450,
+  "calibration_rtl": true,
+  "fx_rtl": true,
+  "bit_exact_samples": 144000,
+  "rail_samples": 0,
+  "calibration_saturated_samples": 0,
+  "rtl_module_sha256": "8527d6a46326a6d91c9f166cb9071d363a77c372dd9f5756fb47172a3084ec30"
+}

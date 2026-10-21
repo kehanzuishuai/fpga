@@ -1,0 +1,151 @@
+{
+  "status": "TARGETED_CHECKS_PASS_TIMING_PENDING",
+  "time_utc": "2026-10-20T08:23:31.155052+00:00",
+  "scope": "Reduced regression requested by user. Only the two proven timing-path changes receive fresh simulations. Prior receipts preserved with original hashes. This is not full implementation acceptance.",
+  "checks": {
+    "share_equiv": {
+      "receipt_sha256": "a98c60b43f8d8ece005eba7f01f77eef65fdee38169237a9c6558f5b9618bd03",
+      "log_sha256": "9eb0739b7f41362938021b22b80a7a12cdd0fc0b6c75d1b38aad64646df85c49",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "wav_formats": {
+      "receipt_sha256": "bfb14332827a4c7c7c66f96b101690023508597492e374042329dfeaedd2de4c",
+      "log_sha256": "4c58215c33ad01d37287b106c511161f688f6ad41a88e5bce0024e248791c4cc",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "wav_errors": {
+      "receipt_sha256": "aa3f977e13fb5516e1a93128de8a3ac9acc8ded81fdd5710d67ab43a83c09016",
+      "log_sha256": "7dcc963179c670e2982089b8a2e73d2259dce27bcced4095e896b3ac801a8138",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "wav_dac": {
+      "receipt_sha256": "c6887c707b792264ddb62f6ab816c5e66e1efba45fab303808f3aadf6f22170f",
+      "log_sha256": "91fe14b7edb9bc7d929c2a5e0de6ad9d8802d2d91ed8b8e8beb1cfc34886d731",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "native_wav": {
+      "receipt_sha256": "3a5cc7825d28ee036841fcbca774ce708569374dc9e4ab3eb13a743324e2560f",
+      "log_sha256": "ad62c5b2d69af957c1d941e1b00bda0cdb00aff36a11b92d953ebf98e658aa84",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "native_replay": {
+      "receipt_sha256": "9fdb7b6b53f067b667df7a80c97c7498e0fef98d95b5f570bf7acbbe3b240920",
+      "log_sha256": "492ecb033a3f1e73324de4ab552300df85b5bc48ec2e44d934456f1ebe4cfb48",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "native_http": {
+      "receipt_sha256": "d27ab2d4a0826d8fa2d207d90489376d09727ecdbc819e0114db71ee36d24a47",
+      "log_sha256": "989050d7d72569634b1296e17c0f3fac24b1ca854a62a7f02a4a407f84f82a54",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "control": {
+      "receipt_sha256": "feb4d57b6108fc128cf6b8945ae937d8930f92355d170ef7356c059ff618328e",
+      "log_sha256": "8539c7f863d37f4085a5434c920bf94d26eaf86dec80654ac480edde930fc69c",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "aux": {
+      "receipt_sha256": "5dbacc61951462f0d81eba72996184aa03b23cab12bfa9f65d0c86452cd9c1a3",
+      "log_sha256": "587343895facb008f4249079d03c834811657918a26a44095719f8a1a8f9f0c6",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "preserve": {
+      "receipt_sha256": "41b80cc2c97da9f9672d1097ae8612d4d287831d8d52abe7c105f0e5ee0a70a8",
+      "log_sha256": "82ef0d9604d824fa1f6a0e339f8193d7c4c4c6efb36182a147bf05360abe7c8e",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "gate_aux": {
+      "receipt_sha256": "3806af1aa58b988ca0806099ca94273e3f6d85c3da52ed9452c2c4907c0023f5",
+      "log_sha256": "f9e1ab03bb526b05c9ef53a6c18a89ffbee3cbc6ee1c599284daaa5665c251fa",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "audio_top": {
+      "receipt_sha256": "253b57217f2095fb89997915941909fd9c2523ad81331f9a50b88946f0265b3d",
+      "log_sha256": "cbcc9d69f732e763a8e670eff0a916a672f69026ce9911fa9389522e2703b510",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "score_top": {
+      "receipt_sha256": "c074f4bdb2fdda4fe1b28fdbdbc5ca0e4602b9976e84231ae74277ce2eeb5643",
+      "log_sha256": "a9111eb76b0576d6231209993772b69f4d961396c2687cb828e40611f6ff5f3e",
+      "later_changed_files": [
+        "src/display/visual_xy_plot.sv",
+        "src/remote/wav_spi_stream.sv"
+      ],
+      "result_reused": true
+    },
+    "xy_timing": {
+      "receipt_sha256": "bf0bea3b3f2ced9e370765d90cf77c047c7bee968c48f7e418b43a08fc84b423",
+      "log_sha256": "547c206b3c03070c97ad89dd2f0eda8c085c3d765586143a58cefd08d1e6b48f",
+      "later_changed_files": [],
+      "result_reused": false
+    },
+    "spi_timing": {
+      "receipt_sha256": "452057e0e3becfa700826cc7eb2f85e8caf542a47fabd2560198b2d07ed2a181",
+      "log_sha256": "5284445cc623b9436819c68569209f2575a7a2889803ae0d3afcf7c4ee88ee70",
+      "later_changed_files": [],
+      "result_reused": false
+    }
+  },
+  "phone_UI_sha256": "5428444eaa7aad9c41b0537b720fe516ef80e1186605d6154d6dbf38bfe253cf",
+  "full_system_regression": "STOPPED_PER_USER",
+  "partial_system_log_sha256": "b386ffd7e253cac2fb1f755aabd32f468ef3a2370793adf5c8bf24328becacc8",
+  "long_wav_rerun": "STOPPED; original decoder eight-format results reused; new SPI CRC checked separately",
+  "no_auto_programming": true,
+  "mapped_loader_current": {
+    "status": "PASS",
+    "netlist_sha256": "6ceb8babb23d570ae4b1dcc3744f1ba806b5fcecae836f9a79160de1ed6d6c41",
+    "source": "D:\\gaoyun\\piano_v2_audio_fix\\impl\\gwsynthesis\\yinyue_fashengqi.vg",
+    "notes": 32,
+    "words": 12800,
+    "mismatches": 0,
+    "examples": [],
+    "scope": "Actual production integrated Loader and synthesized ROMs, Gowin GW5A primitive simulation. Captured request pitch/inc forced; keyboard/allocator not covered."
+  }
+}

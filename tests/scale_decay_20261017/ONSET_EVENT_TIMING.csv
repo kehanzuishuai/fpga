@@ -1,0 +1,17 @@
+midi,fifo_accept_cycle,first_dac_pcm_cycle,latency_audio_clocks,latency_ms_nominal_12p288MHz,first_pcm_value,origin
+60,5002,8960,3958,0.3221028645833333,175,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+61,5002,8960,3958,0.3221028645833333,133,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+62,5002,8960,3958,0.3221028645833333,142,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+63,5002,8960,3958,0.3221028645833333,150,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+64,5002,8960,3958,0.3221028645833333,161,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+65,5002,8960,3958,0.3221028645833333,171,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+66,5002,8960,3958,0.3221028645833333,182,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+67,5002,8960,3958,0.3221028645833333,1166,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+68,5002,8960,3958,0.3221028645833333,1238,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+69,5002,8960,3958,0.3221028645833333,1296,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+70,5002,8960,3958,0.3221028645833333,281,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+71,5002,8960,3958,0.3221028645833333,296,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+72,5002,8960,3958,0.3221028645833333,309,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+73,5002,8960,3958,0.3221028645833333,326,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+74,5002,8960,3958,0.3221028645833333,343,FIFO handshake recovered from actual VCD; cycle counter from new RTL test
+75,5002,8960,3958,0.3221028645833333,362,FIFO handshake recovered from actual VCD; cycle counter from new RTL test

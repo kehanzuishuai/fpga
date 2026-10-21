@@ -1,0 +1,124 @@
+{
+  "files": {
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\keyboard_events.vcd": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\keyboard_events.vcd",
+      "sha256": "31cbb599f0b6ca1109389ec423d41340ff2ff0b7bfd6b2dcb0f2772b3b42f4f0"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\keyboard_events_compile.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\keyboard_events_compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\keyboard_events_run.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\keyboard_events_run.log",
+      "sha256": "159e6a1b0c9ceece9f6673b741789b91c3d7f2ee6ba7010c9cbd49a4b4d4a2a8"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\keyboard_serial.vcd": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\keyboard_serial.vcd",
+      "sha256": "5edfde408a3091b8ad0d4c4c6f3088cf690ae420b7c279afa3c832541eecc162"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\keyboard_serial_compile.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\keyboard_serial_compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\keyboard_serial_run.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\keyboard_serial_run.log",
+      "sha256": "9dcce744091dcbad5a695e382596c780a3445881fc1d5e2df85f8ae83437607c"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\keyboard_status_results.json": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\keyboard_status_results.json",
+      "sha256": "f5a7aedf5580c32f2492242c70396193751cf7879223aa38b58f4e015780bf80"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\keyboard_unit_results.json": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\keyboard_unit_results.json",
+      "sha256": "5a7f894ab4a1c281d7556bad6f79c7385d3855ea363a38eb0eba50b2a83489e2"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\tb_keyboard_hud_compile.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\tb_keyboard_hud_compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\tb_keyboard_hud_run.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\tb_keyboard_hud_run.log",
+      "sha256": "d9129b128bcac66f17f360c65180982425d7d0755799bfdb7a4e11a60b2b9e9f"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\tb_status_interfaces_compile.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\tb_status_interfaces_compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\results\\keyboard\\tb_status_interfaces_run.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\results\\keyboard\\tb_status_interfaces_run.log",
+      "sha256": "5adec79076c016b856407304c807952440e8b8cbf3e97a2361f29da32bf4d4d9"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\fft_input.hex": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\fft_input.hex",
+      "sha256": "cd84d5b77827466d65eec7e482db3187d1a93c5ec9f45ca7af9b6a4a8a5e1d97"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\fft_rtl.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\fft_rtl.txt",
+      "sha256": "91c34018a899ec2645076fbe254997a198b94ffa714e715ebbde5eac3f6618a0"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\fft_rtl_1024.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\fft_rtl_1024.txt",
+      "sha256": "1b19c349941110d250015d95c22fccea5d05a562475b73f02ed5d55f2d65977f"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\fft_rtl_2048.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\fft_rtl_2048.txt",
+      "sha256": "792ca754a9e38d080b53f735b4038419297e72f31d113da1889442fd02c927ef"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\fft_rtl_4096.txt": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\fft_rtl_4096.txt",
+      "sha256": "91c34018a899ec2645076fbe254997a198b94ffa714e715ebbde5eac3f6618a0"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_tmds_receiver.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_tmds_receiver.log",
+      "sha256": "c4cd3a578884fa76dcff47afdbc8f41950766b7d42efe59b3f527375eafb7a9d"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_tmds_receiver_compile.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_tmds_receiver_compile.log",
+      "sha256": "5c832f946c61f1fa372f3733a1bfc193cd8a75511406222962d156f4987d3095"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_visual_cdc.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_visual_cdc.log",
+      "sha256": "b15b82d1bf021d04a51137bc67e751c302a6966979f99d151fd3d68dd52acc4f"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_visual_cdc_compile.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_visual_cdc_compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_visual_fft.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_visual_fft.log",
+      "sha256": "6a581a1fb910e694cdd8f932ec15942f7d3710340bfb7cc063673420429136a2"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_visual_fft_compile.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_visual_fft_compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_visual_readout.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_visual_readout.log",
+      "sha256": "0317ebcfd68b15b2696b35d03bcfb6af4e6cd4b82afd0b6ad0907a467930743b"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_visual_readout_compile.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_visual_readout_compile.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_visual_reset.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_visual_reset.log",
+      "sha256": "3bc30f4d3f35120f0e4a86b365a29a28d878662f0294aca776a5e7b59636f4d4"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_visual_reset_compile.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_visual_reset_compile.log",
+      "sha256": "5c832f946c61f1fa372f3733a1bfc193cd8a75511406222962d156f4987d3095"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_visual_video.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_visual_video.log",
+      "sha256": "643bfd37e3b7ae53ad89eba8661ccbea6ec88d9154f945c0c00d135afcc81965"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\tb_visual_video_compile.log": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\tb_visual_video_compile.log",
+      "sha256": "ff2b98ef493e217d333aa2390b3acaf7e95f9d9d61bf57b3522b558f3a8e3c84"
+    },
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\scale_decay_20261017\\other_test_outputs\\display\\sim_out_visual\\verification_report.md": {
+      "source": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display\\sim_out_visual\\verification_report.md",
+      "sha256": "77cb6f536ba29c7c7975707b76b32ab799600a95afbc352d47be8aaaa576afed"
+    }
+  }
+}

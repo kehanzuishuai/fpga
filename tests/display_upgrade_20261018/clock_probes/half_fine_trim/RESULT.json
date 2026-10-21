@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "slacks_ns": {
+    "setup": 3.895,
+    "hold": 0.278,
+    "recovery": 0.041,
+    "removal": 0.033,
+    "min_pulse_width": 0.602
+  },
+  "violated_endpoints": {
+    "Setup": 0,
+    "Hold": 0
+  },
+  "scope": "Small physical-clock probe; full main implementation still required"
+}

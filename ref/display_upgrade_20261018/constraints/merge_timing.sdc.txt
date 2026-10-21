@@ -1,0 +1,6 @@
+# Integration TEMPLATE, not a replacement for existing constraints.
+# Adjust u_display to actual instance hierarchy; preserve audio PLL and clock groups.
+create_generated_clock -name video_ref -source [get_ports {clk_50m}] -multiply_by 27 -divide_by 50 [get_pins {u_display/u_video_clock/ref_pll/PLL_inst/CLKOUT0}]
+create_generated_clock -name video_serial -source [get_pins {u_display/u_video_clock/ref_pll/PLL_inst/CLKOUT0}] -multiply_by 55 -divide_by 4 [get_pins {u_display/u_video_clock/video_pll/PLL_inst/CLKOUT0}]
+create_generated_clock -name video_pixel -source [get_pins {u_display/u_video_clock/ref_pll/PLL_inst/CLKOUT0}] -multiply_by 11 -divide_by 4 [get_pins {u_display/u_video_clock/video_pll/PLL_inst/CLKOUT1}]
+# Audio/display signals cross only via the snapshot mailbox. Review actual clocks before merging.

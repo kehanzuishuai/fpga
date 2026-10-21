@@ -1,4 +1,4 @@
-<?xml version="1" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE gowin-fpga-project>
 <Project>
     <Template>FPGA</Template>
@@ -7,7 +7,6 @@
     <FileList>
         <File path="src/adsr_env.v" type="file.verilog" enable="1"/>
         <File path="src/audio_telemetry.v" type="file.verilog" enable="1"/>
-        <File path="src/dds_phase_accum.v" type="file.verilog" enable="1"/>
         <File path="src/gowin_pll/audio_pll.v" type="file.verilog" enable="1"/>
         <File path="src/gowin_pll/audio_pll_mod.v" type="file.verilog" enable="1"/>
         <File path="src/i2s_tx.v" type="file.verilog" enable="1"/>
@@ -16,18 +15,17 @@
         <File path="src/morph_control.v" type="file.verilog" enable="1"/>
         <File path="src/note_event_fifo.v" type="file.verilog" enable="1"/>
         <File path="src/note_freq_table.v" type="file.verilog" enable="1"/>
+        <File path="src/pcm5102_i2s_tx.v" type="file.verilog" enable="1"/>
         <File path="src/performance_mode_controller.v" type="file.verilog" enable="1"/>
-        <File path="src/piano_dual_wavetable.v" type="file.verilog" enable="1"/>
-        <File path="src/piano_envelope.v" type="file.verilog" enable="1"/>
-        <File path="src/piano_string_model.v" type="file.verilog" enable="1"/>
-        <File path="src/piano_partial_voice.v" type="file.verilog" enable="1"/>
-        <File path="src/piano_note_loader.v" type="file.verilog" enable="1"/>
-        <File path="src/piano_level_rom.v" type="file.verilog" enable="1"/>
-        <File path="src/piano_ratio_rom.v" type="file.verilog" enable="1"/>
-        <File path="src/piano_note_rom.v" type="file.verilog" enable="1"/>
-        <File path="src/piano_sine_rom.v" type="file.verilog" enable="1"/>
         <File path="src/piano_exp_rom.v" type="file.verilog" enable="1"/>
-        <File path="src/piano_fx.v" type="file.verilog" enable="1"/>
+        <File path="src/piano_fx.v" type="file.verilog" enable="0"/>
+        <File path="src/piano_fx_compat.v" type="file.verilog" enable="1"/>
+        <File path="src/piano_level_rom.v" type="file.verilog" enable="1"/>
+        <File path="src/piano_note_loader.v" type="file.verilog" enable="1"/>
+        <File path="src/piano_note_rom.v" type="file.verilog" enable="1"/>
+        <File path="src/piano_partial_voice.v" type="file.verilog" enable="1"/>
+        <File path="src/piano_ratio_rom.v" type="file.verilog" enable="1"/>
+        <File path="src/piano_sine_rom.v" type="file.verilog" enable="1"/>
         <File path="src/pll_init.v" type="file.verilog" enable="1"/>
         <File path="src/polyphony_gain.v" type="file.verilog" enable="1"/>
         <File path="src/saturator.v" type="file.verilog" enable="1"/>
@@ -39,17 +37,156 @@
         <File path="src/tang_mega_138k_pro_top.v.v" type="file.verilog" enable="1"/>
         <File path="src/telemetry_uart.v" type="file.verilog" enable="1"/>
         <File path="src/test_mode.v" type="file.verilog" enable="1"/>
-        <File path="src/timbre_morph.v" type="file.verilog" enable="1"/>
         <File path="src/tree_mixer.v" type="file.verilog" enable="1"/>
         <File path="src/ttp229_event_bridge.v" type="file.verilog" enable="1"/>
         <File path="src/ttp229_reader.v" type="file.verilog" enable="1"/>
         <File path="src/uart_tx.v" type="file.verilog" enable="1"/>
-        <File path="src/voice.v" type="file.verilog" enable="1"/>
         <File path="src/voice_allocator.v" type="file.verilog" enable="1"/>
         <File path="src/voice_bank.v" type="file.verilog" enable="1"/>
+        <File path="src/integrated.cst" type="file.cst" enable="1"/>
+        <File path="src/integrated.sdc" type="file.sdc" enable="1"/>
+        <File path="src/keyboard_debug.rao" type="file.gao" enable="1"/>
+        <File path="src/dds_phase_accum.v" type="file.verilog" enable="1"/>
+        <File path="src/piano_dual_wavetable.v" type="file.verilog" enable="1"/>
+        <File path="src/piano_envelope.v" type="file.verilog" enable="1"/>
+        <File path="src/piano_string_model.v" type="file.verilog" enable="1"/>
+        <File path="src/timbre_morph.v" type="file.verilog" enable="1"/>
+        <File path="src/voice.v" type="file.verilog" enable="1"/>
         <File path="src/waveform_gen.v" type="file.verilog" enable="1"/>
         <File path="src/waveform_set.v" type="file.verilog" enable="1"/>
-        <File path="src/yinyue_fashengqi.cst" type="file.cst" enable="1"/>
-        <File path="src/synth_timing.sdc.sdc" type="file.sdc" enable="1"/>
+        <File path="src/display/audio_visualizer.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/gowin_pll/visual_pll_mod.v" type="file.verilog" enable="1"/>
+        <File path="src/display/piano_status_cdc.v" type="file.verilog" enable="1"/>
+        <File path="src/display/piano_status_overlay.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_dvi_io.v" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_fft.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_frame_store.v" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_labels.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_raster.v" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_renderer.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_tmds.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_twiddle_rom.v" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_video_clock.v" type="file.verilog" enable="1"/>
+        <File path="src/display/yinse_display_info.sv" type="file.verilog" enable="1"/>
+        <File path="src/keyboard/keyboard_state_mapper.sv" type="file.verilog" enable="1"/>
+        <!-- Verification and review artifacts: excluded from synthesis. -->
+        <File path="tests/range44_20261018/tb_direct_midi.sv" type="file.verilog" enable="0"/>
+        <File path="tests/range44_20261018/tb_audio_fx.v" type="file.verilog" enable="0"/>
+        <File path="tools/range44_run.py" type="file.other" enable="0"/>
+        <File path="tools/range44_analyze.py" type="file.other" enable="0"/>
+        <File path="tools/range44_report.py" type="file.other" enable="0"/>
+        <File path="tools/range44_tail_probe.py" type="file.other" enable="0"/>
+        <File path="tools/range44_tail_rtl.py" type="file.other" enable="0"/>
+        <File path="tools/build_gowin.tcl" type="file.other" enable="0"/>
+        <File path="tools/project_rebuild_20261018.py" type="file.other" enable="0"/>
+        <File path="docs/SOUND_SOURCE_44_NOTE_RESULTS.md" type="file.other" enable="0"/>
+        <File path="docs/SOUND_SOURCE_32KEY_ACCEPTANCE.md" type="file.other" enable="0"/>
+        <File path="docs/KEY_MAPPING_FIX.md" type="file.other" enable="0"/>
+        <File path="docs/HIGH_NOTE_DECAY_ANALYSIS.md" type="file.other" enable="0"/>
+        <File path="docs/VOICE_PEAK_ZERO_ANALYSIS.md" type="file.other" enable="0"/>
+        <File path="docs/AUDIO_FIX_CHANGELOG.md" type="file.other" enable="0"/>
+        <File path="docs/AUDIO_TEST_RESULTS.md" type="file.other" enable="0"/>
+        <File path="docs/BOARD_VALIDATION_GUIDE.md" type="file.other" enable="0"/>
+        <File path="docs/GOWIN_PROJECT_REBUILD_20261018.md" type="file.other" enable="0"/>
+        <File path="docs/PROJECT_STATUS.md" type="file.other" enable="0"/>
+        <File path="README.md" type="file.other" enable="0"/>
+        <File path="tests/range44_20261018/NOTE_METRICS_44.csv" type="file.other" enable="0"/>
+        <File path="tests/range44_20261018/LISTENING_ROOM.html" type="file.other" enable="0"/>
+        <!-- Tail-gap fix verification: excluded from synthesis. -->
+        <File path="tools/tail_fix_run.py" type="file.other" enable="0"/>
+        <File path="tools/tail_fix_analyze.py" type="file.other" enable="0"/>
+        <File path="tools/tail_fix_checks.py" type="file.other" enable="0"/>
+        <File path="tools/tail_fix_report.py" type="file.other" enable="0"/>
+        <File path="docs/NATURAL_TAIL_FIX_20261018.md" type="file.other" enable="0"/>
+        <File path="tests/tail_fix_20261018/tb_tail_gap.sv" type="file.verilog" enable="0"/>
+        <File path="tests/tail_fix_20261018/tb_direct_midi.sv" type="file.verilog" enable="0"/>
+        <File path="tests/tail_fix_20261018/tb_audio_fx.v" type="file.verilog" enable="0"/>
+        <!-- Regression scheduler and reference models, excluded from synthesis. -->
+        <File path="sim/run_tests.py" type="file.other" enable="0"/>
+        <File path="sim/parallel_regression.py" type="file.other" enable="0"/>
+        <File path="tools/compare_system.py" type="file.other" enable="0"/>
+        <File path="tools/fpga_piano_model.py" type="file.other" enable="0"/>
+        <!-- Measured calibration tables; excluded from synthesis. -->
+        <File path="tests/calibration_20261018/AB_BEFORE_AFTER.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/ADJACENT_COMPARISON.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/ALL_32_NOTE_WINDOWS.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/BEFORE_AFTER_88.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/ENVELOPES_10MS.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/FOUR_SEMITONE_COMPARISON.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/GAIN_COEFFICIENTS_44.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/GAIN_FIXED_POINT_44.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/GAIN_FIXED_POINT_EXAMPLES.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/HAMMER_SEEDS_1408_MODEL.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/HAMMER_SEEDS_WORST_FX_MODEL.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/LOCAL_LOUDNESS_VALLEYS.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/NATURAL_DECAY_132_MODEL.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/NATURAL_DECAY_SOURCE_AND_FX.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/NATURAL_FX_44_MODEL.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/NOTE_METRICS_44.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/PARTIAL_SPECTRA.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/VELOCITY_FX_352_MODEL.csv" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/VELOCITY_SCAN_5588_MODEL.csv" type="file.other" enable="0"/>
+        <!-- Measured note gain and excluded verification artifacts. -->
+        <File path="src/piano_note_gain.v" type="file.verilog" enable="1"/>
+        <File path="tools/note_gain_model.py" type="file.other" enable="0"/>
+        <File path="docs/NOTE_GAIN_CALIBRATION_20261018.md" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/calibrate.py" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/finish.py" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/natural_fx.py" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/piano_note_gain.v" type="file.verilog" enable="0"/>
+        <File path="tests/calibration_20261018/results.py" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/tb_calibrated_stream.v" type="file.verilog" enable="0"/>
+        <File path="tests/calibration_20261018/tb_gain.v" type="file.verilog" enable="0"/>
+        <File path="tests/calibration_20261018/tb_gain_stream.v" type="file.verilog" enable="0"/>
+        <File path="tests/calibration_20261018/verify.py" type="file.other" enable="0"/>
+        <!-- Final calibration review artifacts; not synthesized. -->
+        <File path="tests/calibration_20261018/LISTENING_ROOM.html" type="file.other" enable="0"/>
+        <File path="tests/calibration_20261018/tb_audio_stress_default.sv" type="file.verilog" enable="0"/>
+        <File path="tests/calibration_20261018/tb_direct_midi.sv" type="file.verilog" enable="0"/>
+        <File path="tests/calibration_20261018/tb_scale_mapping.sv" type="file.verilog" enable="0"/>
+        <File path="tests/calibration_20261018/tb_voice_peak.sv" type="file.verilog" enable="0"/>
+        <!--1080p30 display upgrade; existing16-key status retained. -->
+        <File path="src/display/visual_xy_source.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_xy_plot.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/gowin_pll/visual_ref_pll_mod.v" type="file.verilog" enable="1"/>
+        <!-- Display upgrade review and verification; excluded from synthesis. -->
+        <File path="docs/DISPLAY_UPGRADE_16KEY_20261018.md" type="file.other" enable="0"/>
+        <File path="tests/display_upgrade_20261018/run_checks.py" type="file.other" enable="0"/>
+        <File path="tests/display_upgrade_20261018/integration_checks.py" type="file.other" enable="0"/>
+        <File path="tests/display_upgrade_20261018/timing_checks.py" type="file.other" enable="0"/>
+        <File path="tests/display_upgrade_20261018/label_equivalence.py" type="file.other" enable="0"/>
+        <File path="tests/display_upgrade_20261018/preview.py" type="file.other" enable="0"/>
+        <File path="tests/display_upgrade_20261018/build.py" type="file.other" enable="0"/>
+        <!-- Display upgrade review and verification; excluded from synthesis. -->
+        <File path="docs/LISSAJOUS_VIDEO_FIX_20261018.md" type="file.other" enable="0"/>
+        <File path="tests/display_upgrade_20261018/boundary_checks.py" type="file.other" enable="0"/>
+        <File path="tests/display_upgrade_20261018/audit_current.py" type="file.other" enable="0"/>
+        <File path="tests/lissajous_video_20261018/generate_hilbert.py" type="file.other" enable="0"/>
+        <File path="tests/lissajous_video_20261018/verify_hilbert.py" type="file.other" enable="0"/>
+        <File path="tests/lissajous_video_20261018/response_44.csv" type="file.other" enable="0"/>
+        <File path="src/keyboard/ttp229_keyboard_pair.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/uart/wifi_packet_rx.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/uart/wifi_packet_tx.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/uart/wifi_uart_rx.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/uart/wifi_uart_tx.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/control/wifi_control.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/control/wifi_score_player.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/remote_control.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/stereo_master.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/wav_pcm_player.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/wav_remote.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/wav_spi_stream.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/wifi_core.sv" type="file.verilog" enable="1"/>
+        <File path="src/instruments/gongyong/yinse_aux_bank.sv" type="file.verilog" enable="1"/>
+        <File path="src/instruments/gongyong/yinse_aux_voice.sv" type="file.verilog" enable="1"/>
+        <File path="src/instruments/gongyong/yinse_envelope.sv" type="file.verilog" enable="1"/>
+        <File path="src/instruments/gongyong/yinse_note_table.sv" type="file.verilog" enable="1"/>
+        <File path="src/instruments/gongyong/yinse_sine_rom.sv" type="file.verilog" enable="1"/>
+        <File path="src/instruments/yushe/yinse_preset.sv" type="file.verilog" enable="1"/>
+        <File path="src/instruments/guanfengqin/yinse_organ_profile.sv" type="file.verilog" enable="1"/>
+        <File path="src/instruments/jianhuachangdi/yinse_flute_profile.sv" type="file.verilog" enable="1"/>
+        <File path="src/instruments/zhongqin/yinse_bell_profile.sv" type="file.verilog" enable="1"/>
+        <File path="src/instruments/jita/yinse_ks_loop.sv" type="file.verilog" enable="1"/>
+        <File path="src/instruments/jita/yinse_ks_tuning.sv" type="file.verilog" enable="1"/>
     </FileList>
 </Project>

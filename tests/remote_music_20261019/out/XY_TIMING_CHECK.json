@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "source_sha256": "23d4f705aa59e5b3e83790024dfc3398d8b1ad0683c1ce894c43d209b74a5e47",
+  "scope": "Only changed peak pipeline. Ten previous reference bitmaps and mode/scale flags exact; 512 additional pixel clocks per snapshot. No complete HDMI-frame rerun.",
+  "cases": [
+    {
+      "case": 0,
+      "bitmap_exact": true,
+      "additional_clocks": 512,
+      "clocks": 22676
+    },
+    {
+      "case": 1,
+      "bitmap_exact": true,
+      "additional_clocks": 512,
+      "clocks": 54378
+    },
+    {
+      "case": 2,
+      "bitmap_exact": true,
+      "additional_clocks": 512,
+      "clocks": 22612
+    },
+    {
+      "case": 3,
+      "bitmap_exact": true,
+      "additional_clocks": 512,
+      "clocks": 19458
+    },
+    {
+      "case": 4,
+      "bitmap_exact": true,
+      "additional_clocks": 512,
+      "clocks": 19458
+    },
+    {
+      "case": 5,
+      "bitmap_exact": true,
+      "additional_clocks": 512,
+      "clocks": 22490
+    },
+    {
+      "case": 6,
+      "bitmap_exact": true,
+      "additional_clocks": 512,
+      "clocks": 54722
+    },
+    {
+      "case": 7,
+      "bitmap_exact": true,
+      "additional_clocks": 512,
+      "clocks": 65587
+    },
+    {
+      "case": 8,
+      "bitmap_exact": true,
+      "additional_clocks": 512,
+      "clocks": 19458
+    },
+    {
+      "case": 9,
+      "bitmap_exact": true,
+      "additional_clocks": 512,
+      "clocks": 22676
+    }
+  ]
+}

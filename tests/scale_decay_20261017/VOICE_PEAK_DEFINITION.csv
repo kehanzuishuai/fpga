@@ -1,0 +1,6 @@
+case,active_bitmap,pcm,VOICE,PEAK
+before_window,80000000,12345,1,0
+completed_window,80000000,12345,1,12345
+active_silent,80000000,0,1,0
+inactive_nonzero_audio,00000000,-6789,0,6789
+all32_active,ffffffff,-6789,32,6789

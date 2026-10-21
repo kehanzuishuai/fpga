@@ -1,5 +1,6 @@
 
 module synth_event_frontend #(
+    parameter REMOTE_ENABLE = 0,
     parameter VOICES      = 32,
     parameter SAMPLE_W    = 24,
     parameter SAMPLE_RATE = 48000,
@@ -16,6 +17,8 @@ module synth_event_frontend #(
     input                              clk,
     input                              rst_n,
     input                              sample_tick,
+    input [2:0] instrument_id,
+    output wire engine_idle,
 
     input                              event_valid,
     input                              event_note_on,
@@ -47,7 +50,8 @@ module synth_event_frontend #(
     output     [5:0]                   mix_gain_shift,
     output                             visual_sample_strobe,
     output signed [SAMPLE_W-1:0]       lissajous_x,
-    output signed [SAMPLE_W-1:0]       lissajous_y
+    output signed [SAMPLE_W-1:0]       lissajous_y,
+    output wire [127:0]               diagnostic_chain
 );
 
 wire       out_valid;
@@ -62,6 +66,16 @@ wire [1:0] out_waveform;
  * Note Off stay in order.
  */
 wire       core_ready;
+assign engine_idle=core_ready && fifo_level==0;
+wire [95:0] diagnostic_audio;
+reg [15:0] diagnostic_read_on,diagnostic_read_off;
+assign diagnostic_chain={diagnostic_read_off,diagnostic_read_on,diagnostic_audio};
+always @(posedge clk or negedge rst_n)
+if(!rst_n)begin diagnostic_read_on<=0;diagnostic_read_off<=0;end
+else if(out_valid && core_ready)begin
+ if(out_note_on)diagnostic_read_on<=diagnostic_read_on+1'b1;
+ else diagnostic_read_off<=diagnostic_read_off+1'b1;
+end
 
 note_event_fifo #(
     .DEPTH (FIFO_DEPTH),
@@ -85,7 +99,7 @@ note_event_fifo #(
 );
 
 synth_core #(
-    .VOICES      (VOICES),
+    .REMOTE_ENABLE(REMOTE_ENABLE),    .VOICES      (VOICES),
     .SAMPLE_W    (SAMPLE_W),
     .SAMPLE_RATE (SAMPLE_RATE),
     .IDX_W       (IDX_W),
@@ -99,6 +113,7 @@ synth_core #(
     .clk                 (clk),
     .rst_n               (rst_n),
     .sample_tick         (sample_tick),
+    .instrument_id(instrument_id),
     .note_on             (out_valid && core_ready && out_note_on),
     .note_off            (out_valid && core_ready && !out_note_on),
     .midi_note           (out_note),
@@ -124,7 +139,8 @@ synth_core #(
     .mix_gain_shift      (mix_gain_shift),
     .visual_sample_strobe(visual_sample_strobe),
     .lissajous_x         (lissajous_x),
-    .lissajous_y         (lissajous_y)
+    .lissajous_y         (lissajous_y),
+    .diagnostic_audio    (diagnostic_audio)
 );
 
 endmodule

@@ -1,0 +1,23 @@
+{
+  "status": "FAIL",
+  "slacks_ns": {
+    "setup": 5.833,
+    "hold": 0.278,
+    "recovery": 0.499,
+    "removal": -0.974,
+    "min_pulse_width": 2.841
+  },
+  "violated_endpoints": {
+    "Setup": 0,
+    "Hold": 3
+  },
+  "source_sha256": {
+    "D:\\gaoyun\\piano_v2_audio_fix\\src\\display\\visual_dvi_io.v": "3f9eaa801dd25342286a4b0b0c57ae1118d9ce81193a21453534c66eb1b0124e",
+    "D:\\gaoyun\\piano_v2_audio_fix\\src\\display\\visual_video_clock.v": "68c1a384c4d8689ef17e1afcf91c9b30688c76eedeed00c4c4fef07b46cf11b0",
+    "D:\\gaoyun\\piano_v2_audio_fix\\src\\pll_init.v": "491827287cb3fd397d3c08739b2c5d1094761a32272289d714496a0fb01b77ad",
+    "D:\\gaoyun\\piano_v2_audio_fix\\src\\display\\gowin_pll\\visual_pll_mod.v": "d3778ac9367f6d129897bfd8ad87d001ecaec267ebc91f2f6dfac7640bdb52f2",
+    "D:\\gaoyun\\piano_v2_audio_fix\\src\\display\\gowin_pll\\visual_ref_pll_mod.v": "902e7ea0c97a474f8e17718503fb7beb0f2cb4d14bddd2f58e1db43f50382eff",
+    "D:\\gaoyun\\piano_v2_audio_fix\\tests\\display_upgrade_20261018\\clock_probes\\clock_propagation\\probe.v": "350c2647d829f21196fade03f825f199b3cfd0af1fdc3eaba63d092dff2936f6"
+  },
+  "scope": "Exact production sources in small physical-clock probe; full implementation still required"
+}

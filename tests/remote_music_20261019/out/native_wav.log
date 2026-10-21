@@ -1,0 +1,1 @@
+PASS real WavLink.h: sequence wrap, lost ACK retry, byte-exact 1622 bytes, status CRC rejection, cancellation; actual transfers recorded for RTL replay

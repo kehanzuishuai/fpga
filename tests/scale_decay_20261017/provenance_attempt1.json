@@ -1,0 +1,9 @@
+{
+  "status": "FAIL_THEN_FIXED",
+  "action": "initial scale_decay_analyze.py provenance",
+  "returncode": 1,
+  "failure": "AssertionError from snapshot dictionary path separators: integrated.cst/sdc/keyboard_debug.rao were stored with slash keys and queried with Windows backslash keys",
+  "evidence": "Previous FS hash matched; all three source hashes matched after canonical path conversion. Source content was never mismatched.",
+  "repair": "Normalize manifest relative paths with Path.as_posix(); rerun provenance PASS",
+  "recorded_at": "2026-10-17T20:48:20.535932+08:00"
+}

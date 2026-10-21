@@ -1,0 +1,93 @@
+{
+  "status": "PASS",
+  "count": 21,
+  "results": [
+    [
+      "voice: c4_mf bit-exact vs model",
+      true
+    ],
+    [
+      "voice: c4_pp bit-exact vs model",
+      true
+    ],
+    [
+      "voice: c4_ff bit-exact vs model",
+      true
+    ],
+    [
+      "voice: c4_v100 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: c3_v100 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: c5_v100 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: eb5_v100 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: d4_v93 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: f4_v61 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: c4_no_hammer bit-exact vs model",
+      true
+    ],
+    [
+      "voice: vel_1 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: vel_127 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: note_0 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: note_24 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: note_104 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: note_127 bit-exact vs model",
+      true
+    ],
+    [
+      "voice: tap_2ms bit-exact vs model",
+      true
+    ],
+    [
+      "voice: off_in_load bit-exact vs model",
+      true
+    ],
+    [
+      "voice: steal_loud bit-exact vs model",
+      true
+    ],
+    [
+      "voice: steal_release bit-exact vs model",
+      true
+    ],
+    [
+      "voice: retrigger bit-exact vs model",
+      true
+    ]
+  ],
+  "original_script_sha256": "25f09244e8b922cf1530830de4dc892aaafe404e880cdf590c96a152bc2d57b7",
+  "only_in_memory_change": "isolated output filenames; same21 original short cases and assertions",
+  "long_and_other_groups_rerun": false
+}

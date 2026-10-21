@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "netlist_sha256": "d5c641e9377c7aebbdf8100a68619394dc89315f84df0a7896bf08f8a9a00afe",
+  "source": "D:\\gaoyun\\piano_v2_audio_fix\\impl\\gwsynthesis\\yinyue_fashengqi.vg",
+  "notes": 16,
+  "words": 6400,
+  "mismatches": 0,
+  "examples": [],
+  "scope": "Actual production integrated Loader and synthesized ROMs, Gowin GW5A primitive simulation. Captured request pitch/inc forced; keyboard/allocator not covered."
+}

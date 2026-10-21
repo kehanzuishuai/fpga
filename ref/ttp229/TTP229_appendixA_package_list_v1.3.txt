@@ -1,0 +1,322 @@
+TTP229 Appendix A-Package List-V1.3
+
+Specification and application please refer to the series of TTP229_SPEC.
+
+1. Option definition:
+
+Option pin  Option states                                     Feature                            Remark
+                                                                                                 Default
+  TP0         TP0          TP1    8 output pins => CMOS output active-high
+(OPDEN)     (OPDEN)       (SAHL)  2-wires serial interface => CMOS output active-low             Default
+                                  8 output pins => CMOS output active-low                        Default
+  TP1           1            1    2-wires serial interface => CMOS output active-high
+ (SAHL)                           8 output pins => OD output active-low                          Default
+            1             0       2-wires serial interface => CMOS output active-low             Default
+  TP2                             8 output pins => OC output active-high                         Default
+(KYSEL)     0             1       2-wires serial interface => CMOS output active-high            Default
+                                  8 input keys mode                                              Default
+            0             0                                                                      Default
+                                  16 input keys mode
+                       1
+                       0
+
+            TP3           TP4
+
+            (SKMS1) (SKMS0)
+
+  TP3       1             1 All Single-keysone group(16keys)
+(SKMS1)
+            1             0 Two groups operate
+  TP4
+(SKMS0)                           group-1=>Single keygroup-2=>Single key
+
+            0             1 Two groups operate
+
+                                  group-1=>Single keygroup-2=>Multi key
+
+            0             0 All Multi-keysone group(16 keys)
+
+  TP5                  1          8Hz sampling rate for wake-up in sleep mode
+(WPSCT)
+                       0          64Hz sampling rate for wake-up in sleep mode
+
+    TP6                1          Wake-up sampling length=>about 4.0ms
+(SLWPTM)
+                       0          Wake-up sampling length=>about 2.0ms
+
+  TP7                  1          Maximum key-on time disable=>infinite
+(SKSRT)
+                       0          Maximum key-on time enable=>about 80sec
+
+                       1          Enable internal regulator
+
+REGEN                  0          Disable internal regulator
+
+                       1          Serial output interface type selected =>2-wires serial output
+
+SLSERT                 0          Serial output interface type selected =>I2C-bus interface
+
+                       1          Sleep mode enable
+
+ENSLP                  0          Sleep mode disable
+
+Note
+(1). Option states "1" mean internal pull-up (default).
+(2). Option states "0" mean that TP0~TP7 pins are via high-value resistors connected to VSS,
+
+    others REGEN, SLSERT and ENSLP pins are connected to VSS directly.
+(3). The 8 function options and TP0~TP7 pins share common pin. So they have pins for package.
+
+2010/02/04                        Page 1 of 4                                                    Ver : 1.3
+2. P.S.: The mark of V  express that package item has the option feature pin.
+         The mark of X  express that package item has no the option feature pin.
+         The mark of 0  express that the state of option pin is fixed to VSS in the package item.
+         The mark of 1  express that the state of option pin is fixed to VDD in the package item.
+
+TTP229 series list:
+
+Package     Package Top Mark       Option Features       First function   Second function            Comment
+
+Item        Type                REGEN SLSERT ENSLP VREG                                               All pins
+            SSOP-48                                                                                   A(2:0)=
+TTP229S1             TTP229     V  V  V             V                                                 (VVV)
+                     Date code                                                                        A(2:0)=
+TTP229-AQG QFN-32    Lot No.    1  V  1             X 16 keys serial mode 8 keys direct mode          (VVV)
+                     TTP229-A
+                     Date code                           I2C+TT                                       A(2:0)=
+                     Lot No.                                                                          (VVV)
+TTP229-AQGN QFN-32              1  V  1             X 16 keys serial mode 8 keys direct mode          A(2:0)=
+TTP229-BSF SSOP-28   No-mark                                                                          (VVV)
+                                                         I2C+TT                                       A(2:0)=
+                     TTP229-B                                                                         (VVV)
+                     Date code  1  1  1             X 16 keys serial mode 8 keys direct mode          A(2:0)=
+                     Lot No.                                                                          (VVV)
+                                                         TT
+                     No-mark                                                                          A(2:0)=
+TTP229-BSFN SSOP-28             1  1  1             X 16 keys serial mode 8 keys direct mode           (01V)
+TTP229-CSE SSOP-24   TTP229-C                                                                         A(2:0)=
+                     Date code                           TT                                            (01V)
+                     Lot No.                                                                       A(2:0)=(111)
+                                1  1  1             X 8 keys direct mode 8 keys serial mode        Has SDO pin
+                     No-mark                                                                       A(2:0)=(111)
+                                                                          TT                       Has SDO pin
+                     TTP229-D
+TTP229-CSEN SSOP-24  Date code  1  1  1             X 8 keys direct mode 8 keys serial mode
+TTP229-DQE QFN-24    Lot No.
+                                                                          TT
+                     No-mark
+                                1  1  1             X 8 keys direct mode 8 keys serial mode
+                     TTP229-F
+                     Date code                                            TT
+                     Lot No.
+TTP229-DQEN QFN-24              1  1  1             X 8 keys direct mode 8 keys serial mode
+TTP229-FSD SSOP-20   No-mark
+                                                                          TT
+                     TTP229-G
+                     Date code  1  0  1             X 8 keys serial mode
+                     Lot No.
+                                                         I2C
+                     No-mark
+TTP229-FSDN SSOP-20             1  0  1             X 8 keys serial mode
+TTP229-GQD QFN-20    TTP229-H
+                     Date code                           I2C
+                     Lot No.
+                                1  0  1             X 8 keys serial mode
+                     No-mark
+                                                         I2C
+                     TTP229-J
+TTP229-GQDN QFN-20   Date code  1  0  1             X 8 keys serial mode
+TTP229-HSB SSOP-16   Lot No.
+                                                         I2C
+                     No-mark
+                                1  1  1             X 8 keys serial mode
+                     TTP229-K
+                     Date code                           TT
+                     Lot No.
+TTP229-HSBN SSOP-16             1  1  1             X 8 keys serial mode
+TTP229-JQB QFN-16    No-mark
+                                                         TT
+                     TTP229-L
+                     Date code  1  1  1             X 8 keys serial mode
+                     Lot No.
+                                                         TT
+                     No-mark
+TTP229-JQBN QFN-16              1  1  1             X 8 keys serial mode
+TTP229-KSF SSOP-28
+                                                         TT
+
+                                1  0  1             X 16 keys serial mode 8 keys direct mode
+
+                                                         I2C
+
+TTP229-KSFN SSOP-28             1  0  1             X 16 keys serial mode 8 keys direct mode
+TTP229-LSF SSOP-28
+                                                         I2C
+
+                                1  0  1             X 16 keys serial mode 8 keys direct mode
+
+                                                         I2C
+
+TTP229-LSFN SSOP-28             1  0  1             X 16 keys serial mode 8 keys direct mode
+
+                                                         I2C
+
+2010/02/04                            Page 2 of 4                                                  Ver : 1.3
+PACKAGE CONFIGURATION:
+TTP229 PACKAGE
+
+                 TTP229S1 SSOP-48                                     TTP229-AQG QFN-32                                                       TTP229-BSF SSOP-28
+                                                                      TTP229-AQGN QFN-32                                                      TTP229-BSFN SSOP-28
+
+             1                                      48
+
+             2                                      47                                 TP8
+                                                                                           TP9
+             3                                      46       REGEN                              SENADJ2                                               TP3 1                                  28 SLPSENA
+                                                             VSS                                     TP10                                             TP2 2                                  27 VSS
+             4                                      45       ENSLP                                        TP11                                                                               26 VDD
+                                                             VREG                                              SLPSENB                                           3                           25 TP4
+                                                                                                                    SCL                       SENADJ0 4                                      24 TP5
+                                                             VDD                                                        SDO                                                                  23 SENADJ1
+                                                                                                                                                      TP1 5                                  22 TP6
+SLPSENA      5                                      44       TP4                       24 23 22 21 20 19 18 17                                        TP0 6                                  21 TP7
+        TP3                                                  TP5                                                                                    TP15 7                                   20 TEST
+             6                                      43       SENADJ1       TEST    25                                            16  SDA            TP14 8                                   19 TP8
+        TP2                                                  TP6               A2                                                    TP12     SENADJ3 9                                      18 TP9
+SENADJ0      7                                      42       TP7               A1  26                                            15  TP13           TP13 10                                  17 SENADJ2
+                                                             SLSERT            A0                                                    SENADJ3        TP12 11                                  16 TP10
+        TP1  8                                      41       A0                    27                                            14  TP14            SDO 12                                  15 TP11
+        TP0                                                  A1        SLSERT                                                        TP15            SCL 13
+      TP15   9                                      40       A2               TP7  28                                            13  TP0      SLPSENB 14
+      TP14                                                                    TP6                                                    TP1
+SENADJ3      10                                     39       TEST                  29                                            12
+                                                             TP8      SENADJ1
+      TP13   11                                     38       TP9                   30                                            11
+                                                             SENADJ2
+      TP12   12                                     37       TP10                  31                                            10
+
+       SDA   13                                     36                             32                                            9
+       SDO
+       SCL   14                                     35                                 123456 78
+SLPSENB
+      TP11   15                                     34
+
+             16                                     33                                 TP5
+                                                                                           TP4
+             17                                     32                                          VDD
+                                                                                                     VSS
+             18                                     31                                                    SLPSENA
+                                                                                                               TP3
+                                                                                                                    TP2
+                                                                                                                        SENADJ0
+
+             19                                     30
+
+             20                                     29
+
+             21                                     28
+
+             22                                     27
+
+             23                                     26
+
+             24                                     25
+
+             TTP229-CSE SSOP-24                                       TTP229-DQE QFN-24                                                       TTP229-FSD SSOP-20
+             TTP229-CSEN SSOP-24                                      TTP229-DQEN QFN-24                                                      TTP229-FSDN SSOP-20
+
+SLPSENA 1                                           24 VSS                             TPQ1                                                           VSS 1                                  20 VDD
+        TP3 2                                       23 VDD                                 TPQ2                                               SLPSENA 2                                      19 TP4
+        TP2 3                                       22 TP4                                      TPQ3                                                                                         18 TP5
+                                                    21 TP5                                           SCL                                              TP3 3                                  17 SENADJ1
+SENADJ0 4                                           20 SENADJ1                                            SDO                                         TP2 4                                  16 TP6
+        TP1 5                                       19 TP6                                                     TPQ4                           SENADJ0 5                                      15 TP7
+        TP0 6                                       18 TP7                                                                                            TP1 6                                  14 A0
+                                                    17 TEST                            18 17 16 15 14 13                                              TP0 7                                  13 A1
+      TPQ7 7                                        16 TPQ0                                                                                          SDA 8                                   12 A2
+      TPQ6 8                                        15 TPQ1           TPQ0 19                                        12 TPQ5                                                                 11 TEST
+      TPQ5 9                                        14 TPQ2                                                                                                      9
+      TPQ4 10                                       13 TPQ3           TEST 20                                        11 TPQ6                         SCL 10
+       SDO 11
+       SCL 12                                                         TP7 21                                         10 TPQ7
+
+                                                                      TP6 22                                         9 TP0
+
+                                                                      SENADJ1 23                                     8 TP1
+
+                                                                      TP5 24                                         7 SENADJ0
+
+                                                                                       123456
+
+                                                                                       TP4
+                                                                                           VDD
+                                                                                                VSS
+                                                                                                     SLPSENA
+                                                                                                          TP3
+                                                                                                               TP2
+
+                TTP229-GQD QFN-20                                     TTP229-HSB SSOP-16                                                      TTP229-JQB QFN-16
+                TTP229-GQDN QFN-20                                    TTP229-HSBN SSOP-16                                                     TTP229-JQBN QFN-16
+
+                             TP5                                                                                                                                    TP7
+                                 SENADJ1                                                                                                                                  TEST
+                                      TP6                                                                                                                                        SCL
+                                           TP7                                                                                                                                         SDO
+                                                A0
+
+                             15 14 13 12 11                           SLPSENA 1                                      16 VSS                                          12 11 10 9
+                                                                              TP3 2                                  15 VDD                           TP6 13
+                     TP4 16                         10 A1                     TP2 3                                  14 TP4                   SENADJ1 14                                     8 TP0
+                    VDD 17                           9 A2                                                            13 TP5                           TP5 15                                 7 TP1
+                    VSS 18                           8 TEST           SENADJ0 4                                      12 SENADJ1                       TP4 16                                 6 SENADJ0
+             SLPSENA 19                              7 SCL                   TP1 5                                   11 TP6                                                                  5 TP2
+                     TP3 20                          6 SDA                   TP0 6                                   10 TP7                                           1234
+                                                                            SDO 7
+                             12345                                          SCL 8                                     9 TEST
+
+                             TP2                                                                                                                                    VDD
+                                 SENADJ0                                                                                                                                  VSS
+                                                                                                                                                                                 SLPSENA
+                                      TP1                                                                                                                                               TP3
+                                           TP0
+
+             TTP229-KSF SSOP-28                                       TTP229-LSF SSOP-28
+             TTP229-KSFN SSOP-28                                      TTP229-LSFN SSOP-28
+
+SLPSENA 1                                           28 VSS            SLPSENA 1                                      28 VSS
+        TP3 2                                       27 VDD                    TP3 2                                  27 VDD
+        TP2 3                                       26 TP4                    TP2 3                                  26 TP4
+                                                    25 TP5                                                           25 TP5
+SENADJ0 4                                           24 SENADJ1        SENADJ0 4                                      24 SENADJ1
+        TP1 5                                       23 TP6                    TP1 5                                  23 TP6
+        TP0 6                                       22 TP7                    TP0 6                                  22 TP7
+                                                    21 A0                                                            21 TEST
+      TP15 7                                        20 TEST                 TP15 7                                   20 TP8
+      TP14 8                                        19 TP8                  TP14 8                                   19 TP9
+SENADJ3 9                                           18 TP9            SENADJ3 9                                      18 SENADJ2
+      TP13 10                                       17 SENADJ2              TP13 10                                  17 TP10
+      TP12 11                                       16 TP10                 TP12 11                                  16 TP11
+       SDA 12                                       15 TP11                  SDA 12                                  15 SLPSENB
+       SCL 13                                                                SDO 13
+SLPSENB 14                                                                   SCL 14
+
+2010/02/04                                                            Page 3 of 4                                                                                                            Ver : 1.3
+REVISE HISTORY
+
+1. 2009/11/13 =>V_1.0
+ -Original version
+   Including TTP229S1TTP229-AQGTTP229-AQGNTTP229-BSFTTP229-BSFNTTP229-CSE
+   TTP229-CSENTTP229-DQETTP229-DQENTTP229-FSDTTP229-FSDNTTP229-GQD
+   TTP229-GQDNTTP229-HSBTTP229-HSBNTTP229-JQBTTP229-JQBN etc.
+
+2. 2009/12/14 =>V_1.1
+ -Add the TTP229-KSF and TTP229-KSFN package
+
+3. 2009/12/21 =>V_1.2
+ -Changing the Maximum Key-on Time value at the page-1 It changes from 60 to 80sec
+
+4. 2010/02/04 =>V_1.3
+ -Add the TTP229-LSF and TTP229-LSFN package
+
+2010/02/04  Page 4 of 4  Ver : 1.3
+

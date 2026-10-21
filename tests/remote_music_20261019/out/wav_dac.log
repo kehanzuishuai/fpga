@@ -1,0 +1,6 @@
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_dac.sv:82: $readmemh(tests/remote_music_20261019/out/stereo24_dac.mem): Not enough words in the file for the requested range [0:262143].
+WARNING: D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_dac.sv:83: $readmemh(tests/remote_music_20261019/out/stereo24_dac_expected.mem): Not enough words in the file for the requested range [0:65535].
+PASS WAV stereo24_dac: 1622 raw bytes, 256 exact stereo output frames, CRC rejection and retry
+PASS stereo WAV through real async mailbox and actual dual DAC transmitters: 256 exact WAV captures, 636 PCM5102 frames, 1272 PT8211 words
+PASS WAV integration
+D:\gaoyun\piano_v2_audio_fix\tests\remote_music_20261019\out\tb_wav_dac.sv:124: $finish called at 13273100000 (1ps)

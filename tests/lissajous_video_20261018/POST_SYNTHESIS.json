@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "netlist_sha256": "14fd882260b82008e061efd1245193fc07577e2afe3bb1c59e125d10add7d214",
+  "source_sha256": "6aec53fe59717e1a58e98071321ba9ee334928bfa75fbbb04ecddcb0c55fdc0f",
+  "actual_output_pairs": 9217,
+  "input_samples": 10240,
+  "input_pure_tones_Hz": [
+    130.81278265,
+    261.6255653,
+    440,
+    1567.9817439
+  ],
+  "actual_piano_samples": 2048,
+  "mismatches": 0,
+  "scope": "Actual gate simulation completed successfully; surrounding rebuild replaced whole netlist during run. Full tested FIR text equality below is mandatory.",
+  "simulator_log_sha256": "7cce2f892a03ba043d4c88b663409825871d878dcbafb728b4a1e37946856ba0",
+  "testbench_sha256": "ca12caaf317630066f65a318fb3008398bf8947a8fffc3d2cb60bda10218d68e",
+  "original_simulated_netlist_sha256": "3f4b28e17e0b01f1fa11748fb573fe6938ba642aae617744a13c9879b815a647",
+  "tested_component_text_sha256": "85283ac5d6cf543ffe95dcb4d1479a8995203e345c1d5bb0a2f1b688d6c2fea8",
+  "reuse_basis": "Every tested FIR module and descendant byte-identical to actual previously simulated gate module text. Only surrounding physical clock implementation rebuilt."
+}

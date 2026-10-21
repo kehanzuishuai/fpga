@@ -1,0 +1,216 @@
+{
+  "status": "PASS",
+  "results": [
+    {
+      "note": 60,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_060\\equivalence.log"
+    },
+    {
+      "note": 62,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_062\\equivalence.log"
+    },
+    {
+      "note": 63,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_063\\equivalence.log"
+    },
+    {
+      "note": 61,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_061\\equivalence.log"
+    },
+    {
+      "note": 65,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_065\\equivalence.log"
+    },
+    {
+      "note": 64,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_064\\equivalence.log"
+    },
+    {
+      "note": 66,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_066\\equivalence.log"
+    },
+    {
+      "note": 67,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_067\\equivalence.log"
+    },
+    {
+      "note": 68,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_068\\equivalence.log"
+    },
+    {
+      "note": 70,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_070\\equivalence.log"
+    },
+    {
+      "note": 69,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_069\\equivalence.log"
+    },
+    {
+      "note": 71,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_071\\equivalence.log"
+    },
+    {
+      "note": 72,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_072\\equivalence.log"
+    },
+    {
+      "note": 74,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_074\\equivalence.log"
+    },
+    {
+      "note": 73,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_073\\equivalence.log"
+    },
+    {
+      "note": 75,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_075\\equivalence.log"
+    },
+    {
+      "note": 84,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_084\\equivalence.log"
+    },
+    {
+      "note": 24,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_024\\equivalence.log"
+    },
+    {
+      "note": 36,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_036\\equivalence.log"
+    },
+    {
+      "note": 48,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_048\\equivalence.log"
+    },
+    {
+      "note": 104,
+      "velocity": 100,
+      "samples": 144000,
+      "note_off_tick": 96000,
+      "voice_equivalence": "all computed samples including release; original loader timing",
+      "fx_equivalence": "all 144000 samples, 32-clock valid spacing after reset RAM clear",
+      "status": "PASS",
+      "voice_log": "D:\\gaoyun\\piano_v2_audio_fix\\tests\\continuation_20261017\\notes\\baseline\\midi_104\\equivalence.log"
+    }
+  ],
+  "failures": []
+}

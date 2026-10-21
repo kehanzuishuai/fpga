@@ -1,0 +1,17 @@
+src/audio_visualizer.sv
+src/gowin_pll/visual_pll_mod.v
+src/gowin_pll/visual_ref_pll_mod.v
+src/pll_init.v
+src/visual_display_top.sv
+src/visual_dvi_io.v
+src/visual_fft.sv
+src/visual_frame_store.v
+src/visual_labels.sv
+src/visual_raster.v
+src/visual_renderer.sv
+src/visual_test_top.sv
+src/visual_tmds.sv
+src/visual_twiddle_rom.v
+src/visual_video_clock.v
+src/visual_xy_plot.sv
+src/visual_xy_source.sv

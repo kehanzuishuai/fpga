@@ -1,0 +1,26 @@
+{
+  "frequency_report": "Max Frequency Summary:  \n \n \n NO. \n Clock Name \n Constraint \n Actual Fmax \n Logic Level \n Entity \n \n \n 1 \n audio_clk \n 100.000(MHz) \n 102.718(MHz) \n 5 \n TOP \n \n \n 2 \n pixel_clk \n 100.000(MHz) \n 75.068(MHz) \n 15 \n TOP \n \n \n  ",
+  "critical_paths": [
+    [
+      "u/hr_4_s0 ",
+      "u/enc_r/disparity_5_s0 "
+    ],
+    [
+      "u/hg_4_s0 ",
+      "u/enc_g/disparity_5_s0 "
+    ],
+    [
+      "u/hb_4_s0 ",
+      "u/enc_b/disparity_5_s0 "
+    ],
+    [
+      "u/hb_4_s0 ",
+      "u/enc_b/symbol_5_s0 "
+    ],
+    [
+      "u/hb_4_s0 ",
+      "u/enc_b/symbol_6_s0 "
+    ]
+  ],
+  "scope": "Display-only synthesis estimate, not final integrated P&R/STA"
+}

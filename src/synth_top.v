@@ -1,4 +1,5 @@
 module synth_top #(
+    parameter REMOTE_ENABLE=0,
     parameter CLK_HZ         = 12288000,
     parameter SAMPLE_RATE    = 48000,
 
@@ -69,6 +70,12 @@ module synth_top #(
      * ======================================================== */
 
     input                           test_enable,
+    input [2:0] instrument_id,
+    input engine_clear,
+    input [15:0] remote_volume,
+    input [15:0] synth_gain,
+    input signed [23:0] wav_left,wav_right,
+    output wire remote_sample_tick,engine_idle,
 
     /* 0: piano hammer noise muted */
     input                           hammer_enable,
@@ -84,7 +91,7 @@ module synth_top #(
 
 
     /* ========================================================
-     * PCM5102A I2S
+     * On-board PT8211 (16 bit, i2s_tx.v)
      * ======================================================== */
 
     output                          i2s_bclk,
@@ -92,6 +99,18 @@ module synth_top #(
     output                          i2s_lrck,
 
     output                          i2s_data,
+
+
+    /* ========================================================
+     * External PCM5102A (standard I2S, 24 bit,
+     * pcm5102_i2s_tx.v).  Same audio_out as the PT8211.
+     * ======================================================== */
+
+    output                          pcm5102_bclk,
+
+    output                          pcm5102_lrck,
+
+    output                          pcm5102_data,
 
 
     /* ========================================================
@@ -136,7 +155,10 @@ module synth_top #(
 
     output signed [SAMPLE_W-1:0]    lissajous_x,
 
-    output signed [SAMPLE_W-1:0]    lissajous_y
+    output wire signed [SAMPLE_W-1:0] visual_pcm,
+    output wire                    visual_pcm_valid,
+    output signed [SAMPLE_W-1:0]    lissajous_y,
+    output wire [127:0]            diagnostic_chain
 );
 
 
@@ -160,16 +182,35 @@ wire sample_tick;
  * Synth最终24bit PCM
  */
 wire signed [SAMPLE_W-1:0] audio_out;
+wire pcm_strobe;
+wire signed [SAMPLE_W-1:0] pcm_sample;
+wire signed [23:0] final_left,final_right;
+wire master_clipped,engine_clipped;
+wire [23:0] engine_peak;wire engine_pcm_strobe;wire signed [23:0] engine_pcm;
+assign dbg_clip=engine_clipped || (REMOTE_ENABLE!=0 && master_clipped);
+
+assign remote_sample_tick=sample_tick;
+wire engine_rst_n=rst_n && !(REMOTE_ENABLE!=0 && engine_clear);
+generate if(REMOTE_ENABLE!=0)begin:G_MASTER
+ stereo_master master(clk,rst_n,remote_volume,synth_gain,audio_out,wav_left,wav_right,
+                      final_left,final_right,visual_pcm,master_clipped);
+ wire [23:0] abs_left=final_left[23]?-final_left:final_left;
+ wire [23:0] abs_right=final_right[23]?-final_right:final_right;
+ wire signed [23:0] meter_pcm=abs_left>=abs_right?final_left:final_right;
+ wire [COUNT_W-1:0] unused_count;
+ audio_telemetry #(.VOICES(VOICES),.SAMPLE_W(SAMPLE_W),.COUNT_W(COUNT_W)) meter(
+ .clk(clk),.rst_n(rst_n),.sample_tick(sample_tick),.active_voices(active_debug),
+ .audio(meter_pcm),.active_voice_count(unused_count),.audio_peak(audio_peak),
+ .pcm_strobe(pcm_strobe),.pcm_sample(pcm_sample));
+end else begin:G_ORIGINAL
+ assign final_left=audio_out;assign final_right=audio_out;assign visual_pcm=audio_out;
+ assign master_clipped=0;assign audio_peak=engine_peak;assign pcm_strobe=engine_pcm_strobe;assign pcm_sample=engine_pcm;
+end endgenerate
 
 
 /*
  * Telemetry输出
  */
-wire pcm_strobe;
-
-wire signed [SAMPLE_W-1:0] pcm_sample;
-
-
 /* ============================================================
  * I2S Transmitter
  *
@@ -191,9 +232,9 @@ i2s_tx #(
      *
      * 左右声道发送同一个audio_out
      */
-    .left_sample  (audio_out),
+    .left_sample  (final_left),
 
-    .right_sample (audio_out),
+    .right_sample (final_right),
 
     .i2s_bclk     (i2s_bclk),
 
@@ -201,7 +242,38 @@ i2s_tx #(
 
     .i2s_data     (i2s_data),
 
+    .frame_capture(visual_pcm_valid),
     .sample_tick  (sample_tick)
+);
+
+
+/* ============================================================
+ * Second output: external PCM5102A
+ *
+ * Reads the same audio_out and takes it on the same clk edge as
+ * u_i2s_tx (8 clk after sample_tick is set), so both DACs carry
+ * the same sample in the same frame.  It only listens: nothing
+ * of the synthesizer depends on it.
+ * ============================================================ */
+
+pcm5102_i2s_tx #(
+    .SAMPLE_W      (SAMPLE_W),
+    .CAPTURE_DELAY (5'd7)
+) u_pcm5102_tx (
+    .clk          (clk),
+    .rst_n        (rst_n),
+
+    .sample_valid (sample_tick),
+
+    .left_sample  (final_left),
+
+    .right_sample (final_right),
+
+    .pcm5102_bclk (pcm5102_bclk),
+
+    .pcm5102_lrck (pcm5102_lrck),
+
+    .pcm5102_data (pcm5102_data)
 );
 
 
@@ -210,7 +282,7 @@ i2s_tx #(
  * ============================================================ */
 
 synth_event_frontend #(
-    .VOICES      (VOICES),
+    .REMOTE_ENABLE(REMOTE_ENABLE),    .VOICES      (VOICES),
 
     .SAMPLE_W    (SAMPLE_W),
 
@@ -236,9 +308,10 @@ synth_event_frontend #(
 ) u_synth (
     .clk                 (clk),
 
-    .rst_n               (rst_n),
+    .rst_n               (engine_rst_n),
 
     .sample_tick         (sample_tick),
+    .instrument_id(instrument_id),.engine_idle(engine_idle),
 
 
     /* --------------------------------------------------------
@@ -295,17 +368,17 @@ synth_event_frontend #(
 
     .active_voice_count  (active_voice_count),
 
-    .audio_peak          (audio_peak),
+    .audio_peak          (engine_peak),
 
-    .pcm_strobe          (pcm_strobe),
+    .pcm_strobe          (engine_pcm_strobe),
 
-    .pcm_sample          (pcm_sample),
+    .pcm_sample          (engine_pcm),
 
     .dbg_note_event      (dbg_note_event),
 
     .dbg_audio_onset     (dbg_audio_onset),
 
-    .dbg_clip            (dbg_clip),
+    .dbg_clip            (engine_clipped),
 
     .latency_valid       (latency_valid),
 
@@ -322,7 +395,8 @@ synth_event_frontend #(
 
     .lissajous_x         (lissajous_x),
 
-    .lissajous_y         (lissajous_y)
+    .lissajous_y         (lissajous_y),
+    .diagnostic_chain    (diagnostic_chain)
 );
 
 
