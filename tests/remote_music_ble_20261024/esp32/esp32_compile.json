@@ -1,0 +1,35 @@
+{
+  "status": "PASS",
+  "fqbn": "esp32:esp32:esp32s3:PartitionScheme=huge_app",
+  "scope": "Compile only, no upload. Generic ESP32-S3, 4 MB flash, huge_app partitions.",
+  "sources": {
+    "BleBridge.h": "df97c6147b058b58465127223ed24d59383fb3f0ecd8ee1b0844cfb88da8c6cb",
+    "ControlLink.h": "2e7866f18aa76b2d787d4f40d730214710ff4af3a9c070589f6e5ffebdb9f433",
+    "ESP32_FPGA_Music_Controller.ino": "caf50c8e219a46c6ac32d411464cb42fd0cff59b2fddb602c78d2181899e2111",
+    "sketch.yaml": "d3eb9e7069d5f2c8f51a9044fc1f571ec4679b1c3e73ecb1dd483852a67e38a5",
+    "web_page.h": "c38dbb9c31b32788558388d075f87e10713a37b2c8f35796dc08373cfcac74cf"
+  },
+  "binaries": {
+    "boot_app0.bin": {
+      "bytes": 8192,
+      "sha256": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0"
+    },
+    "ESP32_FPGA_Music_Controller.ino.bin": {
+      "bytes": 1416464,
+      "sha256": "f76652b9cdb8332cff1b161c307ce7efb657a1c23d795abbb7c9bbddf6d88a35"
+    },
+    "ESP32_FPGA_Music_Controller.ino.bootloader.bin": {
+      "bytes": 19984,
+      "sha256": "cc521020f118145ddb9841692442976c0feda6c5969147d51fb64dca8e1e497d"
+    },
+    "ESP32_FPGA_Music_Controller.ino.merged.bin": {
+      "bytes": 4194304,
+      "sha256": "2f9af73ae9b1a53cef3300db91bf26faa876c062ac2cec38960cfbe18794aa85"
+    },
+    "ESP32_FPGA_Music_Controller.ino.partitions.bin": {
+      "bytes": 3072,
+      "sha256": "aaae2888c5a6a348004b5b436f47abb25ae32e72d9003902955a998eda723edd"
+    }
+  },
+  "no_auto_programming": true
+}

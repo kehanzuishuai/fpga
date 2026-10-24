@@ -1,0 +1,19 @@
+{
+ "branch": "created from loader_pipe_20261024",
+ "apply": [
+  "updated B\\src\\remote\\control\\wifi_control.sv\nupdated B\\src\\remote\\wifi_core.sv\nupdated B\\src\\remote\\remote_control.sv",
+  "unchanged B\\src\\remote\\control\\wifi_control.sv\nunchanged B\\src\\remote\\wifi_core.sv\nunchanged B\\src\\remote\\remote_control.sv"
+ ],
+ "compile": 0,
+ "simulation": [
+  "equivalence: 299998 clocks, 58583 packets accepted, 0 mismatches",
+  "PASS recording: equivalence on old commands and recorder function",
+  "D:\\gaoyun\\piano_v2_audio_fix\\audit\\remote_recording_20261024\\verification\\tb_recording.sv:128: $finish called at 604320000 (1ps)"
+ ],
+ "status": "PASS",
+ "sha256": {
+  "src/remote/control/wifi_control.sv": "e4e1623c79f625cda9c0ae8e51a2bd1ef5ddfe9cd1da19b5b5d63d9e44983dec",
+  "src/remote/wifi_core.sv": "5d763ac9751c75527e2f5bffaf4cedbd6efe6660370f1ed808681da84f35300e",
+  "src/remote/remote_control.sv": "e57cebcb4fb332895633555079a64fa854f2b79a0faa1b91618b31228cb99d66"
+ }
+}

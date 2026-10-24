@@ -2,7 +2,10 @@
 // Two independent 16-key transports. An error on either reader cannot suppress
 // a valid frame from the other. Logical key 0..15 belongs to bank 0, 16..31 to 1.
 module ttp229_keyboard_pair #(
- parameter integer HALF_TICKS=123,GAP_TICKS=36864,IDLE_TICKS=246,
+ // 12.288MHz: SCL=245.76kHz (<512kHz), idle=10.01us (>=10us).
+ // Keep 2.10ms between bursts: above the chip's 2ms serial reset timeout.
+ // Retain two-frame confirmation and independent stuck-SDO protection.
+ parameter integer HALF_TICKS=25,GAP_TICKS=25805,IDLE_TICKS=123,
  parameter integer PROFILE0=1,PROFILE1=1,RAW_MAP0=0,RAW_MAP1=0,
  parameter [63:0] RAW_INDEX0=64'hfedcba9876543210,
  parameter [63:0] RAW_INDEX1=64'hfedcba9876543210,

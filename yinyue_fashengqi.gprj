@@ -54,7 +54,7 @@
         <File path="src/voice.v" type="file.verilog" enable="1"/>
         <File path="src/waveform_gen.v" type="file.verilog" enable="1"/>
         <File path="src/waveform_set.v" type="file.verilog" enable="1"/>
-        <File path="src/display/audio_visualizer.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/audio_visualizer.sv" type="file.verilog" enable="0"/>
         <File path="src/display/gowin_pll/visual_pll_mod.v" type="file.verilog" enable="1"/>
         <File path="src/display/piano_status_cdc.v" type="file.verilog" enable="1"/>
         <File path="src/display/piano_status_overlay.sv" type="file.verilog" enable="1"/>
@@ -173,9 +173,9 @@
         <File path="src/remote/control/wifi_score_player.sv" type="file.verilog" enable="1"/>
         <File path="src/remote/remote_control.sv" type="file.verilog" enable="1"/>
         <File path="src/remote/stereo_master.sv" type="file.verilog" enable="1"/>
-        <File path="src/remote/wav_pcm_player.sv" type="file.verilog" enable="1"/>
-        <File path="src/remote/wav_remote.sv" type="file.verilog" enable="1"/>
-        <File path="src/remote/wav_spi_stream.sv" type="file.verilog" enable="1"/>
+        <File path="src/remote/wav_pcm_player.sv" type="file.verilog" enable="0"/>
+        <File path="src/remote/wav_remote.sv" type="file.verilog" enable="0"/>
+        <File path="src/remote/wav_spi_stream.sv" type="file.verilog" enable="0"/>
         <File path="src/remote/wifi_core.sv" type="file.verilog" enable="1"/>
         <File path="src/instruments/gongyong/yinse_aux_bank.sv" type="file.verilog" enable="1"/>
         <File path="src/instruments/gongyong/yinse_aux_voice.sv" type="file.verilog" enable="1"/>
@@ -188,5 +188,11 @@
         <File path="src/instruments/zhongqin/yinse_bell_profile.sv" type="file.verilog" enable="1"/>
         <File path="src/instruments/jita/yinse_ks_loop.sv" type="file.verilog" enable="1"/>
         <File path="src/instruments/jita/yinse_ks_tuning.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_audio_core.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_status_cdc.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_scene.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_background.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/display_status_adapter.sv" type="file.verilog" enable="1"/>
+        <File path="src/display/visual_guide_controller.sv" type="file.verilog" enable="1"/>
     </FileList>
 </Project>

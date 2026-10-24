@@ -2,6 +2,7 @@ module audio_PLL(
     clkin,
     init_clk,
     clkout0,
+    clkout50,
     lock,
     reset
 );
@@ -10,6 +11,7 @@ module audio_PLL(
 input clkin;
 input init_clk;
 output clkout0;
+output clkout50;
 output lock;
 input reset;
 wire [5:0] icpsel;
@@ -20,6 +22,7 @@ wire pll_rst;
 
     audio_PLL_MOD u_pll(
         .clkout0(clkout0),
+        .clkout1(clkout50),
         .lock(pll_lock),
         .clkin(clkin),
         .reset(pll_rst),

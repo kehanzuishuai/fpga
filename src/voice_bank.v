@@ -42,13 +42,15 @@ module voice_bank #(
     output reg                         allocation_valid,
     output reg [IDX_W-1:0]             allocation_index,
     // Reset-scoped modulo-65536 counters, driven by real control edges.
-    output wire [47:0]                 diagnostic_counts
+    output wire [47:0]                 diagnostic_counts,
+    output wire [VOICES*7-1:0] display_voice_notes
 );
 
 
 wire [31:0] phase_inc;
 
 wire [VOICES*7-1:0] notes;
+assign display_voice_notes=notes;
 
 reg [VOICES-1:0] starts;
 reg [VOICES-1:0] stops;

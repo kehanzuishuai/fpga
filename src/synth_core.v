@@ -77,7 +77,8 @@ module synth_core #(
     output reg                         visual_sample_strobe,
     output reg signed [SAMPLE_W-1:0]   lissajous_x,
     output reg signed [SAMPLE_W-1:0]   lissajous_y,
-    output wire [95:0]                diagnostic_audio
+    output wire [95:0]                diagnostic_audio,
+    output wire [VOICES*7-1:0] display_voice_notes
 );
 
 localparam MIX_W = SAMPLE_W + LOG2_VOICES;
@@ -90,6 +91,8 @@ localparam signed [MIX_W-1:0] CLIP_MIN =
 
 wire [VOICES*SAMPLE_W-1:0] samples;
 wire [VOICES-1:0] piano_active;
+wire [VOICES*7-1:0] piano_notes,aux_notes;
+assign display_voice_notes=auxiliary?aux_notes:piano_notes;
 wire piano_ready,aux_ready;
 wire signed [23:0] aux_pcm;
 wire [VOICES-1:0] aux_active;
@@ -140,9 +143,9 @@ generate if(REMOTE_ENABLE!=0)begin:G_AUX
  .event_valid(auxiliary && (bank_on || bank_off)),.event_note_on(bank_on),
  .instrument_id(instrument_id),.event_note(bank_note),.event_velocity(bank_velocity),
  .event_ready(aux_ready),.pcm(aux_pcm),.pcm_valid(valid),.active_mask(aux_active),
- .overrun_mask(overruns),.clipped_mask(clips),.rejected(rejected));
+ .overrun_mask(overruns),.clipped_mask(clips),.rejected(rejected),.display_voice_notes(aux_notes));
 end else begin:G_NO_AUX
- assign aux_ready=0;assign aux_pcm=0;assign aux_active=0;
+ assign aux_ready=0;assign aux_pcm=0;assign aux_active=0;assign aux_notes=0;
 end endgenerate
 
 assign test_disable_pulse = test_enable_q && !test_enable;
@@ -241,7 +244,7 @@ voice_bank #(
     .voice_active     (piano_active),
     .allocation_valid (allocation_valid),
     .allocation_index (allocation_index),
-    .diagnostic_counts(diagnostic_counts)
+    .diagnostic_counts(diagnostic_counts),.display_voice_notes(piano_notes)
 );
 
 tree_mixer #(

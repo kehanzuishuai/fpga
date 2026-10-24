@@ -28,6 +28,24 @@ module yinse_aux_voice_shared #(parameter integer MAX_DELAY=1024,parameter [23:0
  input wire [91:0] note_params,
  input wire compute_enable,input wire [333:0] shared_result,output wire [398:0] arithmetic_query
 );
+ wire [$clog2(MAX_DELAY)-1:0] unused_address;
+ wire unused_read,unused_write;wire[23:0] unused_data;
+ yinse_aux_voice_context #(.MAX_DELAY(MAX_DELAY),.SEED(SEED),.EXTERNAL_ARITH(EXTERNAL_ARITH)) context_voice(
+  clk,rst_n,sample_tick,start,stop,clear,instrument_in,note_in,velocity_in,
+  ready,active,sample,overrun,clipped,note,note_params,compute_enable,shared_result,arithmetic_query,
+  unused_address,unused_read,unused_write,unused_data,24'd0);
+endmodule
+module yinse_aux_voice_context #(parameter integer MAX_DELAY=1024,parameter [23:0] SEED=24'h713AC5,parameter EXTERNAL_ARITH=0,parameter EXTERNAL_KS_MEMORY=0)(
+ input wire clk,rst_n,sample_tick,start,stop,clear,
+ input wire [2:0] instrument_in,input wire [6:0] note_in,input wire [7:0] velocity_in,
+ output wire ready,active,output reg signed [23:0] sample,
+ output wire overrun,output wire clipped,output reg [6:0] note,
+ input wire [91:0] note_params,
+ input wire compute_enable,input wire [333:0] shared_result,output wire [398:0] arithmetic_query,
+ output wire [$clog2(MAX_DELAY)-1:0] ks_memory_address,
+ output wire ks_memory_read,ks_memory_write,output wire [23:0] ks_memory_write_data,
+ input wire [23:0] ks_memory_read_data
+);
  localparam [2:0] IDLE=0,PARTIAL=1,MODULATOR=2,CARRIER=3,OUTPUT=4,VELOCITY=5,START_FRAME=6;
  reg [2:0] state,instrument;
  reg [32:0] phase;reg [31:0] increment,mod_phase,lfo_phase;
@@ -49,9 +67,10 @@ module yinse_aux_voice_shared #(parameter integer MAX_DELAY=1024,parameter [23:0
  yinse_envelope env(clk,rst_n,sample_tick,accepted_start,stop,clear,
  attack_step,decay_step,sustain_level,release_step,envelope,active);
  wire signed [23:0] ks_sample;wire ks_busy,ks_overrun,ks_clipped;
- yinse_ks_loop #(.MAX_DELAY(MAX_DELAY),.SEED(SEED)) ks(
+ yinse_ks_loop_core #(.MAX_DELAY(MAX_DELAY),.SEED(SEED),.EXTERNAL_MEMORY(EXTERNAL_KS_MEMORY)) ks(
  clk,rst_n,sample_tick,accepted_start && instrument_in==3,clear || (accepted_start && instrument_in!=3),
- active && instrument==3,ks_length,ks_tuning,ks_sample,ks_busy,ks_overrun,ks_clipped);
+ active && instrument==3,ks_length,ks_tuning,ks_sample,ks_busy,ks_overrun,ks_clipped,
+ ks_memory_address,ks_memory_read,ks_memory_write,ks_memory_write_data,ks_memory_read_data);
  assign ready=state==IDLE && !ks_busy;
  assign overrun=local_overrun || ks_overrun;assign clipped=local_clipped || ks_clipped;
  wire [32:0] next_phase;wire [31:0] next_mod_phase,next_lfo_phase;

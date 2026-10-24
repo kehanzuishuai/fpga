@@ -158,7 +158,9 @@ module synth_top #(
     output wire signed [SAMPLE_W-1:0] visual_pcm,
     output wire                    visual_pcm_valid,
     output signed [SAMPLE_W-1:0]    lissajous_y,
-    output wire [127:0]            diagnostic_chain
+    output wire [127:0]            diagnostic_chain,
+    output wire [VOICES*7-1:0] display_voice_notes,
+    output wire signed [23:0] display_left,display_right
 );
 
 
@@ -185,6 +187,7 @@ wire signed [SAMPLE_W-1:0] audio_out;
 wire pcm_strobe;
 wire signed [SAMPLE_W-1:0] pcm_sample;
 wire signed [23:0] final_left,final_right;
+assign display_left=final_left;assign display_right=final_right;
 wire master_clipped,engine_clipped;
 wire [23:0] engine_peak;wire engine_pcm_strobe;wire signed [23:0] engine_pcm;
 assign dbg_clip=engine_clipped || (REMOTE_ENABLE!=0 && master_clipped);
@@ -396,7 +399,8 @@ synth_event_frontend #(
     .lissajous_x         (lissajous_x),
 
     .lissajous_y         (lissajous_y),
-    .diagnostic_chain    (diagnostic_chain)
+    .diagnostic_chain    (diagnostic_chain),
+    .display_voice_notes(display_voice_notes)
 );
 
 

@@ -1,3 +1,5 @@
+> V13 CURRENT ENTRY：本文件下文为2026-10-20历史交接。当前V13工程、ESP32和FS以根目录README及release/latest为准。
+
 # FPGA电子钢琴：工程续接记录
 
 更新时间：2026-10-20，UTC+8。本文件用于在同一工程目录中接续工作，不依赖此前聊天记录。所有相对路径均相对于 `D:\gaoyun\piano_v2_audio_fix`。

@@ -5,34 +5,34 @@
 1. PnR Messages
 
   <Report Title>: PnR Report
-  <Design File>: D:\gaoyun\piano_v2_audio_fix\impl\gwsynthesis\yinyue_fashengqi.vg
-  <Physical Constraints File>: D:\gaoyun\piano_v2_audio_fix\src\integrated.cst
-  <Timing Constraints File>: D:\gaoyun\piano_v2_audio_fix\src\integrated.sdc
+  <Design File>: D:\gaoyun\piano_v2_audio_fix\branches\v13_20261024\audit\autonomous_timing_20261022_154006\runs\v13_p3_r0\impl\gwsynthesis\yinyue_fashengqi.vg
+  <Physical Constraints File>: D:\gaoyun\piano_v2_audio_fix\branches\v13_20261024\audit\autonomous_timing_20261022_154006\runs\v13_p3_r0\src\integrated.cst
+  <Timing Constraints File>: D:\gaoyun\piano_v2_audio_fix\branches\v13_20261024\audit\autonomous_timing_20261022_154006\runs\v13_p3_r0\src\integrated.sdc
   <Tool Version>: V1.9.12 (64-bit)
   <Part Number>: GW5AST-LV138FPG676AC1/I0
   <Device>: GW5AST-138
   <Device Version>: C
-  <Created Time>:Tue Oct 20 21:52:57 2026
+  <Created Time>:Sat Oct 24 14:04:31 2026
 
 
 2. PnR Details
 
   Running placement:
-    Placement Phase 0: CPU time = 0h 5m 22s, Elapsed time = 0h 5m 22s
-    Placement Phase 1: CPU time = 0h 0m 9s, Elapsed time = 0h 0m 9s
-    Placement Phase 2: CPU time = 0h 7m 36s, Elapsed time = 0h 7m 36s
-    Placement Phase 3: CPU time = 0h 3m 49s, Elapsed time = 0h 3m 49s
-    Total Placement: CPU time = 0h 16m 56s, Elapsed time = 0h 16m 56s
+    Placement Phase 0: CPU time = 0h 4m 35s, Elapsed time = 0h 4m 35s
+    Placement Phase 1: CPU time = 0h 0m 7s, Elapsed time = 0h 0m 7s
+    Placement Phase 2: CPU time = 0h 7m 17s, Elapsed time = 0h 7m 17s
+    Placement Phase 3: CPU time = 0h 4m 17s, Elapsed time = 0h 4m 17s
+    Total Placement: CPU time = 0h 16m 16s, Elapsed time = 0h 16m 16s
  Running routing:
-    Routing Phase 0: CPU time = 0h 0m 0.6s, Elapsed time = 0h 0m 0.6s
-    Routing Phase 1: CPU time = 0h 1m 47s, Elapsed time = 0h 1m 47s
-    Routing Phase 2: CPU time = 0h 0m 1s, Elapsed time = 0h 0m 1s
+    Routing Phase 0: CPU time = 0h 0m 0.782s, Elapsed time = 0h 0m 0.782s
+    Routing Phase 1: CPU time = 0h 4m 8s, Elapsed time = 0h 4m 8s
+    Routing Phase 2: CPU time = 0h 0m 2s, Elapsed time = 0h 0m 2s
     Routing Phase 3: CPU time = 0h 0m 0s, Elapsed time = 0h 0m 0s
-    Total Routing: CPU time = 0h 1m 49s, Elapsed time = 0h 1m 49s
+    Total Routing: CPU time = 0h 4m 11s, Elapsed time = 0h 4m 11s
  Generate output files:
-    CPU time = 0h 0m 11s, Elapsed time = 0h 0m 11s
+    CPU time = 0h 0m 15s, Elapsed time = 0h 0m 15s
 
- Total Time and Memory Usage: CPU time = 0h 18m 56s, Elapsed time = 0h 18m 56s, Peak memory usage = 2966MB
+ Total Time and Memory Usage: CPU time = 0h 20m 42s, Elapsed time = 0h 20m 42s, Peak memory usage = 2823MB
 
 
 3. Resource Usage Summary
@@ -40,15 +40,15 @@
   --------------------------------------------------------------------------------
   Resources                   | Usage                               | Utilization
   --------------------------------------------------------------------------------
-  Logic                       | 103455/138240                       |  75%
-    --LUT,ALU,ROM16           | 103149(80178 LUT, 22971 ALU, 0 ROM16)| -
-    --SSRAM(RAM16)            | 51                                  | -
-  Register                    | 43274/139140                        |  32%
+  Logic                       | 93875/138240                        |  68%
+    --LUT,ALU,ROM16           | 90971(70947 LUT, 20024 ALU, 0 ROM16)| -
+    --SSRAM(RAM16)            | 484                                 | -
+  Register                    | 36452/139140                        |  27%
     --Logic Register as Latch | 0/138240                            |  0%
-    --Logic Register as FF    | 43274/138240                        |  32%
+    --Logic Register as FF    | 36452/138240                        |  27%
     --I/O Register as Latch   | 0/900                               |  0%
     --I/O Register as FF      | 0/900                               |  0%
-  CLS                         | 58945/69120                         |  86%
+  CLS                         | 57907/69120                         |  84%
   I/O Port                    | 31/312                              |  10%
   I/O Buf                     | 27                                  | -
     --Input Buf               | 11                                  | -
@@ -56,15 +56,16 @@
     --Inout Buf               | 0                                   | -
   IOLOGIC                     | 6/300                               | 2%
     --OSER10                  | 3
-  BSRAM                       | 296/340                             | 88%
-    --SDPB                    | 163
-    --SDPX9B                  | 37
-    --pROM                    | 49
-    --pROMX9                  | 47
-  DSP                         | 186/298                             | 63%
-    --MULT12X12               | 4
-    --MULT27X36               | 34
-    --MULTALU27X18            | 116
+  BSRAM                       | 308/340                             | 91%
+    --SDPB                    | 58
+    --SDPX9B                  | 69
+    --DPX9B                   | 64
+    --pROM                    | 71
+    --pROMX9                  | 46
+  DSP                         | 217/298                             | 73%
+    --MULT12X12               | 60
+    --MULT27X36               | 35
+    --MULTALU27X18            | 117
   ================================================================================
 
 
@@ -89,8 +90,8 @@
   ------------------------------------------
   Clock Resource| Usage         | Utilization 
   ------------------------------------------
-  PRIMARY       | 7/8           | 88%
-  LW            | 8/8           | 100%
+  PRIMARY       | 6/8           | 75%
+  LW            | 7/8           | 88%
   GCLK_PIN      | 1/24          | 5%
   DCS           | 3/20          | 15%
   PLL           | 3/12          | 25%
@@ -102,18 +103,16 @@
   -------------------------------------------
   Signal         | Global Clock   | Location
   -------------------------------------------
-  clk_50m_d      | PRIMARY        |  PTR1 PTR3 PBR1 PBR2 PBR3
+  clk_50m_d      | PRIMARY        |  PBR2 PBR3
   clk_12m288     | PRIMARY        |  PTR0 PTR1 PTR2 PTR3 PBR0 PBR1 PBR2 PBR3
-  pixel_clk      | PRIMARY        |  PTR1 PTR2 PTR3 PBR1
-  gw_gao_inst_0/control0[0]| PRIMARY        |  PTR1 PTR2
-  u_synth_top/u_synth/u_core/G_AUX.bank/cursor[0]| PRIMARY        |  PTR0 PTR1 PBR0 PBR1
-  u_video_clock/ref_clk| PRIMARY        |  PTR0 PBR1 PBR2
+  clk_50m_global | PRIMARY        |  PTR0 PBR2
+  pixel_clk      | PRIMARY        |  PTR0 PTR1 PTR2 PTR3 PBR2 PBR3
+  gw_gao_inst_0/control0[0]| PRIMARY        |  PTR1 PTR2 PBR1 PBR2
   u_video_io/reset_regional| PRIMARY        |  PTR3
   audio_pa_en_d  | LW             |  -
-  n97_5          | LW             |  -
+  n103_7         | LW             |  -
   u_synth_top_24_2| LW             |  -
   gw_gao_inst_0/gao_jtag_reset| LW             |  -
-  u_synth_top/u_synth/u_core/G_AUX.bank/accepted_start_4| LW             |  -
   u_synth_top/u_synth/u_core/G_FX.u_fx/u_soundboard/n12416_4| LW             |  -
   G_DISPLAY.u_visual/analysis_rst_n| LW             |  -
   G_DISPLAY.u_visual/display_rst_n| LW             |  -

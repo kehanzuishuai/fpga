@@ -1,0 +1,40 @@
+{
+ "apply": [
+  "unchanged B\\src\\piano_note_loader.v",
+  "unchanged B\\src\\piano_note_loader.v"
+ ],
+ "fast": {
+  "compile": 0,
+  "simulation": [
+   "old: loads 600 max 2546 mean 1831 clocks request->done, bp_before_clear 0",
+   "new: loads 600 max 1414 mean 1006 clocks request->done, bp_before_clear 0",
+   "D:\\gaoyun\\piano_v2_audio_fix\\audit\\loader_pipeline_20261024\\verification\\tb_loader_pipeline.sv:72: $finish called at 3019209000 (1ps)"
+  ],
+  "log_lines": [
+   240600,
+   240600
+  ],
+  "differing_lines": 0,
+  "first_differences": [],
+  "x_words": 2800,
+  "status": "FAIL"
+ },
+ "real": {
+  "compile": 0,
+  "simulation": [
+   "old: loads 40 max 2545 mean 1823 clocks request->done, bp_before_clear 0",
+   "new: loads 40 max 1413 mean 1002 clocks request->done, bp_before_clear 0",
+   "D:\\gaoyun\\piano_v2_audio_fix\\audit\\loader_pipeline_20261024\\verification\\tb_loader_pipeline.sv:72: $finish called at 201333000 (1ps)"
+  ],
+  "log_lines": [
+   16040,
+   16040
+  ],
+  "differing_lines": 0,
+  "first_differences": [],
+  "x_words": 400,
+  "status": "FAIL"
+ },
+ "status": "FAIL",
+ "new_loader_sha256": "074ea772928a66b753d8469c840ce44473aaeb6264b3bb02a2a39518d0e6618e"
+}

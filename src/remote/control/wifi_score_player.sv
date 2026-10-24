@@ -7,7 +7,8 @@ module wifi_score_player #(parameter integer SAMPLE_RATE=48000)(
  output reg [4:0] score_index,input wire [31:0] score_event,
  output wire playing,output wire tables_safe,
  output wire event_valid,input wire event_ready,output wire event_on,
- output wire [6:0] event_note,event_velocity
+ output wire [6:0] event_note,event_velocity,
+ output wire display_sounding,display_rest,output reg [15:0] display_completed
 );
  localparam [2:0] IDLE=0,LOAD=1,ON_WAIT=2,RUN=3,OFF_WAIT=4;
  localparam [31:0] BASE=32'(SAMPLE_RATE*120);
@@ -17,22 +18,25 @@ module wifi_score_player #(parameter integer SAMPLE_RATE=48000)(
  wire [31:0] advance=phase+32'(tempo)*32'd1000;
  wire ms_tick=advance>=BASE;
  assign playing=state!=IDLE;
+ assign display_sounding=sounding;
+ assign display_rest=state==RUN && !sounding;
  assign tables_safe=state==IDLE;
  assign event_valid=(state==ON_WAIT && !stop && !abort_play) || state==OFF_WAIT;
  assign event_on=state==ON_WAIT;
  assign event_note=note;assign event_velocity=state==ON_WAIT?velocity:7'd0;
  task automatic advance_note;
  begin
+  if(display_completed!=16'hffff)display_completed<=display_completed+16'd1;
   if(stopping || {1'b0,score_index}+6'd1>=score_count)begin state<=IDLE;score_index<=0;end
   else begin score_index<=score_index+1'b1;state<=LOAD;end
  end endtask
  initial if(SAMPLE_RATE<2000 || SAMPLE_RATE>192000)$fatal(1,"sample rate");
  always @(posedge clk or negedge rst_n)
- if(!rst_n)begin state<=IDLE;score_index<=0;note<=0;velocity<=0;remaining<=0;phase<=0;sounding<=0;stopping<=0;end
+ if(!rst_n)begin state<=IDLE;score_index<=0;note<=0;velocity<=0;remaining<=0;phase<=0;sounding<=0;stopping<=0;display_completed<=0;end
  else begin
   if(state==IDLE)begin
    stopping<=0;phase<=0;
-   if(start && !stop && !abort_play && score_count!=0)begin score_index<=0;state<=LOAD;end
+   if(start && !stop && !abort_play && score_count!=0)begin score_index<=0;state<=LOAD;display_completed<=0;end
   end else if(stop || abort_play)begin
    stopping<=1;
    if(state==OFF_WAIT && event_ready)begin sounding<=0;state<=IDLE;score_index<=0;end

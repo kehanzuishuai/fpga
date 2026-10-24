@@ -5,7 +5,7 @@
 实体32键固定为原来的32 Voice钢琴，不叠加其他乐器。手机五音色仅作用于MIDI/JSON曲谱，WAV保留录音原声。网页包已恢复修改前的原样，SHA256为`5428444eaa7aad9c41b0537b720fe516ef80e1186605d6154d6dbf38bfe253cf`。
 
 - 工程：`D:\gaoyun\piano_v2_audio_fix\yinyue_fashengqi.gprj`
-- FS：`impl/pnr/ao_0.fs`
+- 本次验证的FS归档：`release/latest/ao_0.fs`（也保存在下述final_build目录）
 - FS SHA256：`e483552fc9993df6e9464790a9ca29d7e8253e02a51002507d05ee2234884e0b`
 - 固件和FS归档：`tests/remote_music_20261019/final_build`
 

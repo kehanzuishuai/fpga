@@ -133,6 +133,9 @@ module tang_mega_138k_pro_top #(
  *      ~12.288 MHz
  * ============================================================ */
 
+// Board-clock distribution uses the existing audio PLL input-bypass output.
+wire clk_50m_global;
+
 wire clk_12m288;
 wire pll_lock;
 
@@ -147,6 +150,8 @@ audio_PLL u_audio_pll (
 
     .clkout0
         (clk_12m288),
+
+    .clkout50(clk_50m_global),
 
     .lock
         (pll_lock),
@@ -254,6 +259,7 @@ wire [15:0] key_reader_state=key_reader_state32[15:0];
 wire [15:0] key_accepted_raw=key_accepted_raw32[15:0];
 wire [1:0] key_bank_frame_valid,key_bank_frame_error,key_bank_busy;
 wire [1:0] key_bank_mode16,key_bank_mode8;
+reg [1:0] display_banks_seen;
 wire [63:0] key_bank_rejected;
 wire key_mapping_error;
 wire key_frame_valid=|key_bank_frame_valid;
@@ -299,18 +305,29 @@ wire [15:0] synth_gain;
 wire remote_valid,remote_on;wire [6:0] remote_note,mapped_key_note;
 wire [7:0] remote_velocity;wire [1:0] remote_waveform;
 wire signed [23:0] wav_left,wav_right;
+wire display_score_sounding,display_score_rest;
+wire [6:0] display_score_note;wire [15:0] display_score_completed;
+wire [1:0] performance_mode;wire [31:0] guide_targets;wire [2:0] guide_state;wire [15:0] guide_completed;
 remote_control #(.DEFAULT_KEYS({KEY2_NOTE_TABLE,KEY_NOTE_TABLE})) u_remote(
  .clk(clk_12m288),.rst_n(synth_rst_n),.sample_tick(remote_tick),
- .uart_rx(esp_uart_rx),.uart_tx(esp_uart_tx),.keys(key_state32),
+ .uart_rx(esp_uart_rx),.uart_tx(esp_uart_tx),.keys(key_state32),.keys_valid(&display_banks_seen),
  .key_valid(event_valid),.key_on(event_note_on),.key_index(event_key_index),
  .key_velocity(event_velocity),.key_waveform(event_waveform),.key_ready(key_event_ready),
  .bridge_reset_n(bridge_reset_n),.event_valid(remote_valid),.event_on(remote_on),
  .event_note(remote_note),.event_velocity(remote_velocity),.event_waveform(remote_waveform),
  .event_ready(event_ready),.engine_idle(engine_idle),.fifo_level(fifo_level),
  .instrument(actual_instrument),.switching(switching),.engine_clear(engine_clear),
- .volume(master_volume),.effects(remote_fx),.score_playing(score_playing),.mapped_key_note(mapped_key_note),.key_map(remote_key_map),.synth_gain(synth_gain));
-wav_remote u_wav(clk_50m,clk_12m288,synth_rst_n,remote_tick,
- esp_spi_sck,esp_spi_cs_n,esp_spi_mosi,esp_spi_miso,wav_left,wav_right);
+ .volume(master_volume),.effects(remote_fx),.score_playing(score_playing),.mapped_key_note(mapped_key_note),.key_map(remote_key_map),.synth_gain(synth_gain),
+ .display_score_sounding(display_score_sounding),.display_score_rest(display_score_rest),
+ .display_score_note(display_score_note),.display_score_completed(display_score_completed),
+ .performance_mode(performance_mode),.guide_targets(guide_targets),.guide_state(guide_state),.guide_completed(guide_completed));
+// WAV playback removed from the contest build: the topic rules forbid playing
+// prerecorded or streamed PCM. The SPI pins stay; no PCM enters the mix.
+assign wav_left=24'sd0;assign wav_right=24'sd0;assign esp_spi_miso=1'b0;
+// One preserved sampling register keeps the SPI inputs connected (proven CST,
+// built with cst_warn_to_error); it drives nothing.
+(* syn_preserve=1 *) reg unused_wav_spi;
+always @(posedge clk_50m_global)unused_wav_spi<=^{esp_spi_sck,esp_spi_cs_n,esp_spi_mosi};
 
 wire [31:0] key_reported_state32;
 wire [15:0] key_reported_state=key_reported_state32[15:0];
@@ -449,6 +466,7 @@ wire [5:0]  mix_gain_shift;
 wire visual_sample_strobe;
 wire visual_pcm_valid;
 wire signed [23:0] visual_pcm;
+wire [223:0] display_voice_notes;wire signed [23:0] display_left,display_right;
 
 wire signed [23:0]
     lissajous_x;
@@ -655,6 +673,7 @@ synth_top #(
     .lissajous_y
         (lissajous_y),
  .visual_pcm(visual_pcm),.visual_pcm_valid(visual_pcm_valid),
+ .display_voice_notes(display_voice_notes),.display_left(display_left),.display_right(display_right),
  .diagnostic_chain(diagnostic_chain)
     ,.instrument_id(actual_instrument),.engine_clear(engine_clear),.remote_volume(master_volume),.synth_gain(synth_gain),
     .wav_left(wav_left),.wav_right(wav_right),.remote_sample_tick(remote_tick),.engine_idle(engine_idle)
@@ -665,35 +684,39 @@ synth_top #(
 
 // Video lock never participates in audio reset or audio event readiness.
 wire pixel_clk,serial_clk,video_locked,serial_reset_clk;
-visual_video_clock u_video_clock(clk_50m,rst_n,pixel_clk,serial_clk,video_locked,serial_reset_clk);
+visual_video_clock u_video_clock(clk_50m_global,rst_n,pixel_clk,serial_clk,video_locked,serial_reset_clk);
 wire video_reset_async=rst_n && synth_rst_n && video_locked;
 (* async_reg="true" *) reg video_reset_meta,video_rst_n;
 always @(posedge pixel_clk or negedge video_reset_async)
 if(!video_reset_async)begin video_reset_meta<=0;video_rst_n<=0;end
 else begin video_reset_meta<=1;video_rst_n<=video_reset_meta;end
-reg [6:0] status_note;reg status_note_valid;integer status_key;
-always @* begin
- status_note=0;status_note_valid=0;
- for(status_key=15;status_key>=0;status_key=status_key-1)
- if(key_state[status_key])begin
-  status_note=remote_key_map[status_key*7+:7];status_note_valid=1;
- end
-end
-wire [57:0] status_audio={key_state,active_voice_count,audio_peak,
- status_note,status_note_valid,switching,actual_instrument};
+wire display_status_ready,display_status_update;
+wire [511:0] display_status_data;
+always @(posedge clk_12m288 or negedge synth_rst_n)
+if(!synth_rst_n)display_banks_seen<=0;
+else display_banks_seen<=(display_banks_seen | key_bank_frame_valid) & ~key_bank_frame_error;
+display_status_adapter u_display_status(
+ .clk(clk_12m288),.rst_n(synth_rst_n),.pcm_valid(visual_pcm_valid),
+ .pcm_left(display_left),.pcm_right(display_right),
+ .keys_valid(&display_banks_seen),.keys(key_state32),.key_map(remote_key_map),
+ .instrument(actual_instrument),.voices(active_debug),.voice_notes(display_voice_notes),
+ .score_owned(score_playing),.switching(switching),.score_sounding(display_score_sounding),
+ .score_rest(display_score_rest),.score_note(display_score_note),.score_completed(display_score_completed),
+ .performance_mode(performance_mode),.guide_targets(guide_targets),.guide_state(guide_state),.guide_completed(guide_completed),
+ .status_ready(display_status_ready),.status_update(display_status_update),.status_data(display_status_data));
 wire [9:0] video_blue,video_green,video_red;
 wire [31:0] fft_dropped,wave_dropped,spectrum_dropped;
 generate if(DISPLAY_ENABLE!=0)begin:G_DISPLAY
-audio_visualizer #(.LOGN(11),.SAMPLE_RATE(48000),.STATUS_ENABLE(1),.REMOTE_STATUS(1),.MAPPING_CONFIRMED(KEY_MAPPING_CONFIRMED)) u_visual(
+visual_audio_core #(.LOGN(11),.SAMPLE_RATE(48000)) u_visual(
  .audio_clk(clk_12m288),.audio_rst_n(synth_rst_n),.pcm_valid(visual_pcm_valid),.pcm(visual_pcm),
  .xy_enable(1'b0),.xy_x(24'sd0),.xy_y(24'sd0),
  .pixel_clk(pixel_clk),.pixel_rst_n(video_rst_n),
  .tmds_blue(video_blue),.tmds_green(video_green),.tmds_red(video_red),
  .fft_dropped(fft_dropped),.wave_dropped(wave_dropped),.spectrum_dropped(spectrum_dropped),
- .status_audio(status_audio));
+ .status_update(display_status_update),.status_data(display_status_data),.status_ready(display_status_ready));
 end else begin:G_NO_DISPLAY
  assign video_blue=10'b1101010100;assign video_green=10'b1101010100;assign video_red=10'b1101010100;
- assign fft_dropped=0;assign wave_dropped=0;assign spectrum_dropped=0;
+ assign fft_dropped=0;assign wave_dropped=0;assign spectrum_dropped=0;assign display_status_ready=0;
 end endgenerate
 visual_dvi_io u_video_io(pixel_clk,serial_clk,video_rst_n,video_blue,video_green,video_red,
  video_d_p,video_d_n,video_ck_p,video_ck_n,serial_reset_clk);

@@ -1,9 +1,8 @@
 {
-  "scope": "Publication packaging only. Original local RTL, UI, build receipts and FS unchanged. Historical receipts retain original local paths; AUX filenames renamed in Git snapshot for Windows compatibility. Toolchains and bulk intermediate outputs are omitted.",
-  "renamed_paths": {
-    "tests/remote_music_20261019/out/aux.json": "tests/remote_music_20261019/out/aux_voice.json",
-    "tests/remote_music_20261019/out/aux.log": "tests/remote_music_20261019/out/aux_voice.log"
-  },
-  "excluded_generated_data_files": 1206,
-  "exclusion_scope": "Large sample traces, generated per-run tables and nested tool HTML reports omitted; original files remain local."
+  "version": "v13_20261024",
+  "source_workspace": "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v13_20261024",
+  "previous_commit": "6de620d93ee2ae9984247231eb295627fdb6419b",
+  "scope": "GitHub root updated to exact V13 source inputs; current ESP32 BLE source and matched binaries. Original active workspace, UI source, FPGA source and FS not modified. Historical baseline remains in Git history and legacy firmware directory.",
+  "omitted": "Personal gprj.user, generated netlists/layout databases, vendor toolchains/caches and large simulation traces.",
+  "programming": false
 }

@@ -1,0 +1,58 @@
+{
+ "label": "v13_rec",
+ "branch": "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v13_20261024",
+ "status": "PASS",
+ "rows": [
+  {
+   "case": 1,
+   "mask": 1,
+   "phase": 0,
+   "accepted_keys_ns": 4340280,
+   "first_event_ns": 4340362,
+   "first_pcm_ns": 4556263,
+   "first_pt8211_word_ns": 4587187,
+   "first_pcm5102_frame_ns": 4577259,
+   "last_individual_voice_ns": 4524687
+  },
+  {
+   "case": 2,
+   "mask": 2147483648,
+   "phase": 1,
+   "accepted_keys_ns": 4414499,
+   "first_event_ns": 4414580,
+   "first_pcm_ns": 4642851,
+   "first_pt8211_word_ns": 4652942,
+   "first_pcm5102_frame_ns": 4663847,
+   "last_individual_voice_ns": 4611276
+  },
+  {
+   "case": 3,
+   "mask": 2147483649,
+   "phase": 1,
+   "accepted_keys_ns": 4414498,
+   "first_event_ns": 4414580,
+   "first_pcm_ns": 4642851,
+   "first_pt8211_word_ns": 4673775,
+   "first_pcm5102_frame_ns": 4663847,
+   "last_individual_voice_ns": 4715442
+  },
+  {
+   "case": 4,
+   "mask": 4294967295,
+   "phase": 1,
+   "accepted_keys_ns": 4414499,
+   "first_event_ns": 4414580,
+   "first_pcm_ns": 4642851,
+   "first_pt8211_word_ns": 4673775,
+   "first_pcm5102_frame_ns": 4663847,
+   "last_individual_voice_ns": 8027933
+  }
+ ],
+ "recorder": {
+  "accepted": 36,
+  "wp": 32,
+  "rp": 0,
+  "overflow": 0
+ },
+ "loader_sha256": "074ea772928a66b753d8469c840ce44473aaeb6264b3bb02a2a39518d0e6618e"
+}

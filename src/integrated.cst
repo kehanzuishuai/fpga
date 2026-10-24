@@ -151,3 +151,10 @@ IO_LOC "esp_spi_mosi" E25;
 IO_PORT "esp_spi_mosi" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
 IO_LOC "esp_spi_miso" D25;
 IO_PORT "esp_spi_miso" IO_TYPE=LVCMOS33;
+
+// Board clock distribution uses the existing audio PLL input bypass.
+
+// Keep the first two reset release stages in the same PTR3 region as the
+// three serializer reset registers above; no new timing exceptions.
+INS_LOC "u_video_io/reset_release_0_s1" R34C181[0][B];
+INS_LOC "u_video_io/reset_release_1_s1" R36C181[0][B];

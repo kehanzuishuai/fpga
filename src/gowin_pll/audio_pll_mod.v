@@ -8,17 +8,17 @@
 //Device Version: C
 //Created Time: Tue Oct  6 01:39:48 2026
 
-module audio_PLL_MOD (lock, clkout0, clkin, reset, icpsel, lpfres, lpfcap);
+module audio_PLL_MOD (lock, clkout0, clkout1, clkin, reset, icpsel, lpfres, lpfcap);
 
 output lock;
 output clkout0;
+output clkout1;
 input clkin;
 input reset;
 input [5:0] icpsel;
 input [2:0] lpfres;
 input [1:0] lpfcap;
 
-wire clkout1;
 wire clkout2;
 wire clkout3;
 wire clkout4;
@@ -114,7 +114,7 @@ defparam PLL_inst.CLKOUT3_DT_STEP = 0;
 defparam PLL_inst.CLK0_IN_SEL = 1'b0;
 defparam PLL_inst.CLK0_OUT_SEL = 1'b0;
 defparam PLL_inst.CLK1_IN_SEL = 1'b0;
-defparam PLL_inst.CLK1_OUT_SEL = 1'b0;
+defparam PLL_inst.CLK1_OUT_SEL = 1'b1;
 defparam PLL_inst.CLK2_IN_SEL = 1'b0;
 defparam PLL_inst.CLK2_OUT_SEL = 1'b0;
 defparam PLL_inst.CLK3_IN_SEL = 1'b0;

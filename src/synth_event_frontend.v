@@ -51,7 +51,8 @@ module synth_event_frontend #(
     output                             visual_sample_strobe,
     output signed [SAMPLE_W-1:0]       lissajous_x,
     output signed [SAMPLE_W-1:0]       lissajous_y,
-    output wire [127:0]               diagnostic_chain
+    output wire [127:0]               diagnostic_chain,
+    output wire [VOICES*7-1:0] display_voice_notes
 );
 
 wire       out_valid;
@@ -140,7 +141,8 @@ synth_core #(
     .visual_sample_strobe(visual_sample_strobe),
     .lissajous_x         (lissajous_x),
     .lissajous_y         (lissajous_y),
-    .diagnostic_audio    (diagnostic_audio)
+    .diagnostic_audio    (diagnostic_audio),
+    .display_voice_notes(display_voice_notes)
 );
 
 endmodule

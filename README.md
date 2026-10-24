@@ -1,149 +1,107 @@
-# Tang Mega 138K Pro FPGA电子钢琴
+# Tang Mega 138K Pro 电子钢琴 · V13
 
-主工程：**[yinyue_fashengqi.gprj](yinyue_fashengqi.gprj)**。本机路径：`D:\gaoyun\piano_v2_audio_fix\yinyue_fashengqi.gprj`。硬件为Tang Mega 138K Pro + Pro Dock。
+更新：2026-10-24。本仓库根目录现在是 **V13 FPGA工程**，配套ESP32-S3代码为 `firmware/remote_music_ble`。原Wi-Fi/WAV版本保留在Git历史和 `firmware/remote_music`，不作为本版固件入口。
 
-手机ESP32 Wi-Fi控制、五音色、WAV在FPGA解码播放已集成；保留两块16键、32 Voice、原16键屏幕对应、FFT、HDMI和双DAC。
+## 快速入口
 
-[接线与使用说明](docs/REMOTE_MUSIC_20261019.md) · [最终验证结果](docs/REMOTE_MUSIC_RESULTS_20261019.md)
-
-完整工程综合、布局布线、五类时序和ESP32固件编译通过。本轮针对性验证通过；按用户要求停止重复的完整显示回归，未改动部分复用已有验证，改动的XY峰值及SPI CRC流水线补做短验证。未自动烧录；真实接线、Wi-Fi长时间连续播放和主观音质仍待上板确认。
-
-实体32键固定为原来的32 Voice钢琴，不叠加其他乐器。手机五音色仅作用于MIDI/JSON曲谱，WAV保留录音原声。网页包已恢复修改前的原样，SHA256为`5428444eaa7aad9c41b0537b720fe516ef80e1186605d6154d6dbf38bfe253cf`。
-
-- 工程：`D:\gaoyun\piano_v2_audio_fix\yinyue_fashengqi.gprj`
-- FS：`impl/pnr/ao_0.fs`
-- FS SHA256：`e483552fc9993df6e9464790a9ca29d7e8253e02a51002507d05ee2234884e0b`
-- 固件和FS归档：`tests/remote_music_20261019/final_build`
-
-## 功能和范围
-
-| 功能 | 当前实现 |
+| 内容 | 位置 |
 |---|---|
-| 实体键盘 | 两块独立16键TTP229，32个不同音高，默认MIDI60～91 |
-| 实体音色 | 原钢琴，保留32 Voice，不叠加其他乐器 |
-| 手机控制 | ESP32-S3 Wi-Fi热点和原网页，音量、效果、曲谱及32键音高映射 |
-| 曲谱音色 | 钢琴、长笛、吉他、管风琴、钟琴，每次选择一种 |
-| 曲谱格式 | MIDI格式0/1、PPQN及兼容JSON，单旋律、分段机制 |
-| WAV播放 | FPGA解析未压缩PCM WAV，16/24位、单/双声道、44.1/48kHz |
-| 显示 | FFT、波形、李萨如、HDMI，键位显示保持原第一块16键对应 |
-| 输出 | PT8211和PCM5102双DAC，立体声、主音量及饱和保护 |
+| 高云工程 | [yinyue_fashengqi.gprj](yinyue_fashengqi.gprj) |
+| FPGA源代码、IP、约束及GAO配置 | [src/](src/) |
+| 字体、背景等初始化数据 | [assets/](assets/) |
+| 最新FPGA烧录文件 | [release/latest/ao_0.fs](release/latest/ao_0.fs) |
+| 最新ESP32-S3主程序 | [ESP32_FPGA_Music_Controller.ino](firmware/remote_music_ble/esp32/ESP32_FPGA_Music_Controller/ESP32_FPGA_Music_Controller.ino) |
+| ESP32使用说明 | [README_BLE.md](firmware/remote_music_ble/README_BLE.md) |
+| 编译好的ESP32固件及校验值 | [release/latest/](release/latest/) |
+| 实际时序报告 | [yinyue_fashengqi.tr](release/latest/yinyue_fashengqi.tr) |
+| 实际资源及管脚报告 | [yinyue_fashengqi.rpt.txt](release/latest/yinyue_fashengqi.rpt.txt) |
+| 原始构建收据 | [FPGA_BUILD.json](release/latest/FPGA_BUILD.json) |
+| 发布清单及输入哈希 | [RELEASE.json](release/latest/RELEASE.json) |
 
-手机五音色用于MIDI/JSON重新合成；WAV保留录音原声；实体键保持钢琴。曲谱播放期间独占合成事件，停止或自然结束后恢复实体键。WAV可与实体钢琴混音。
+复制或克隆时保留工程相对目录。GPRJ是文件清单，必须和 `src/`、`assets/`、`impl/yinyue_fashengqi_process_config.json`一起使用。
 
-## 目录说明
+本机发布源为 `D:/gaoyun/piano_v2_audio_fix/branches/v13_20261024`，源目录未移动；GitHub发布副本将该分支放在仓库根目录。手机App旧记录位置 `C:/fpga/piano_app` 本次检查不存在，App源码/安装包未包含在此次发布中。
 
-```text
-yinyue_fashengqi.gprj        高云主工程
-src/                        RTL、ROM、PLL、CST/SDC和调试配置
-src/keyboard/               双键盘与映射
-src/remote/                 UART、SPI、WAV解码及立体声混音
-src/instruments/            曲谱辅助音色及共享运算
-src/display/                FFT、波形、李萨如、HDMI
-firmware/remote_music/      ESP32源码及网页资源
-sim/、tests/                仿真模型、测试平台与验证脚本
-tools/                      构建、集成和分析脚本
-docs/、ref/                 文档与参考资料
-audit/remote_music_20261019/ 构建及验收收据
-release/latest/             GitHub发布的FS、固件与SHA256清单
-```
+## 当前功能
 
-本地还保留`impl/`、历史备份、试听音频和构建缓存。GitHub发布保留源码、工程、文档、测试入口、关键验证证据和最新产物，排除本机工具链、批量波形/音频输出及大体积中间文件。历史文档中的绝对路径和旧收据应结合日期阅读，以本README和最终报告为准。
+- 两块独立16键TTP229，32个逻辑键，默认MIDI60～91；实体琴键固定使用32 Voice钢琴，不叠加其他乐器。实际左右顺序按模块与映射确认。
+- 手机曲谱兼容MIDI/音符JSON，可选钢琴、长笛、吉他、管风琴、钟琴五种合成音色。
+- ESP32-S3蓝牙App为主、Wi-Fi网页备用；ESP32与FPGA使用UART。
+- HDMI/DVI、32键状态、指导模式、FFT频谱、波形、李萨如图、板载PT8211与外接PCM5102A双DAC。
+- V13增加音符装载器流水化及实体按键事件录音；录音包含On/Off、音高、力度和时间，不是麦克风或PCM录音。FPGA缓存64条事件，需要及时读取，溢出有标志。
+- **V12起已移除预录WAV播放**，SPI端口保留但不用于本版音乐传输。旧文档的SPI/WAV说明属于历史版本。
 
-GitHub仓库原有的`boards/tang_mega_138k_pro/`、`rtl/`、`tb/`及`scripts/`保留为历史参考；**本次最新入口是仓库根目录的GPRJ**。这些历史工程有同名模块，不要与当前`src/`混合编译。更新前的仓库首页保存在`docs/REPOSITORY_README_BEFORE_20261021.md`。
+## 高云构建与下载
 
-## 打开与构建FPGA工程
+- 工具：Gowin V1.9.12（64-bit），GowinSynthesis，SystemVerilog 2017。
+- 器件：`GW5AST-LV138FPG676AC1/I0`，Device Version C。
+- 顶层：`tang_mega_138k_pro_top`，文件 [tang_mega_138k_pro_top.v.v](src/tang_mega_138k_pro_top.v.v)。
+- 约束：[integrated.cst](src/integrated.cst)、[integrated.sdc](src/integrated.sdc)。
+- 已通过构建：Place=3、Route=0、Clock route order=0、Timing driven=1、Correct hold=1、Replicate=0；见 [工程配置](impl/yinyue_fashengqi_process_config.json)。
 
-验证工具：**Gowin V1.9.12 x64**。器件：**GW5AST-LV138FPG676AC1/I0，版本C**。
+打开仓库根目录GPRJ修改和构建。发布包不含个人 `.gprj.user` GUI缓存或大型布局数据库；使用现成FS时，在Programmer中手动选择 `release/latest/ao_0.fs`。若从工程入口提示 `Bitstream file does not exist`，不要误选旧FS：直接用Programmer选择上述文件，或完成一次当前源码的构建后使用生成的 `impl/pnr/ao_0.fs`。
 
-1. 用Gowin Designer打开根目录`yinyue_fashengqi.gprj`。
-2. 顶层模块为`tang_mega_138k_pro_top`，源码为`src/tang_mega_138k_pro_top.v.v`；选择SystemVerilog 2017。
-3. 有效约束为`src/integrated.cst`和`src/integrated.sdc`；91个有效工程输入，测试平台不参与综合。
-4. 依次执行综合、布局布线、时序分析。最终通过选项为**Placement 3 / Route 0**，Timing Driven和Hold修复开启，保持原时钟及约束。
-5. 核对新生成FS和报告：Setup/Hold违例端点为0，五类时序裕量均非负。修改RTL后必须重新构建。
+修改RTL、资源或约束后必须重新综合、布局布线和检查实际STA；原FS不会自动包含修改。`SRAM Program`临时加载断电不保留，Flash固化由用户在整机验收后决定。本次发布没有执行任何下载。
 
-`tools/build_gowin.tcl`执行完整构建；`tools/remote_retime.tcl`用于复用已验证综合网表的PnR。`tests/remote_music_20261019/retime.py`先校验输入并归档，需显式提供`--archive <新目录名> --place <0..4> --route <0..2>`。Python脚本包含本机Gowin/Icarus路径，异机使用前需配置；一次性修改脚本不要批量重跑。已有FS不代表后续修改后的版本。
+## 已完成的时序和资源检查
 
-## ESP32代码、构建和供电
+完整构建 `v13_p3_r0` 于2026-10-24 14:04完成。Setup/Hold违规端点均为0，全部五类时序通过。
 
-Arduino IDE主文件：[ESP32_FPGA_Music_Controller.ino](firmware/remote_music/esp32/ESP32_FPGA_Music_Controller/ESP32_FPGA_Music_Controller.ino)。请复制整个同名目录，保留全部头文件。
+| 时序项目 | 最差裕量 |
+|---|---:|
+| Setup | +0.164 ns |
+| Hold | +0.003 ns |
+| Recovery | +6.263 ns |
+| Removal | +0.378 ns |
+| Minimum pulse width | +3.128 ns |
 
-| 文件 | 职责 |
-|---|---|
-| `ESP32_FPGA_Music_Controller.ino` | 热点、网页服务、控制接口、任务调度 |
-| `ControlLink.h` | UART控制、曲谱、键位事务、应答与重试 |
-| `WavService.h` | HTTP二进制上传、队列及SPI工作任务 |
-| `WavLink.h` | SPI包、CRC、序号、状态和反压 |
-| `web_page.h` | 嵌入网页，保持已恢复的原界面 |
+Hold余量很小；修改源码、约束或设置后须重新验证，不能把本次结果套用到新版本。
 
-已验证目标`esp32:esp32:esp32s3`，Arduino-ESP32 core `3.3.10-cn`，默认4MB分区、PSRAM关闭。烧录前按实际开发板Flash/PSRAM选择配置，不绑定固定COM口。本机隔离工具链不上传；复用`compile.py`需先配置其Arduino CLI路径，也可用Arduino IDE构建。
+| 资源 | 使用量 / 总量 |
+|---|---:|
+| Logic | 93,875 / 138,240（68%） |
+| Register | 36,452 / 139,140（27%） |
+| CLS | 57,907 / 69,120（84%） |
+| BSRAM | 308 / 340（91%） |
+| DSP | 217 / 298（73%） |
 
-带USB供电电路的ESP32-S3开发板可通过USB接稳定5V电源，上电自动运行已烧录程序。FPGA按原方式单独供电；**两板必须共地**。分别供电时不额外连接两板的5V/3.3V电源脚。信号使用3.3V；裸ESP32模组不能直接接5V。
+FPGA FS SHA256：`bec2b041c230e20e19b0252a7d61dce7b9a9eed0a92b03fee85701e476be1377`。其他文件见 [SHA256SUMS.txt](release/latest/SHA256SUMS.txt)。
 
 ## 接线
 
-下表ESP32侧为GPIO编号，Dock侧为排针针号，请核对排针方向。
+按Pro Dock4071f rev1.2排针号及实物丝印接线。C21等是FPGA封装管脚，不是排针序号。信号为3.3V逻辑，所有模块共地。
 
-| ESP32-S3 | 方向 | FPGA信号 / 管脚 | Pro Dock |
-|---|---|---|---|
-| GPIO17 TX | ESP→FPGA | esp_uart_rx / B21 | J26第12脚 |
-| GPIO18 RX | FPGA→ESP | esp_uart_tx / A20 | J26第10脚 |
-| GPIO12 SCK | ESP→FPGA | esp_spi_sck / L17 | J24第7脚 |
-| GPIO11 MOSI | ESP→FPGA | esp_spi_mosi / E25 | J24第9脚 |
-| GPIO10 CS | ESP→FPGA | esp_spi_cs_n / H14 | J24第5脚 |
-| GPIO13 MISO | FPGA→ESP | esp_spi_miso / D25 | J24第10脚 |
-| GND | 共地 | GND | J24/J26第3或4脚 |
-
-| 琴键模块 | SCL | SDO |
+| 模块端 | Dock位置 | FPGA管脚 |
 |---|---|---|
-| 第一块16键 | C21 / J26第11脚 | B20 / J26第9脚 |
-| 第二块16键 | B19 / J26第7脚 | A17 / J26第5脚 |
+| 第一块TTP229 SCL / SDO | J26第11脚 / 第9脚 | C21 / B20 |
+| 第二块TTP229 SCL / SDO | J26第7脚 / 第5脚 | B19 / A17 |
+| 两块TTP229 VCC / GND | J26第1或2脚（3.3V）/ 第3或4脚 | — |
+| ESP32 GPIO17 TX → FPGA RX | J26第12脚 | B21 |
+| ESP32 GPIO18 RX ← FPGA TX | J26第10脚 | A20 |
+| ESP32 GND | J26第3或4脚 | — |
+| PCM5102A BCK / LRCK / DIN | J24第11脚 / 第12脚 / 第6脚 | C24 / B24 / H15 |
+| PCM5102A GND | J24第3或4脚 | — |
 
-琴键模块VCC接J26第1或2脚3.3V，GND接第3或4脚。原资料UART的B19/A17与第二块键盘冲突，当前已改用B21/A20。不要将5V接入FPGA信号脚，SPI建议使用短线。
+两块琴键使用各自独立SCL/SDO，并配置为16键/多键模式。ESP32用自己的USB供电并接共地线，UART **115200、8N1**；本版无需连接SPI四根线。外接DAC的VIN电压及格式/静音跳线按具体模块确认。板载PT8211无需杜邦线，屏幕接Dock **J11 / DVI A（TX）**输出口。
 
-## 手机连接与音乐播放
+## ESP32-S3使用
 
-1. 断电接线，给FPGA供电并加载匹配FS，再给已烧录固件的ESP32供电。
-2. 手机连接热点 **`FPGA_MUSIC`**，密码 **`fpga2026`**。
-3. 浏览器打开 **`http://192.168.4.1`**，确认FPGA连接状态，再控制或播放。
-4. 上传WAV期间保持Wi-Fi连接及页面前台；上板先测试16位48kHz，再检查其他格式和长时间播放。
+复制整个 [ESP32主程序目录](firmware/remote_music_ble/esp32/ESP32_FPGA_Music_Controller/)并打开 `.ino`，保留同目录所有头文件。
 
-链路：`手机 --Wi-Fi/HTTP--> ESP32 --UART/SPI--> FPGA`。
+- 蓝牙设备名：`XDZY-Piano`。
+- 备用Wi-Fi热点：`FPGA_MUSIC`，密码 `fpga2026`，网页 `http://192.168.4.1`。
+- 编译配置：`esp32:esp32:esp32s3:PartitionScheme=huge_app`，**Huge APP（3MB，无OTA）**，4MB Flash配置；实际Flash/PSRAM设置须匹配实物。
+- 现成固件见 `release/latest/`；各个 `.bin`作用不同，不要把应用、引导器、分区表和合并固件混用。优先用Arduino按上述配置编译上传，预编译文件的说明见 [发布说明](release/latest/README.md)。
+- [本轮编译收据](tests/remote_music_ble_20261024/esp32/esp32_compile.json)为PASS；编译通过不等于ESP32已烧录或手机链路已实测通过。
 
-- **UART 115200、8N1**：音量、音色、播放、键位、曲谱事件和状态。
-- **SPI Mode0、4MHz，ESP32为主机**：WAV数据与状态，包含CRC-16、序号、重试去重及缓冲余量反馈，支持边传边播。
+## 验证与待办
 
-WAV原始字节由ESP32转发，FPGA解析RIFF/WAVE的`fmt`和`data`块、检查边界、还原PCM并统一为24位。单声道复制为左右声道，44.1kHz线性插值至48kHz，经跨时钟邮箱、混音和主音量送到双DAC。**不支持MP3、浮点WAV、WAVE_EXTENSIBLE。**
+- [字符逐行引擎验证](audit/labels_line_engine_20261024/RESULT_SUMMARY.md)：2,475,199时钟、0失配。
+- [装载器流水化验证](audit/loader_pipeline_20261024/RESULT_SUMMARY.md)：600次快速ROM和40次真实ROM装载，参数/RAM内容等价。
+- [事件录音验证](audit/remote_recording_20261024/RESULT_SUMMARY.md)：58,583个旧控制包等价，录音顺序、重试、空缓存及溢出测试通过。
+- 既有本地记录显示V13约15:20曾做SRAM加载和屏幕预览，但未完成采集卡逐像素比对，也没有据此证明全部音频及手机功能通过。
+- 数字仿真单键至PCM5102首帧约4.577～4.664ms；32键齐按最后声部首次非零为8.028ms（原10.965ms），**尚未达到全部声部5ms目标**。该测量不含触摸模块内部检测及模拟音频链路；屏幕刷新不强行按5ms验收。
 
-MIDI/JSON先由手机网页解析为音高、力度和时长等事件，再由FPGA计时、合成。目前保留单旋律及分段机制，不是任意复调MIDI原文件的FPGA解码器。仅播WAV时合成VOICE计数为0正常。
+仍需验收实际键位映射、32路同时演奏、音质/响度、双DAC声音、手机控制/曲谱/录音持续回传、长时间稳定性及Flash断电启动。时序通过不代表这些实板项目全部通过。
 
-## 最新验证结果
-
-最后通过时间：**2026-10-20 21:53（UTC+8）**。
-
-| 时序 | 最差裕量/ns |
-|---|---:|
-| Setup | +0.105 |
-| Hold | +0.010 |
-| Recovery | +6.742 |
-| Removal | +0.341 |
-| 最小脉宽 | +3.272 |
-
-Setup/Hold违例端点均为0。Logic 103455/138240，寄存器43274/139140，BSRAM 296/340，DSP 186/298，PLL 3/12。
-
-验证包括32键钢琴隔离、曲谱切换、WAV八格式、传输异常、双DAC及实际映射Loader等。按要求复用依赖未变化的有效结果；重复的完整HDMI整帧和长WAV回归曾停止，没有将中断运行记为新的完整通过。XY峰值和SPI CRC流水线改动分别有针对性新检查。
-
-- [最终验证报告](docs/REMOTE_MUSIC_RESULTS_20261019.md)
-- [完整接线与使用说明](docs/REMOTE_MUSIC_20261019.md)
-- [构建收据](audit/remote_music_20261019/BUILD.json)
-- [最终验收收据](audit/remote_music_20261019/FINAL_ACCEPTANCE.json)
-- [44音响度校准与限制](docs/NOTE_GAIN_CALIBRATION_20261018.md)
-- [续接及历史记录](README_HANDOFF.md)
-
-GitHub最新发布产物保存在`release/latest/`，包含FS、ESP32二进制、编译收据及SHA256清单；本机原产物和历史证据保持不变。
-
-## 实板验收仍需完成
-
-两块键盘的真实左右键序、32音实体演奏、Wi-Fi长时间传输、左右声道及模拟输出、屏幕和主观音质仍需实板确认。音源测量建议MIDI48～79作为更均匀的32键候选，当前默认映射仍为60～91。PCM非零或时序通过不等于音质优秀。
-
-没有自动烧录。加载前核对板型、接线、FS哈希及ESP32 Flash/PSRAM参数；实板验收结果另行记录。
-
+部分验证脚本和原始收据保留了构建电脑的工具/工程路径；迁移后按本机环境调整。仓库保留必要源码、工具、验证收据和发布文件，省略工具链缓存、大样本轨迹及大型实现数据库。历史README见 [README_PRE_V13_20261024.md](docs/README_PRE_V13_20261024.md)；带旧日期的说明不覆盖本页当前状态。

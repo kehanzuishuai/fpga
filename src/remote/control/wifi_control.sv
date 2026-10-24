@@ -1,7 +1,7 @@
 `default_nettype none
 // Stop-and-wait controller. All effects occur once per accepted request.
 // cfg_ready acknowledges enqueueing a request, NOT completion of mode switching.
-module wifi_control #(parameter integer CLK_HZ=12288000,
+module wifi_control #(parameter integer PERFORMANCE_ENABLE=0,CLK_HZ=12288000,
  APPLY_TIMEOUT=CLK_HZ/5,SESSION_TIMEOUT=CLK_HZ*5,
  parameter [223:0] DEFAULT_KEYS=224'hb76acd8af5aad4a74a8d09f3a6cc972a4c88f1a2c4870a0c07ef9ebc)(
  input wire clk,rst_n,
@@ -14,12 +14,15 @@ module wifi_control #(parameter integer CLK_HZ=12288000,
  output reg [7:0] cfg_cmd,output reg [15:0] cfg_value,
  input wire [1:0] actual_mode,input wire [2:0] actual_timbre,
  input wire switching,system_fault,
+ input wire [1:0] actual_performance,input wire [2:0] performance_state,
  input wire [15:0] actual_volume,actual_tempo,input wire score_playing,
  input wire tables_safe,keymap_safe,input wire [4:0] key_index,output wire [6:0] key_note,
  input wire [4:0] score_index,output wire [31:0] score_event,
  output reg [5:0] score_count,output reg keymap_committed,score_committed,
  output reg [15:0] keymap_revision,score_revision,output reg linked,
- output wire [223:0] key_map
+ output wire [223:0] key_map,
+ // Physical-key recording for the phone (commands 0x07/0x17).
+ input wire rec_event,rec_on,input wire [6:0] rec_note,rec_velocity
 );
  reg [7:0] current_seq,current_cmd;
  reg [63:0] current_request,last_request;
@@ -31,6 +34,16 @@ module wifi_control #(parameter integer CLK_HZ=12288000,
  reg [31:0] score_written;reg [5:0] stage_count;
  reg [15:0] volume;reg [4:0] effects;
  integer i;
+ // Recorder: 64 x {on,note,velocity,ms} in distributed RAM. The millisecond
+ // counter restarts at 0 when recording is switched on.
+ localparam integer MS_TICKS=CLK_HZ/1000;
+ reg rec_enabled,rec_overflow;reg [15:0] rec_ms;reg [31:0] rec_tick;
+ reg [30:0] rec_mem[0:63];reg [6:0] rec_wp,rec_rp;
+ wire rec_empty=rec_wp==rec_rp;
+ wire rec_full=rec_wp=={~rec_rp[6],rec_rp[5:0]};
+ wire rec_write=rec_event && rec_enabled && !rec_full;
+ wire [30:0] rec_head=rec_mem[rec_rp[5:0]];
+ always @(posedge clk)if(rec_write)rec_mem[rec_wp[5:0]]<={rec_on,rec_note,rec_velocity,rec_ms};
  // Commit scans one staged key per clock. A 128-bit membership set replaces
  // 496 simultaneous pitch comparisons; active mapping stays atomic.
  reg checking_keys,key_commit_safe;
@@ -73,9 +86,12 @@ module wifi_control #(parameter integer CLK_HZ=12288000,
   keymap_committed<=0;score_committed<=0;
   keys_active<=DEFAULT_KEYS;keys_stage<=DEFAULT_KEYS;
   checking_keys<=0;key_commit_safe<=0;key_scan_index<=0;key_seen<=0;
+  rec_enabled<=0;rec_overflow<=0;rec_ms<=0;rec_tick<=0;rec_wp<=0;rec_rp<=0;
   for(i=0;i<32;i=i+1)begin score_active[i*32+:32]<=0;score_stage[i*32+:32]<=0;end
  end else begin
   keymap_committed<=0;score_committed<=0;
+  if(rec_tick>=32'(MS_TICKS-1))begin rec_tick<=0;rec_ms<=rec_ms+1'b1;end else rec_tick<=rec_tick+1'b1;
+  if(rec_event && rec_enabled)begin if(rec_full)rec_overflow<=1;else rec_wp<=rec_wp+1'b1;end
   if(response_valid && response_ready)response_valid<=0;
   if(linked)begin
    if(link_ticks>=32'(SESSION_TIMEOUT-1))begin linked<=0;key_open<=0;score_open<=0;end
@@ -117,15 +133,26 @@ module wifi_control #(parameter integer CLK_HZ=12288000,
     8'h02:if(packet_len==0)reply(0,{volume,{3'b0,effects},{1'b0,system_fault,switching,actual_timbre,actual_mode}});else reply(1,0);
     8'h03:if(packet_len==0)reply(0,{actual_tempo,actual_volume});else reply(1,0);
     8'h04:if(packet_len==0)reply(0,{score_revision,7'b0,score_playing,2'b0,score_count});else reply(1,0);
+    8'h06:if(packet_len==0 && PERFORMANCE_ENABLE!=0)reply(0,{8'd0,5'd0,performance_state,8'd1,6'd0,actual_performance});else reply(2,0);
     8'h05:if(packet_len==0)reply(0,{keymap_revision,8'd0,8'd32});else reply(1,0);
+    8'h07:if(packet_len==0)begin
+     if(!rec_empty)begin reply(0,{1'b1,rec_head});rec_rp<=rec_rp+1'b1;end
+     else reply(0,{1'b0,rec_overflow,14'd0,rec_ms});
+    end else reply(1,0);
+    8'h17:if(packet_len==1 && p0<=1)begin
+     rec_enabled<=p0[0];rec_rp<=rec_wp;rec_overflow<=0;
+     if(p0[0])begin rec_ms<=0;rec_tick<=0;end
+     reply(0,{31'd0,p0[0]});
+    end else reply(1,0);
     8'h24:if(packet_len==1 && p0<32)reply(0,{keymap_revision,1'b0,keys_active[p0[4:0]*7+:7],p0});else reply(1,0);
-    8'h10,8'h11,8'h12,8'h13,8'h14,8'h15:begin
+    8'h10,8'h11,8'h12,8'h13,8'h14,8'h15,8'h16:begin
      if((packet_cmd==8'h10 && packet_len==1 && p0==0) ||
         (packet_cmd==8'h11 && packet_len==1 && p0<=4) ||
         (packet_cmd==8'h12 && packet_len==2) ||
         (packet_cmd==8'h13 && packet_len==1 && p0<=31) ||
         (packet_cmd==8'h14 && packet_len==2 && value>=30 && value<=240) ||
-        (packet_cmd==8'h15 && packet_len==1 && p0<=1))begin
+        (packet_cmd==8'h15 && packet_len==1 && p0<=1) ||
+        (packet_cmd==8'h16 && PERFORMANCE_ENABLE!=0 && packet_len==1 && p0<=2))begin
       waiting<=1;wait_ticks<=0;cfg_valid<=1;cfg_cmd<=packet_cmd;cfg_value<=value;
       current_seq<=packet_seq;current_cmd<=packet_cmd;current_request<=request_bits;
      end else if(packet_cmd==8'h10 && packet_len==1 && p0<=2)reply(2,0);else reply(1,0);

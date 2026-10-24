@@ -1,6 +1,7 @@
 create_clock -name clk_50m -period 20.000 [get_ports {clk_50m}]
+create_generated_clock -name fabric_50m -source [get_ports {clk_50m}] -divide_by 1 [get_pins {u_audio_pll/u_pll/PLL_inst/CLKOUT1}]
 create_generated_clock -name audio_clk -source [get_ports {clk_50m}] -multiply_by 29 -divide_by 118 [get_pins {u_audio_pll/u_pll/PLL_inst/CLKOUT0}]
-create_generated_clock -name video_ref -source [get_ports {clk_50m}] -multiply_by 27 -divide_by 50 [get_pins {u_video_clock/ref_pll/PLL_inst/CLKOUT0}]
+create_generated_clock -name video_ref -source [get_pins {u_audio_pll/u_pll/PLL_inst/CLKOUT1}] -multiply_by 27 -divide_by 50 [get_pins {u_video_clock/ref_pll/PLL_inst/CLKOUT0}]
 create_generated_clock -name video_serial -source [get_pins {u_video_clock/ref_pll/PLL_inst/CLKOUT0}] -multiply_by 55 -divide_by 4 [get_pins {u_video_clock/video_pll/PLL_inst/CLKOUT0}]
 create_generated_clock -name video_pixel_pll -source [get_pins {u_video_clock/ref_pll/PLL_inst/CLKOUT0}] -multiply_by 11 -divide_by 4 [get_pins {u_video_clock/video_pll/PLL_inst/CLKOUT1}]
 create_generated_clock -name video_pixel -source [get_pins {u_video_clock/video_pll/PLL_inst/CLKOUT1}] -divide_by 1 [get_pins {u_video_clock/pixel_buffer/CLKOUT}]
@@ -13,7 +14,7 @@ set_clock_groups -asynchronous -group [get_clocks {audio_clk}] -group [get_clock
 # New 50MHz WAV transport <-> audio crossings are only explicit request/ack
 # mailboxes and two-stage control synchronizers in u_wav. Stereo hold_pcm stays
 # fixed until the destination acknowledges it. No free-running PCM bus crosses.
-set_clock_groups -asynchronous -group [get_clocks {clk_50m}] -group [get_clocks {audio_clk}]
+set_clock_groups -asynchronous -group [get_clocks {clk_50m fabric_50m}] -group [get_clocks {audio_clk}]
 # Strengthen same-domain pixel hold margin so routing repairs short data paths.
 set_clock_uncertainty 0.150 -hold -from [get_clocks {video_pixel}] -to [get_clocks {video_pixel}]
 set_false_path -to [get_pins {pll_lock_sync_0_s0/D}]
@@ -21,3 +22,20 @@ set_false_path -to [get_pins {pll_lock_sync_0_s0/D}]
 # Their inter-stage data paths and all OSER10 RESET recovery/removal stay timed.
 set_false_path -to [get_pins {u_video_clock/ref_ready_meta_*/CLEAR u_video_clock/ref_ready_sync_*/CLEAR u_video_clock/ready_pixel_meta_*/CLEAR u_video_clock/ready_pixel_sync_*/CLEAR}]
 set_false_path -to [get_pins {u_video_io/reset_release_*/CLEAR u_video_io/channels*.local_rst_n_*/CLEAR}]
+
+# GAO inserts this external JTAG port and the GW_JTAG black box during synthesis.
+# Model both the pad and its gated/pass-through debug clock output explicitly.
+# SUG114-3.4.1E lists GAO TCK choices up to15MHz;20MHz is a conservative bound.
+# Keep the GAO/programmer TCK at or below20MHz when using these constraints.
+create_clock -name gao_tck_pad -period 50.000 [get_ports {tck_pad_i}]
+create_generated_clock -name gao_tck -source [get_ports {tck_pad_i}] -divide_by 1 [get_pins {gw_gao_inst_0/u_gw_jtag/tck_o}]
+# JTAG is independent of the board PLL clocks. GAO is the vendor dual-clock
+# capture/debug IP; do not time its independent TCK as a synchronous audio clock.
+set_clock_groups -asynchronous -group [get_clocks {gao_tck_pad gao_tck}] -group [get_clocks {clk_50m fabric_50m audio_clk video_ref video_serial video_pixel_pll video_pixel video_serial_global video_serial_reset video_serial_reset_regional}]
+
+# Report-only commands (SUG940): no constraint effect. List more failing paths,
+# the highest-fanout nets and the most congested routing grids per run.
+report_timing -setup -max_paths 200 -max_common_paths 1
+report_timing -hold -max_paths 60 -max_common_paths 1
+report_high_fanout_nets -max_nets 20
+report_route_congestion -max_grids 20

@@ -4,7 +4,7 @@
  "CPU" : false,
  "CRC_CHECK" : true,
  "Clock_Route_Order" : 0,
- "Convert_SDP32_36_to_SDP16_18" : true,
+ "Convert_SDP32_36_to_SDP16_18" : false,
  "Correct_Hold_Violation" : true,
  "DONE" : false,
  "DOWNLOAD_SPEED" : "default",
