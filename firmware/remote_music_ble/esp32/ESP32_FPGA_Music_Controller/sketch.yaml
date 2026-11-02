@@ -1,1 +1,1 @@
-default_fqbn: esp32:esp32:esp32s3:PartitionScheme=huge_app
+default_fqbn: esp32:esp32:esp32s3:FlashMode=opi,FlashSize=32M,PSRAM=opi,PartitionScheme=huge_app

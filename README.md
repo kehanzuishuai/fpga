@@ -1,3 +1,14 @@
+<!-- esp32-expression-20261102 -->
+# 最新 ESP32 配套固件：2026-11-02
+
+- [ESP32 源码和手机页面](firmware/remote_music_ble/README_BLE.md)
+- [可直接烧录的 ESP32 合并固件，偏移 0x0](release/esp32_expression_20261102/ESP32_expression_0x0.bin)
+- [烧录说明、适用范围和 SHA256](release/esp32_expression_20261102/README.md)
+
+本次仅更新 ESP32 部分，配套 FPGA 为 V21 滑音、颤音版。下面的根目录 FPGA 工程和 `release/latest` 属于历史 V13，不能视为本 ESP32 版本的完整配套包。
+
+<!-- /esp32-expression-20261102 -->
+
 # Tang Mega 138K Pro 电子钢琴 · V13
 
 更新：2026-10-24。本仓库根目录现在是 **V13 FPGA工程**，配套ESP32-S3代码为 `firmware/remote_music_ble`。原Wi-Fi/WAV版本保留在Git历史和 `firmware/remote_music`，不作为本版固件入口。

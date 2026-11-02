@@ -15,12 +15,13 @@ function createKeymapClient(fetchFn){
   }catch(e){e.reached=reached;throw e;}finally{clearTimeout(timer);}
  };
 }
-// Logical K numbering remains in chromatic order; physical sensor channels are mapped in the main project.
+// Measured channels: K1..K9 white, K10..K15 black, K16 upper.
 const KEY_LAYOUT=[
- {kind:'white',slot:0},{kind:'black',boundary:1},{kind:'white',slot:1},{kind:'black',boundary:2},
- {kind:'white',slot:2},{kind:'white',slot:3},{kind:'black',boundary:4},{kind:'white',slot:4},
- {kind:'black',boundary:5},{kind:'white',slot:5},{kind:'black',boundary:6},{kind:'white',slot:6},
- {kind:'white',slot:7},{kind:'black',boundary:8},{kind:'white',slot:8},{kind:'extra'}
+ {kind:'white',slot:0},{kind:'white',slot:1},{kind:'white',slot:2},
+ {kind:'white',slot:3},{kind:'white',slot:4},{kind:'white',slot:5},
+ {kind:'white',slot:6},{kind:'white',slot:7},{kind:'white',slot:8},
+ {kind:'black',boundary:1},{kind:'black',boundary:2},{kind:'black',boundary:4},
+ {kind:'black',boundary:5},{kind:'black',boundary:7},{kind:'black',boundary:8},{kind:'extra'}
 ];
 function changedIndices(notes,confirmed){return notes?notes.flatMap((n,i)=>!confirmed||confirmed[i]!==n?[i]:[]):[];}
 function createKeymapDraft(){
@@ -32,7 +33,7 @@ function createKeymapDraft(){
 if(typeof module!=='undefined')module.exports={noteName,defaultMap,presetMap,validateMap,createKeymapClient,KEY_LAYOUT,changedIndices,createKeymapDraft};
 if(typeof document!=='undefined'){
  const el=id=>document.getElementById(id),client=createKeymapClient(window.fetch.bind(window)),draft=createKeymapDraft();
- let selected=0,busy=false;const keys=[],chips=[],boardTitles=[];
+ let selected=0,busy=false,presetError='';const keys=[],chips=[],boardTitles=[];
  const names=['第一块','第二块'],kinds={white:'白键',black:'黑键',extra:'附加键'};
  const message=(s,tone='',shortText)=>{showNotice(s,shortText);el('message').dataset.tone=tone;};
  function choose(index){selected=index;el('presetBoard').value=Math.floor(selected/16);render();}
@@ -56,23 +57,25 @@ if(typeof document!=='undefined'){
   boardTitles.forEach((b,i)=>{b.setAttribute('aria-pressed',i===board);});
   keys.forEach(({button,note},index)=>{const k=index%16,kind=KEY_LAYOUT[k].kind,pressed=index===selected,label=names[Math.floor(index/16)]+' K'+(k+1)+' '+kinds[kind]+' '+noteName(notes[index]);button.setAttribute('aria-label',label);button.setAttribute('aria-pressed',pressed);button.classList.toggle('changed',changed.includes(index));note.textContent=noteName(notes[index]);button.title=label;chips[index].setAttribute('aria-label',label+'，辅助选择');chips[index].setAttribute('aria-pressed',pressed);chips[index].classList.toggle('changed',changed.includes(index));});
   el('selectedKey').textContent=names[board]+' · K'+(local+1);el('note').value=notes[selected];
-  el('draftState').textContent=changed.length?'未应用修改：'+changed.length:draft.connected?'已应用':'本地配置';
-  el('apply').disabled=busy||!draft.connected;el('apply').title=draft.connected?'应用到FPGA':'连接设备后应用';el('read').disabled=busy;
+  el('draftState').textContent=presetError?'预设无效：'+presetError:changed.length?'未应用修改：'+changed.length:draft.connected?'已应用':'本地配置';
+  el('apply').disabled=busy||!draft.connected||!!presetError;el('apply').title=draft.connected?'应用到FPGA':'连接设备后应用';el('read').disabled=busy;
  }
- function localEdit(fn){try{draft.change(fn);render();message('已保存到本地配置','','已保存');}catch(e){message(e.message,'error');}}
+ function localEdit(fn){try{draft.change(fn);render();message('已保存到本地配置','','已保存');return true;}catch(e){message(e.message,'error');return false;}}
  async function request(method){
-  if(busy)return;if(method==='GET'&&draft.dirty()&&!window.confirm('放弃未应用的修改，重新读取？'))return;
+  if(busy)return;if(method==='POST'&&presetError){message(presetError,'error');return;}if(method==='GET'&&draft.dirty()&&!window.confirm('放弃未应用的修改，重新读取？'))return;
   const generation=draft.generation,snapshot=[...draft.notes];busy=true;render();const target=el(method==='GET'?'read':'apply');target.dataset.pending='true';delete target.dataset.result;showConnections(null,'waiting');
   if(method==='POST')message('正在应用…');
-  try{const data=await client(method,snapshot);draft.receive(data,generation);showConnections(true,'connected');el('revision').textContent='FPGA映射版本：'+data.revision;message(method==='GET'?'已读取当前映射':'全部32键已提交并回读确认','success',method==='GET'?'':'已应用');target.dataset.result='success';}
+  try{const data=await client(method,snapshot);draft.receive(data,generation);if(method==='GET')presetError='';showConnections(true,'connected');el('revision').textContent='FPGA映射版本：'+data.revision;message(method==='GET'?'已读取当前映射':'全部32键已提交并回读确认','success',method==='GET'?'':'已应用');target.dataset.result='success';}
   catch(e){draft.connected=false;showConnections(e.reached,e.uart?'connected':'error');message(e.message+'；本地配置保留','error',method==='GET'?'':'应用失败');el('revision').textContent='当前配置尚未确认';target.dataset.result='error';}
   finally{busy=false;delete target.dataset.pending;render();setTimeout(()=>delete target.dataset.result,800);}
  }
  for(let n=36;n<=96;n++)el('note').add(new Option(noteName(n)+' (MIDI '+n+')',n));
- el('octave').oninput=()=>el('octaveValue').textContent='C'+el('octave').value;
+ function applyPreset(){presetError='';try{const part=presetMap(el('preset').value,Number(el('octave').value));draft.change(notes=>notes.splice(Number(el('presetBoard').value)*16,16,...part));message('预设已更新，请点击应用提交到FPGA','','待应用');}catch(e){presetError=e.message;message(e.message,'error');}render();}
+ el('octave').oninput=()=>{el('octaveValue').textContent='C'+el('octave').value;applyPreset();};
+ el('preset').onchange=applyPreset;
  el('presetBoard').onchange=()=>{el('octave').value=Number(el('presetBoard').value)?5:4;el('octaveValue').textContent='C'+el('octave').value;};
- el('presetApply').onclick=()=>localEdit(notes=>{const part=presetMap(el('preset').value,Number(el('octave').value));notes.splice(Number(el('presetBoard').value)*16,16,...part);});
+ el('presetApply').onclick=applyPreset;
  el('edit').onclick=()=>localEdit(notes=>{notes[selected]=Number(el('note').value);});
- el('defaults').onclick=()=>localEdit(notes=>{notes.splice(0,32,...defaultMap());});el('apply').onclick=()=>request('POST');el('read').onclick=()=>request('GET');
+ el('defaults').onclick=()=>{presetError='';localEdit(notes=>{notes.splice(0,32,...defaultMap());});};el('apply').onclick=()=>request('POST');el('read').onclick=()=>request('GET');
  window.addEventListener('beforeunload',e=>{if(draft.dirty()){e.preventDefault();e.returnValue='';}});buildBoards();render();request('GET');
 }

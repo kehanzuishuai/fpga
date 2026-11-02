@@ -64,6 +64,8 @@ void send(const String &json){
 }
 const char *code(const Music::Link &link){
   switch(link.error){
+    case Music::Error::UartNotReady:return "uart_not_ready";
+    case Music::Error::WriteFailed:return "uart_write_failed";
     case Music::Error::Timeout:return "timeout";
     case Music::Error::Rejected:return link.remoteStatus==2?"unsupported":"rejected";
     case Music::Error::WrongDevice:return "wrong_device";
@@ -138,7 +140,7 @@ void handle(Music::Link &link,const Line &line){
     else if(key=="volume"&&v<=100)ok=link.setSetting(0x12,uint16_t((v*65535U+50)/100));
     else if(key=="tempo"&&v>=30&&v<=240)ok=link.setSetting(0x14,uint16_t(v));
     else if(key=="performance"&&v<=2)ok=link.setPerformance(uint8_t(v));
-    else if(key=="mode"&&v==0)ok=link.set(0x10,0);
+    else if(key=="mode"&&v<=2)ok=link.set(0x10,uint8_t(v));
     else{fail(id,"invalid","参数无效");return;}
     if(ok)send(head(id,true)+"}");else failLink(id,link);
   }else if(name=="score"){

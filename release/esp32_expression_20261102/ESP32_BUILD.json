@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "fqbn": "esp32:esp32:esp32s3:FlashMode=opi,FlashSize=32M,PSRAM=opi,PartitionScheme=huge_app",
+  "source_sha256": {
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\BleBridge.h": "cc69ec033ba9285ab7307796de31c8b7b7469e1466365f8c4ab085a9320a38a4",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\ControlLink.h": "a9e14c9fbb9192a86b4e7f5da77b7007670794a670a5df6f2eeb1fd01b6077d0",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\ESP32_FPGA_Music_Controller.ino": "95de9442217b1d79e412a238a6b14123185bc0ad73a10bff49eaba3468acf7cd",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\FpgaUart.h": "ba77f615c3c8edf436c6ae63b70e03548606b7bd250dff8bd55fc00c2119994e",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\sketch.yaml": "ac453749bf4b11d08963e76cb59493f3f782c6ad6e24b57a1e562795046dfb46",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\StreamScore.h": "3e924ca5bc2ca9c1769f9e3db0466162ad781561f49279468bb56465c129a05d",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\web_page.h": "ac382266d70a540df46d8fc227d935b19d49e9a1b9b832f5c1984ab70330f83d"
+  },
+  "uploaded": false,
+  "hardware_tested": false,
+  "returncode": 0,
+  "elapsed_seconds": 20.306617999998707,
+  "source_unchanged": true,
+  "binaries": {
+    "build\\esp32\\boot_app0.bin": {
+      "bytes": 8192,
+      "sha256": "f94c5d786a7a8fab06ac5d10e33bf37711a6697636dc037559ea19cc410a17f0"
+    },
+    "build\\esp32\\ESP32_FPGA_Music_Controller.ino.bin": {
+      "bytes": 1437408,
+      "sha256": "f8b615507d332b096ba993a6adc41b48cc00edfbc877da1dcdea64b62ab009c2"
+    },
+    "build\\esp32\\ESP32_FPGA_Music_Controller.ino.bootloader.bin": {
+      "bytes": 18736,
+      "sha256": "57ad718ff522636292b74626dbdb255c4739c9378b6057b164fd564adad34950"
+    },
+    "build\\esp32\\ESP32_FPGA_Music_Controller.ino.merged.bin": {
+      "bytes": 33554432,
+      "sha256": "1f7e06501393a310a7e6fcfccb40af0a8accd7d7202e5308391d6e0203445847"
+    },
+    "build\\esp32\\ESP32_FPGA_Music_Controller.ino.partitions.bin": {
+      "bytes": 3072,
+      "sha256": "aaae2888c5a6a348004b5b436f47abb25ae32e72d9003902955a998eda723edd"
+    }
+  }
+}

@@ -26,9 +26,16 @@ struct Transport {
   virtual void idle()=0;
   virtual void write(const uint8_t *,size_t)=0;
   virtual int read()=0;
+  virtual bool ready() {return true;}
+  virtual bool writeComplete() {return true;}
 };
-enum class Error { None,Timeout,Rejected,WrongDevice,Fault,NotApplied,Invalid,StateInvalid,WrongMode };
-struct State { uint8_t mode=0,timbre=0,effects=0,count=0;uint16_t commandedVolume=0,volume=0,tempo=120,revision=0;bool switching=false,fault=false,valid=false,settingsValid=false,scoreValid=false,playing=false; };
+enum class Error { None,Timeout,Rejected,WrongDevice,Fault,NotApplied,Invalid,StateInvalid,WrongMode,UartNotReady,WriteFailed };
+struct LinkDiagnostics {
+  uint32_t txPackets=0,rxBytes=0,validFrames=0,invalidFrames=0,ignoredFrames=0,timeouts=0,retries=0;
+  uint32_t requestRxBytes=0,requestValidFrames=0;
+  uint8_t lastCommand=0,lastSequence=0,lastTx[16]{},lastRx[16]{};
+};
+struct State { uint8_t mode=0,timbre=0,effects=0,count=0,expressionVelocity=100,expressionGlide=0,expressionVibrato=0;uint16_t commandedVolume=0,volume=0,tempo=120,revision=0;bool switching=false,fault=false,valid=false,settingsValid=false,scoreValid=false,playing=false,expressionValid=false; };
 struct Event {uint8_t note,velocity;uint16_t duration;};
 // Validate the entire upload before opening an FPGA transaction. No permissive atoi.
 inline bool parseScore(const char *p,size_t n,Event *out,uint8_t &count) {
@@ -55,28 +62,46 @@ class Link {
     int v;
     while((v=io.read())>=0) {
       if(count==16){memmove(window,window+1,15);count=15;}
-      window[count++]=uint8_t(v);
-      if(count==16 && Music::valid(window)){memcpy(out,window,16);count=0;return true;}
+      window[count++]=uint8_t(v);diagnostics.rxBytes++;diagnostics.requestRxBytes++;
+      if(count==16) {
+        memcpy(diagnostics.lastRx,window,16);
+        if(Music::valid(window)) {
+          diagnostics.validFrames++;diagnostics.requestValidFrames++;
+          memcpy(out,window,16);count=0;return true;
+        }
+        if(window[0]==0xa5&&window[1]==0x5a)diagnostics.invalidFrames++;
+      }
     }
     return false;
   }
 public:
   bool uartConnected=false;
+  LinkDiagnostics diagnostics;
   State state;Error error=Error::None;uint8_t remoteStatus=0;
   bool performanceSupported=false;uint8_t performanceMode=0,performanceState=0;
   explicit Link(Transport &t,uint8_t seed=0):io(t),sequence(seed){}
+  void invalidate() {
+    uartConnected=false;state.valid=false;state.settingsValid=false;state.scoreValid=false;state.expressionValid=false;
+  }
   bool request(uint8_t cmd,const uint8_t *payload,uint8_t length,uint8_t *result,uint32_t timeoutMs=500,int attempts=3) {
     error=Error::None;remoteStatus=0;
+    diagnostics.lastCommand=cmd;diagnostics.requestRxBytes=0;diagnostics.requestValidFrames=0;
     if(length>6){error=Error::Invalid;return false;}
+    if(!io.ready()){error=Error::UartNotReady;invalidate();return false;}
     // One request in flight. Retries reuse the entire packet and sequence.
     // A cached sequence conflict is explicitly rejected without execution; move on once.
     for(int collision=0;collision<2;collision++) {
       uint8_t tx[16],rx[16];const uint8_t seq=sequence++;
       frame(tx,seq,cmd,payload,length);bool conflict=false;
+      diagnostics.lastSequence=seq;memcpy(diagnostics.lastTx,tx,16);
       for(int attempt=0;attempt<attempts && !conflict;attempt++) {
-        io.write(tx,16);uint32_t start=io.now();
+        if(attempt)diagnostics.retries++;
+        diagnostics.txPackets++;io.write(tx,16);
+        if(!io.writeComplete()){error=Error::WriteFailed;invalidate();return false;}
+        uint32_t start=io.now();
         while(uint32_t(io.now()-start)<timeoutMs) {
-          if(receive(rx) && rx[3]==seq && rx[4]==0x80 && rx[5]==6 && rx[6]==cmd) {
+          if(receive(rx)) {
+            if(rx[3]!=seq||rx[4]!=0x80||rx[5]!=6||rx[6]!=cmd){diagnostics.ignoredFrames++;io.idle();continue;}
             uartConnected=true;remoteStatus=rx[7];
             if(remoteStatus==4){conflict=true;break;}
             if(remoteStatus){error=Error::Rejected;return false;}
@@ -85,13 +110,13 @@ public:
           io.idle();
         }
       }
-      if(!conflict){error=Error::Timeout;uartConnected=false;state.valid=false;return false;}
+      if(!conflict){diagnostics.timeouts++;error=Error::Timeout;invalidate();return false;}
     }
     error=Error::Rejected;return false;
   }
   bool handshake() {
     state.valid=false;state.settingsValid=false;state.scoreValid=false;
-    uint8_t r[4];if(!request(1,nullptr,0,r,100,2))return false;
+    uint8_t r[4];if(!request(1,nullptr,0,r,500,3))return false;
     const uint8_t magic[4]={0x31,0x30,0x54,0x42};
     if(memcmp(r,magic,4)){error=Error::WrongDevice;uartConnected=false;state.valid=false;return false;}return true;
   }
@@ -130,7 +155,16 @@ public:
     if(r[0]>32||r[1]>1){error=Error::StateInvalid;return false;}
     state.count=r[0];state.playing=r[1]!=0;state.revision=uint16_t(r[2]|uint16_t(r[3])<<8);state.scoreValid=true;return true;
   }
-  bool fullState(){return handshake()&&query()&&settings()&&scoreState();}
+  bool expressionState(){
+    state.expressionValid=false;uint8_t r[4];
+    if(!request(0x08,nullptr,0,r)){
+      if(error==Error::Rejected&&remoteStatus==2){error=Error::None;return true;}
+      return false;
+    }
+    if(r[3]!=1||r[0]>100||r[1]>100||r[2]>100){error=Error::StateInvalid;return false;}
+    state.expressionVelocity=r[0];state.expressionGlide=r[1];state.expressionVibrato=r[2];state.expressionValid=true;return true;
+  }
+  bool fullState(){return handshake()&&query()&&settings()&&scoreState()&&expressionState();}
   bool queryPerformance(){
     performanceSupported=false;uint8_t r[4];
     if(!request(0x06,nullptr,0,r))return false;
@@ -160,6 +194,14 @@ public:
       io.idle();
     }while(uint32_t(io.now()-start)<2000);
     error=Error::NotApplied;return false;
+  }
+  bool setExpression(uint8_t which,uint8_t value){
+    if(which>2||value>100){error=Error::Invalid;return false;}
+    if(!handshake())return false;uint8_t cmd=uint8_t(0x18+which),r[4];
+    if(!request(cmd,&value,1,r))return false;
+    if(!query()||!expressionState())return false;
+    const uint8_t actual=which==0?state.expressionVelocity:which==1?state.expressionGlide:state.expressionVibrato;
+    if(!state.expressionValid||actual!=value){error=Error::NotApplied;return false;}return true;
   }
   bool upload(const Event *events,uint8_t count){
     if(!count||count>32){error=Error::Invalid;return false;}
@@ -210,6 +252,18 @@ public:
     uint8_t r[4];if(!request(0x07,nullptr,0,r))return false;
     word=uint32_t(r[0])|uint32_t(r[1])<<8|uint32_t(r[2])<<16|uint32_t(r[3])<<24;return true;
   }
+  struct StreamStatus {uint16_t queued=0;bool loaded=false,playing=false,sealed=false,fault=false,finished=false;uint8_t faultCode=0;};
+  bool streamStatus(StreamStatus &s){
+    uint8_t r[4];if(!request(0x42,nullptr,0,r))return false;
+    s.queued=uint16_t(r[0])|(uint16_t(r[1])<<8);s.loaded=r[2]&1;s.playing=r[2]&2;s.sealed=r[2]&4;s.fault=r[2]&8;s.finished=r[2]&16;s.faultCode=r[3];
+    if(s.queued>256 || (r[2]&224)){error=Error::StateInvalid;return false;}return true;
+  }
+  bool streamBegin(){uint8_t r[4];if(!handshake()||!query()||!request(0x40,nullptr,0,r))return false;
+    if(memcmp(r,"1RTS",4)){error=Error::WrongDevice;return false;}return true;}
+  bool streamPush(uint32_t time,uint8_t note,uint8_t velocity){
+    uint8_t p[6]={note,velocity,uint8_t(time),uint8_t(time>>8),uint8_t(time>>16),uint8_t(time>>24)},r[4];return request(0x41,p,6,r);
+  }
+  bool streamSeal(){uint8_t r[4];return request(0x43,nullptr,0,r);}
   bool play(bool on){
     if(!handshake()||!query())return false;
     if(on&&state.mode==1){error=Error::WrongMode;return false;}
@@ -223,6 +277,8 @@ inline const char *message(Error e) {
   switch(e) {
     case Error::None:return "已确认";
     case Error::Timeout:return "FPGA未应答，请检查供电、接线、波特率和FPGA程序；操作结果未知";
+    case Error::UartNotReady:return "ESP32串口未初始化成功，尚未向FPGA发送请求";
+    case Error::WriteFailed:return "ESP32串口发送不完整，操作结果未知";
     case Error::Rejected:return "FPGA拒绝了请求";
     case Error::WrongDevice:return "FPGA协议不匹配";
     case Error::Fault:return "FPGA报告故障";

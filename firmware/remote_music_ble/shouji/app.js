@@ -56,7 +56,7 @@ function createController(fetchFn,view){
     const abort=new AbortController(),timeout=setTimeout(()=>abort.abort(),15000);
     try{
       if(!background)show('message',kind?'正在等待 FPGA 确认…':'正在读取状态…',false);
-      let url=kind?'/api/control':'/api/status';
+      let url=kind?(['expressionVelocity','expressionGlide','expressionVibrato'].includes(kind)?'/api/expression':'/api/control'):'/api/status';
       let options=kind?{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({kind,value:String(value)}).toString()}:{cache:'no-store'};
       if(events){url='/api/score';options={method:'POST',headers:{'Content-Type':'text/plain'},body:events.map(e=>e.join(',')).join('\n')+'\n'};}
       const result=await deviceRequest(fetchFn,url,{...options,signal:abort.signal});httpReached=true;
@@ -66,12 +66,13 @@ function createController(fetchFn,view){
       health=data.uartConnected!==true?'uart_error':!validState?'invalid':data.fault?'fault':'ready';
       delay=health==='ready'?1500:10000;
       show('state',validState?`当前音色：${TIMBRES[data.timbre]}　模式：${MODES[data.mode]}${data.switching?'（切换中）':''}${data.fault?'（故障）':''}`:'尚未确认 FPGA 状态',background);
-      const display={stateValid:validState,switching:data.switching,fault:data.fault,mode:data.mode,timbre:data.timbre,settingsValid:data.settingsValid,volume:data.volume,tempo:data.tempo,scoreValid:data.scoreValid,scoreCount:data.scoreCount,playing:data.playing};
+      const display={stateValid:validState,switching:data.switching,fault:data.fault,mode:data.mode,timbre:data.timbre,settingsValid:data.settingsValid,volume:data.volume,tempo:data.tempo,scoreValid:data.scoreValid,scoreCount:data.scoreCount,playing:data.playing,streamLoaded:data.streamLoaded,streamPlaying:data.streamPlaying,streamFault:data.streamFault,performanceMode:data.performanceMode};
       show('data',display,background);
       let confirmed=validState&&!data.fault;
       if(kind==='mode'||kind==='timbre')confirmed=confirmed&&!data.switching&&data[kind]===value;
       if(kind==='volume'||kind==='tempo')confirmed=confirmed&&data.settingsValid===true&&data[kind]===value;
-      if(kind==='play')confirmed=confirmed&&data.scoreValid===true&&data.playing===Boolean(value);
+      if(kind&&kind.startsWith('expression'))confirmed=confirmed&&data.expressionValid===true&&data[kind]===value;
+      if(kind==='play')confirmed=confirmed&&(data.streamLoaded===true?data.streamPlaying===Boolean(value):selectedPractice===2&&value?data.scoreValid===true:data.scoreValid===true&&data.playing===Boolean(value));
       if(events)confirmed=confirmed&&data.scoreValid===true&&data.scoreCount===events.length;
       if(!res.ok||!data.ok||!confirmed){if(!background||health!==previousHealth)show('message',data.message||'FPGA 尚未确认',background);return false;}
       outcome=true;if(!background||health!==previousHealth)show('message',events?'曲谱已传入 FPGA':kind==='volume'?'音量已生效':kind==='tempo'?'速度已生效':kind==='play'?(value?'正在播放':'已停止'):kind?'切换完成':data.switching?'正在切换，请稍候':'FPGA 已连接',background);return true;
@@ -80,7 +81,7 @@ function createController(fetchFn,view){
   return {
     refresh:({background=false}={})=>busy||queue.length?Promise.resolve(false):enqueue(()=>run(undefined,undefined,undefined,background),undefined,background),
     pollDelay:()=>delay,
-    set:(kind,value)=>enqueue(()=>run(kind,value),['volume','tempo','timbre','mode'].includes(kind)?kind:null),
+    set:(kind,value)=>enqueue(()=>run(kind,value),['volume','tempo','timbre','mode','expressionVelocity','expressionGlide','expressionVibrato'].includes(kind)?kind:null),
     upload:events=>enqueue(()=>run('score',0,events)),
     task:fn=>enqueue(fn),isBusy:()=>busy||queue.length>0,
     pending:kind=>queue.some(j=>j.key===kind)
@@ -88,7 +89,7 @@ function createController(fetchFn,view){
 }
 if(typeof module!=='undefined')module.exports={createController,createSelection,createPracticeController,PRACTICE_MODES,TIMBRES,MODES};
 if(typeof document!=='undefined'){
-  const byId=id=>document.getElementById(id),buttons=[],selection=createSelection();let score=null,parts=[],dragging=new Set();
+  const byId=id=>document.getElementById(id),buttons=[],selection=createSelection();let score=null,scoreError='',parts=[],wholeTimeline=null,renderedPractice=0,selectedPractice=0,dragging=new Set();
   const controller=createController(window.fetch.bind(window),{
     links:showConnections,
     operation:(kind,value,status)=>{selection.result(kind,value,status);renderSelection();const target=kind==='timbre'||kind==='mode'?document.querySelector(`[data-kind="${kind}"][data-value="${value}"]`):byId(kind==='score'?'upload':kind==='play'?(value?'play':'stop'):kind+'Value');if(!target)return;if(status==='pending'){target.dataset.pending='true';delete target.dataset.result;}else{delete target.dataset.pending;target.dataset.result=status;setTimeout(()=>delete target.dataset.result,900);}},
@@ -100,7 +101,7 @@ if(typeof document!=='undefined'){
         byId(kind+'Actual').textContent=valid?`当前${kind==='volume'?'音量':'速度'}：${d[kind]}${kind==='volume'?'%':' BPM'}`:'当前值尚未确认';
         if(valid&&!dragging.has(kind)&&document.activeElement!==byId(kind)&&!controller.pending(kind)){byId(kind).value=d[kind];byId(kind+'Value').textContent=d[kind]+(kind==='volume'?'%':' BPM');paintRange(byId(kind));}
       }
-      byId('scoreActual').textContent=d.scoreValid?(d.playing?'播放中':d.scoreCount?`已传输 · ${d.scoreCount}项`:'暂无曲谱'):'';
+      byId('scoreActual').textContent=d.streamFault?'整曲播放异常：缓存断流或事件错误，已停止':d.streamLoaded?(d.streamPlaying?'整曲播放中':'整曲已缓存'):d.scoreValid?(d.playing?'播放中':d.scoreCount?`已传输 · ${d.scoreCount}项`:'暂无曲谱'):'';
     }
   });
   function renderSelection(){
@@ -121,8 +122,9 @@ if(typeof document!=='undefined'){
       const label=document.createElement('span');label.textContent=name;b.append(label);b.onclick=()=>selectInstrument(kind,value);byId(id).appendChild(b);buttons.push(b);});
   }
   const practice=createPracticeController(value=>controller.task(()=>deviceRequest(window.fetch.bind(window),'/api/performance',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({mode:String(value)}).toString()})),({selected,status})=>{
+    selectedPractice=selected;
     document.querySelectorAll('[data-practice]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.practice)===selected));
-    byId('practiceStatus').textContent=PRACTICE_MODES[selected]+' · '+status;
+    byId('practiceStatus').textContent=PRACTICE_MODES[selected]+' · '+status;if(score && renderedPractice!==selected){renderedPractice=selected;chooseTrack();}
   });
   const practiceContainer=byId('practiceModes'),practiceCard=practiceContainer.closest('.practice-card');
   practiceContainer.classList.add('segments');
@@ -155,19 +157,58 @@ if(typeof document!=='undefined'){
     bind(kind+'Default',()=>setSlider(kind,kind==='volume'?100:120,true));
   }
   bind('tempoMinus',()=>setSlider('tempo',Number(byId('tempo').value)-1));bind('tempoPlus',()=>setSlider('tempo',Number(byId('tempo').value)+1));
+  const expressionDefaults={expressionVelocity:100,expressionGlide:0,expressionVibrato:0};
+  const expressionTimers={};
+  function setExpression(kind,value,immediate=false){const input=byId(kind);if(!input)return;input.value=Math.max(0,Math.min(100,value));byId(kind+'Value').textContent=input.value+'%';clearTimeout(expressionTimers[kind]);const send=()=>controller.set(kind,Number(input.value));if(immediate)send();else expressionTimers[kind]=setTimeout(send,120);}
+  for(const kind of Object.keys(expressionDefaults)){const input=byId(kind);if(!input)continue;input.addEventListener('input',()=>setExpression(kind,Number(input.value)));bind(kind+'Default',()=>setExpression(kind,expressionDefaults[kind],true));}
   function chooseTrack(){
-    try{parts=splitScore(score,Number(byId('track').value));byId('part').replaceChildren();parts.forEach((e,i)=>byId('part').add(new Option(`第${i+1}段 · ${e.length}项`,i)));byId('scoreInfo').textContent=`${score.name} · ${score.bpm} BPM · ${parts.length}段`;}
-    catch(e){parts=[];byId('part').replaceChildren();byId('scoreInfo').textContent=e.message;}
+    wholeTimeline=null;
+    if(practice.selected()===2 && Number(byId('track').value)<0)byId('track').value='0';
+    try{
+     byId('part').replaceChildren();
+     if(practice.selected()===2){parts=splitScore(score,Math.max(0,Number(byId('track').value)));parts.forEach((e,i)=>byId('part').add(new Option(`第${i+1}段 · ${e.length}项`,i)));byId('scoreInfo').textContent=`${score.name} · ${score.bpm} BPM · 指导曲谱${parts.length}段`;}
+     else{parts=[];wholeTimeline=timelineScore(score,Number(byId('track').value));byId('part').add(new Option('整曲连续播放',0));byId('scoreInfo').textContent=`${score.name} · ${score.bpm} BPM · ${wholeTimeline.events.length}事件 · 最多${wholeTimeline.maxVoices}音同时发声`;}
+    }catch(e){parts=[];byId('part').replaceChildren();byId('scoreInfo').textContent=e.message;}
   }
-  function load(bytes){score=null;parts=[];byId('track').replaceChildren();byId('part').replaceChildren();score=parseScoreFile(bytes);byId('track').replaceChildren();score.groups.forEach((g,i)=>byId('track').add(new Option(g.name,i)));chooseTrack();}
+  function load(bytes){
+    const parsed=parseScoreFile(bytes);
+    score=parsed;scoreError='';parts=[];wholeTimeline=null;
+    byId('track').replaceChildren();byId('part').replaceChildren();
+    byId('track').add(new Option('全部旋律音轨（不含打击乐）',-1));
+    score.groups.forEach((g,i)=>byId('track').add(new Option(g.name,i)));
+    byId('track').value='-1';chooseTrack();
+  }
   byId('track').onchange=chooseTrack;
-  byId('scoreFile').onchange=async()=>{try{const f=byId('scoreFile').files[0];if(!f)return;if(f.size>65536)throw Error('文件超过64KB');load(await f.arrayBuffer());}catch(e){byId('scoreInfo').textContent=e.message;}};
+  byId('scoreFile').onchange=async()=>{
+    const f=byId('scoreFile').files[0];
+    if(!f)return;
+    try{
+      if(f.size>65536)throw Error('文件超过64KB');
+      load(await f.arrayBuffer());
+      showNotice(`已读取：${f.name}`);
+    }catch(e){
+      score=null;scoreError=e.message||'曲谱解析失败';parts=[];wholeTimeline=null;
+      byId('track').replaceChildren();byId('part').replaceChildren();
+      byId('scoreInfo').textContent=`无法读取 ${f.name}：${scoreError}`;
+      showNotice(scoreError);
+    }
+  };
   bind('download',()=>controller.task(async()=>{
     showNotice('正在下载…');const r=await fetch('/api/download',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({url:byId('scoreUrl').value.trim()})});
     if(!r.ok)throw Error((await r.json()).message||'下载失败');load(await r.arrayBuffer());showNotice('已下载');return true;
   }));
-  bind('upload',async()=>{const events=parts[Number(byId('part').value)];if(!events){showNotice('请先选择曲谱');return;}
-    const bpm=score.bpm;if(await controller.upload(events))await controller.set('tempo',bpm);
+  bind('upload',async()=>{
+    if(!score){showNotice(scoreError||'请先选择曲谱');return;}
+    if(practice.selected()!==2)chooseTrack();
+    if(practice.selected()===2){const events=parts[Number(byId('part').value)];if(!events){showNotice('指导模式请选择单旋律曲谱');return;}if(await controller.upload(events))await controller.set('tempo',score.bpm);}
+    else{
+     if(!wholeTimeline){showNotice('当前曲谱不能传输，请查看曲谱提示');return;}
+     const events=wholeTimeline.events;
+     const ok=await controller.task(async()=>{
+      showNotice('正在缓存整曲…');const result=await deviceRequest(window.fetch.bind(window),'/api/stream',{method:'POST',headers:{'Content-Type':'text/plain'},body:streamText(events)});
+      if(!result.response.ok||!result.data.ok||!result.data.streamLoaded)throw Error(result.data.message||'整曲尚未确认');showNotice('整曲已缓存，点击播放');return true;
+     });if(ok)await controller.set('tempo',score.bpm);
+    }
   });
   bind('play',()=>controller.set('play',1));bind('stop',()=>controller.set('play',0));
   bind('connect',()=>controller.task(async()=>{const r=await fetch('/api/network',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({ssid:byId('ssid').value,password:byId('password').value})});const d=await r.json();byId('password').value='';byId('networkState').textContent=d.message;return r.ok;}));

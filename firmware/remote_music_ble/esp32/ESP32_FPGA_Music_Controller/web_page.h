@@ -8,6 +8,10 @@ const char PAGE[] PROGMEM=R"MUSICWEB(<!doctype html><html lang="zh-CN"><head><me
 <section class="sound-control"><h2>声音控制</h2>
 <div class="sound-row"><div class="sound-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z M16 8c3 2 3 6 0 8 M19 5c5 4 5 10 0 14"/></svg></div><div class="sound-body"><div class="sound-head"><label for="volume">音量</label><output id="volumeValue">100%</output><button class="reset-icon" id="volumeDefault" aria-label="恢复默认音量" title="恢复默认音量100%">↺</button></div><input id="volume" type="range" min="0" max="100" value="100" step="1"></div></div>
 <div class="sound-row"><div class="sound-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18a9 9 0 1 1 16 0 M12 13l5-6 M6 8l1 1 M12 4v2 M18 8l-1 1"/></svg></div><div class="sound-body"><div class="sound-head"><label for="tempo">MIDI/JSON速度</label><output id="tempoValue">120 BPM</output><button class="reset-icon" id="tempoDefault" aria-label="恢复默认速度" title="恢复默认速度120 BPM">↺</button></div><div class="tempo-track"><button class="step-button" id="tempoMinus" aria-label="速度减1 BPM">−</button><input id="tempo" type="range" min="30" max="240" value="120" step="1"><button class="step-button" id="tempoPlus" aria-label="速度加1 BPM">＋</button></div></div></div></section>
+<section class="sound-control expression-control"><div class="section-head"><h2>演奏表现</h2><small>FPGA实时控制</small></div>
+<div class="sound-row"><div class="sound-icon"><span aria-hidden="true">↕</span></div><div class="sound-body"><div class="sound-head"><label for="expressionVelocity">力度</label><output id="expressionVelocityValue">100%</output><button class="reset-icon" id="expressionVelocityDefault" aria-label="恢复默认力度">↺</button></div><input id="expressionVelocity" type="range" min="0" max="100" value="100" step="1"></div></div>
+<div class="sound-row"><div class="sound-icon"><span aria-hidden="true">↝</span></div><div class="sound-body"><div class="sound-head"><label for="expressionGlide">滑音</label><output id="expressionGlideValue">0%</output><button class="reset-icon" id="expressionGlideDefault" aria-label="关闭滑音">↺</button></div><input id="expressionGlide" type="range" min="0" max="100" value="0" step="1"></div></div>
+<div class="sound-row"><div class="sound-icon"><span aria-hidden="true">∿</span></div><div class="sound-body"><div class="sound-head"><label for="expressionVibrato">颤音</label><output id="expressionVibratoValue">0%</output><button class="reset-icon" id="expressionVibratoDefault" aria-label="关闭颤音">↺</button></div><input id="expressionVibrato" type="range" min="0" max="100" value="0" step="1"></div></div></section>
 </main><main id="scoresView" class="page-view" hidden>
 <section class="practice-card" hidden><div id="practiceModes"></div><small id="practiceStatus"></small></section><section><div class="section-head"><h2>曲谱播放</h2><span class="badge">MIDI / JSON</span></div><p id="scoreInfo">尚未选择曲谱</p><details class="score-import" id="importPanel"><summary>导入或在线下载曲谱</summary><label for="scoreUrl">曲谱链接</label><input id="scoreUrl" type="url" placeholder="https://…/music.mid"><button class="secondary" id="download">在线下载</button><label for="scoreFile">从手机导入（不超过64KB）</label><input id="scoreFile" type="file" accept=".mid,.midi,.json,audio/midi,application/json"></details>
 <label for="track">音轨</label><select id="track"></select><label for="part">分段</label><select id="part"></select><div class="score-actions"><button class="primary" id="upload">传输</button><button id="play">▷ 播放</button><button class="secondary" id="stop">□ 停止</button></div><p id="scoreActual"></p></section>
@@ -72,7 +76,7 @@ function createController(fetchFn,view){
     const abort=new AbortController(),timeout=setTimeout(()=>abort.abort(),15000);
     try{
       if(!background)show('message',kind?'正在等待 FPGA 确认…':'正在读取状态…',false);
-      let url=kind?'/api/control':'/api/status';
+      let url=kind?(['expressionVelocity','expressionGlide','expressionVibrato'].includes(kind)?'/api/expression':'/api/control'):'/api/status';
       let options=kind?{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({kind,value:String(value)}).toString()}:{cache:'no-store'};
       if(events){url='/api/score';options={method:'POST',headers:{'Content-Type':'text/plain'},body:events.map(e=>e.join(',')).join('\n')+'\n'};}
       const result=await deviceRequest(fetchFn,url,{...options,signal:abort.signal});httpReached=true;
@@ -82,12 +86,13 @@ function createController(fetchFn,view){
       health=data.uartConnected!==true?'uart_error':!validState?'invalid':data.fault?'fault':'ready';
       delay=health==='ready'?1500:10000;
       show('state',validState?`当前音色：${TIMBRES[data.timbre]}　模式：${MODES[data.mode]}${data.switching?'（切换中）':''}${data.fault?'（故障）':''}`:'尚未确认 FPGA 状态',background);
-      const display={stateValid:validState,switching:data.switching,fault:data.fault,mode:data.mode,timbre:data.timbre,settingsValid:data.settingsValid,volume:data.volume,tempo:data.tempo,scoreValid:data.scoreValid,scoreCount:data.scoreCount,playing:data.playing};
+      const display={stateValid:validState,switching:data.switching,fault:data.fault,mode:data.mode,timbre:data.timbre,settingsValid:data.settingsValid,volume:data.volume,tempo:data.tempo,scoreValid:data.scoreValid,scoreCount:data.scoreCount,playing:data.playing,streamLoaded:data.streamLoaded,streamPlaying:data.streamPlaying,streamFault:data.streamFault,performanceMode:data.performanceMode};
       show('data',display,background);
       let confirmed=validState&&!data.fault;
       if(kind==='mode'||kind==='timbre')confirmed=confirmed&&!data.switching&&data[kind]===value;
       if(kind==='volume'||kind==='tempo')confirmed=confirmed&&data.settingsValid===true&&data[kind]===value;
-      if(kind==='play')confirmed=confirmed&&data.scoreValid===true&&data.playing===Boolean(value);
+      if(kind&&kind.startsWith('expression'))confirmed=confirmed&&data.expressionValid===true&&data[kind]===value;
+      if(kind==='play')confirmed=confirmed&&(data.streamLoaded===true?data.streamPlaying===Boolean(value):selectedPractice===2&&value?data.scoreValid===true:data.scoreValid===true&&data.playing===Boolean(value));
       if(events)confirmed=confirmed&&data.scoreValid===true&&data.scoreCount===events.length;
       if(!res.ok||!data.ok||!confirmed){if(!background||health!==previousHealth)show('message',data.message||'FPGA 尚未确认',background);return false;}
       outcome=true;if(!background||health!==previousHealth)show('message',events?'曲谱已传入 FPGA':kind==='volume'?'音量已生效':kind==='tempo'?'速度已生效':kind==='play'?(value?'正在播放':'已停止'):kind?'切换完成':data.switching?'正在切换，请稍候':'FPGA 已连接',background);return true;
@@ -96,7 +101,7 @@ function createController(fetchFn,view){
   return {
     refresh:({background=false}={})=>busy||queue.length?Promise.resolve(false):enqueue(()=>run(undefined,undefined,undefined,background),undefined,background),
     pollDelay:()=>delay,
-    set:(kind,value)=>enqueue(()=>run(kind,value),['volume','tempo','timbre','mode'].includes(kind)?kind:null),
+    set:(kind,value)=>enqueue(()=>run(kind,value),['volume','tempo','timbre','mode','expressionVelocity','expressionGlide','expressionVibrato'].includes(kind)?kind:null),
     upload:events=>enqueue(()=>run('score',0,events)),
     task:fn=>enqueue(fn),isBusy:()=>busy||queue.length>0,
     pending:kind=>queue.some(j=>j.key===kind)
@@ -104,7 +109,7 @@ function createController(fetchFn,view){
 }
 if(typeof module!=='undefined')module.exports={createController,createSelection,createPracticeController,PRACTICE_MODES,TIMBRES,MODES};
 if(typeof document!=='undefined'){
-  const byId=id=>document.getElementById(id),buttons=[],selection=createSelection();let score=null,parts=[],dragging=new Set();
+  const byId=id=>document.getElementById(id),buttons=[],selection=createSelection();let score=null,scoreError='',parts=[],wholeTimeline=null,renderedPractice=0,selectedPractice=0,dragging=new Set();
   const controller=createController(window.fetch.bind(window),{
     links:showConnections,
     operation:(kind,value,status)=>{selection.result(kind,value,status);renderSelection();const target=kind==='timbre'||kind==='mode'?document.querySelector(`[data-kind="${kind}"][data-value="${value}"]`):byId(kind==='score'?'upload':kind==='play'?(value?'play':'stop'):kind+'Value');if(!target)return;if(status==='pending'){target.dataset.pending='true';delete target.dataset.result;}else{delete target.dataset.pending;target.dataset.result=status;setTimeout(()=>delete target.dataset.result,900);}},
@@ -116,7 +121,7 @@ if(typeof document!=='undefined'){
         byId(kind+'Actual').textContent=valid?`当前${kind==='volume'?'音量':'速度'}：${d[kind]}${kind==='volume'?'%':' BPM'}`:'当前值尚未确认';
         if(valid&&!dragging.has(kind)&&document.activeElement!==byId(kind)&&!controller.pending(kind)){byId(kind).value=d[kind];byId(kind+'Value').textContent=d[kind]+(kind==='volume'?'%':' BPM');paintRange(byId(kind));}
       }
-      byId('scoreActual').textContent=d.scoreValid?(d.playing?'播放中':d.scoreCount?`已传输 · ${d.scoreCount}项`:'暂无曲谱'):'';
+      byId('scoreActual').textContent=d.streamFault?'整曲播放异常：缓存断流或事件错误，已停止':d.streamLoaded?(d.streamPlaying?'整曲播放中':'整曲已缓存'):d.scoreValid?(d.playing?'播放中':d.scoreCount?`已传输 · ${d.scoreCount}项`:'暂无曲谱'):'';
     }
   });
   function renderSelection(){
@@ -137,8 +142,9 @@ if(typeof document!=='undefined'){
       const label=document.createElement('span');label.textContent=name;b.append(label);b.onclick=()=>selectInstrument(kind,value);byId(id).appendChild(b);buttons.push(b);});
   }
   const practice=createPracticeController(value=>controller.task(()=>deviceRequest(window.fetch.bind(window),'/api/performance',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({mode:String(value)}).toString()})),({selected,status})=>{
+    selectedPractice=selected;
     document.querySelectorAll('[data-practice]').forEach(b=>b.setAttribute('aria-pressed',Number(b.dataset.practice)===selected));
-    byId('practiceStatus').textContent=PRACTICE_MODES[selected]+' · '+status;
+    byId('practiceStatus').textContent=PRACTICE_MODES[selected]+' · '+status;if(score && renderedPractice!==selected){renderedPractice=selected;chooseTrack();}
   });
   const practiceContainer=byId('practiceModes'),practiceCard=practiceContainer.closest('.practice-card');
   practiceContainer.classList.add('segments');
@@ -171,19 +177,58 @@ if(typeof document!=='undefined'){
     bind(kind+'Default',()=>setSlider(kind,kind==='volume'?100:120,true));
   }
   bind('tempoMinus',()=>setSlider('tempo',Number(byId('tempo').value)-1));bind('tempoPlus',()=>setSlider('tempo',Number(byId('tempo').value)+1));
+  const expressionDefaults={expressionVelocity:100,expressionGlide:0,expressionVibrato:0};
+  const expressionTimers={};
+  function setExpression(kind,value,immediate=false){const input=byId(kind);if(!input)return;input.value=Math.max(0,Math.min(100,value));byId(kind+'Value').textContent=input.value+'%';clearTimeout(expressionTimers[kind]);const send=()=>controller.set(kind,Number(input.value));if(immediate)send();else expressionTimers[kind]=setTimeout(send,120);}
+  for(const kind of Object.keys(expressionDefaults)){const input=byId(kind);if(!input)continue;input.addEventListener('input',()=>setExpression(kind,Number(input.value)));bind(kind+'Default',()=>setExpression(kind,expressionDefaults[kind],true));}
   function chooseTrack(){
-    try{parts=splitScore(score,Number(byId('track').value));byId('part').replaceChildren();parts.forEach((e,i)=>byId('part').add(new Option(`第${i+1}段 · ${e.length}项`,i)));byId('scoreInfo').textContent=`${score.name} · ${score.bpm} BPM · ${parts.length}段`;}
-    catch(e){parts=[];byId('part').replaceChildren();byId('scoreInfo').textContent=e.message;}
+    wholeTimeline=null;
+    if(practice.selected()===2 && Number(byId('track').value)<0)byId('track').value='0';
+    try{
+     byId('part').replaceChildren();
+     if(practice.selected()===2){parts=splitScore(score,Math.max(0,Number(byId('track').value)));parts.forEach((e,i)=>byId('part').add(new Option(`第${i+1}段 · ${e.length}项`,i)));byId('scoreInfo').textContent=`${score.name} · ${score.bpm} BPM · 指导曲谱${parts.length}段`;}
+     else{parts=[];wholeTimeline=timelineScore(score,Number(byId('track').value));byId('part').add(new Option('整曲连续播放',0));byId('scoreInfo').textContent=`${score.name} · ${score.bpm} BPM · ${wholeTimeline.events.length}事件 · 最多${wholeTimeline.maxVoices}音同时发声`;}
+    }catch(e){parts=[];byId('part').replaceChildren();byId('scoreInfo').textContent=e.message;}
   }
-  function load(bytes){score=null;parts=[];byId('track').replaceChildren();byId('part').replaceChildren();score=parseScoreFile(bytes);byId('track').replaceChildren();score.groups.forEach((g,i)=>byId('track').add(new Option(g.name,i)));chooseTrack();}
+  function load(bytes){
+    const parsed=parseScoreFile(bytes);
+    score=parsed;scoreError='';parts=[];wholeTimeline=null;
+    byId('track').replaceChildren();byId('part').replaceChildren();
+    byId('track').add(new Option('全部旋律音轨（不含打击乐）',-1));
+    score.groups.forEach((g,i)=>byId('track').add(new Option(g.name,i)));
+    byId('track').value='-1';chooseTrack();
+  }
   byId('track').onchange=chooseTrack;
-  byId('scoreFile').onchange=async()=>{try{const f=byId('scoreFile').files[0];if(!f)return;if(f.size>65536)throw Error('文件超过64KB');load(await f.arrayBuffer());}catch(e){byId('scoreInfo').textContent=e.message;}};
+  byId('scoreFile').onchange=async()=>{
+    const f=byId('scoreFile').files[0];
+    if(!f)return;
+    try{
+      if(f.size>65536)throw Error('文件超过64KB');
+      load(await f.arrayBuffer());
+      showNotice(`已读取：${f.name}`);
+    }catch(e){
+      score=null;scoreError=e.message||'曲谱解析失败';parts=[];wholeTimeline=null;
+      byId('track').replaceChildren();byId('part').replaceChildren();
+      byId('scoreInfo').textContent=`无法读取 ${f.name}：${scoreError}`;
+      showNotice(scoreError);
+    }
+  };
   bind('download',()=>controller.task(async()=>{
     showNotice('正在下载…');const r=await fetch('/api/download',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({url:byId('scoreUrl').value.trim()})});
     if(!r.ok)throw Error((await r.json()).message||'下载失败');load(await r.arrayBuffer());showNotice('已下载');return true;
   }));
-  bind('upload',async()=>{const events=parts[Number(byId('part').value)];if(!events){showNotice('请先选择曲谱');return;}
-    const bpm=score.bpm;if(await controller.upload(events))await controller.set('tempo',bpm);
+  bind('upload',async()=>{
+    if(!score){showNotice(scoreError||'请先选择曲谱');return;}
+    if(practice.selected()!==2)chooseTrack();
+    if(practice.selected()===2){const events=parts[Number(byId('part').value)];if(!events){showNotice('指导模式请选择单旋律曲谱');return;}if(await controller.upload(events))await controller.set('tempo',score.bpm);}
+    else{
+     if(!wholeTimeline){showNotice('当前曲谱不能传输，请查看曲谱提示');return;}
+     const events=wholeTimeline.events;
+     const ok=await controller.task(async()=>{
+      showNotice('正在缓存整曲…');const result=await deviceRequest(window.fetch.bind(window),'/api/stream',{method:'POST',headers:{'Content-Type':'text/plain'},body:streamText(events)});
+      if(!result.response.ok||!result.data.ok||!result.data.streamLoaded)throw Error(result.data.message||'整曲尚未确认');showNotice('整曲已缓存，点击播放');return true;
+     });if(ok)await controller.set('tempo',score.bpm);
+    }
   });
   bind('play',()=>controller.set('play',1));bind('stop',()=>controller.set('play',0));
   bind('connect',()=>controller.task(async()=>{const r=await fetch('/api/network',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({ssid:byId('ssid').value,password:byId('password').value})});const d=await r.json();byId('password').value='';byId('networkState').textContent=d.message;return r.ok;}));
@@ -282,7 +327,43 @@ function splitScore(score,index=0){
   return parts;
 }
 function scoreText(events){return checkedEvents(events).map(e=>e.join(',')).join('\n')+'\n';}
-if(typeof module!=='undefined')module.exports={parseScoreFile,splitScore,scoreText,checkedEvents};
+// Automatic playback only. Guidance keeps splitScore/checkedEvents unchanged.
+function timelineScore(score,index=-1){
+ const groups=index<0?score.groups.filter(g=>!g.name.includes('（打击乐）')):[score.groups[index]];
+ if(!groups.length||groups.some(g=>!g))throw Error('没有可播放的旋律音轨');
+ const points=new Map();
+ function at(t){if(!points.has(t))points.set(t,[]);return points.get(t);}
+ for(const g of groups){
+  if(g.events){let t=0;for(const [note,velocity,duration] of checkedEvents(g.events)){
+   if(velocity){at(t).push({note,velocity,on:true});at(t+duration).push({note,velocity:0,on:false});}t+=duration;
+  }}else for(const n of g.notes){
+   if(n.note<36||n.note>96)throw Error('整曲含超出MIDI 36～96的音符，请先移调或选择其他音轨');
+   const start=Math.round(n.start*500/g.ppqn),end=Math.max(start+1,Math.round(n.end*500/g.ppqn));
+   at(start).push({note:n.note,velocity:n.velocity,on:true});at(end).push({note:n.note,velocity:0,on:false});
+  }
+ }
+ const active=new Map(),out=[];let maxVoices=0;
+ for(const t of [...points.keys()].sort((a,b)=>a-b)){
+  if(t>3600000)throw Error('曲谱时长超过支持范围');
+  const changes=new Map();for(const n of points.get(t)){
+   if(!changes.has(n.note))changes.set(n.note,{ons:0,offs:0,velocity:0});const c=changes.get(n.note);
+   if(n.on){c.ons++;c.velocity=Math.max(c.velocity,n.velocity);}else c.offs++;
+  }
+  const offs=[],ons=[];
+  for(const [note,c] of changes){const before=active.get(note)||0,after=before-c.offs+c.ons;
+   if(after<0)throw Error('音符松音事件不匹配');
+   if(before>0&&(after===0||c.offs===before)){offs.push([t,note,0]);}
+   if(after>0&&(before===0||c.offs===before)){ons.push([t,note,c.velocity]);}
+   if(after)active.set(note,after);else active.delete(note);
+  }
+  out.push(...offs.sort((a,b)=>a[1]-b[1]),...ons.sort((a,b)=>a[1]-b[1]));
+  maxVoices=Math.max(maxVoices,active.size);if(maxVoices>32)throw Error('曲谱同时发音超过32个，请减少音轨');
+ }
+ if(!out.length||out.length>32768||active.size)throw Error('整曲事件数量或松音状态无效');
+ return {events:out,maxVoices};
+}
+function streamText(events){return events.map(e=>e.join(',')).join('\n')+'\n';}
+if(typeof module!=='undefined')module.exports={parseScoreFile,splitScore,scoreText,checkedEvents,timelineScore,streamText};
 )MUSICWEB";
 const char KEYMAP_PAGE[] PROGMEM=R"MUSICWEB(<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>键位自定义</title><link rel="stylesheet" href="/ui.css"></head>
 <body class="keymap-page"><header class="page-header"><div><div class="eyebrow">弦动智音</div><h1>键位自定义</h1></div></header>
@@ -310,12 +391,13 @@ function createKeymapClient(fetchFn){
   }catch(e){e.reached=reached;throw e;}finally{clearTimeout(timer);}
  };
 }
-// Logical K numbering remains in chromatic order; physical sensor channels are mapped in the main project.
+// Measured channels: K1..K9 white, K10..K15 black, K16 upper.
 const KEY_LAYOUT=[
- {kind:'white',slot:0},{kind:'black',boundary:1},{kind:'white',slot:1},{kind:'black',boundary:2},
- {kind:'white',slot:2},{kind:'white',slot:3},{kind:'black',boundary:4},{kind:'white',slot:4},
- {kind:'black',boundary:5},{kind:'white',slot:5},{kind:'black',boundary:6},{kind:'white',slot:6},
- {kind:'white',slot:7},{kind:'black',boundary:8},{kind:'white',slot:8},{kind:'extra'}
+ {kind:'white',slot:0},{kind:'white',slot:1},{kind:'white',slot:2},
+ {kind:'white',slot:3},{kind:'white',slot:4},{kind:'white',slot:5},
+ {kind:'white',slot:6},{kind:'white',slot:7},{kind:'white',slot:8},
+ {kind:'black',boundary:1},{kind:'black',boundary:2},{kind:'black',boundary:4},
+ {kind:'black',boundary:5},{kind:'black',boundary:7},{kind:'black',boundary:8},{kind:'extra'}
 ];
 function changedIndices(notes,confirmed){return notes?notes.flatMap((n,i)=>!confirmed||confirmed[i]!==n?[i]:[]):[];}
 function createKeymapDraft(){
@@ -327,7 +409,7 @@ function createKeymapDraft(){
 if(typeof module!=='undefined')module.exports={noteName,defaultMap,presetMap,validateMap,createKeymapClient,KEY_LAYOUT,changedIndices,createKeymapDraft};
 if(typeof document!=='undefined'){
  const el=id=>document.getElementById(id),client=createKeymapClient(window.fetch.bind(window)),draft=createKeymapDraft();
- let selected=0,busy=false;const keys=[],chips=[],boardTitles=[];
+ let selected=0,busy=false,presetError='';const keys=[],chips=[],boardTitles=[];
  const names=['第一块','第二块'],kinds={white:'白键',black:'黑键',extra:'附加键'};
  const message=(s,tone='',shortText)=>{showNotice(s,shortText);el('message').dataset.tone=tone;};
  function choose(index){selected=index;el('presetBoard').value=Math.floor(selected/16);render();}
@@ -351,24 +433,26 @@ if(typeof document!=='undefined'){
   boardTitles.forEach((b,i)=>{b.setAttribute('aria-pressed',i===board);});
   keys.forEach(({button,note},index)=>{const k=index%16,kind=KEY_LAYOUT[k].kind,pressed=index===selected,label=names[Math.floor(index/16)]+' K'+(k+1)+' '+kinds[kind]+' '+noteName(notes[index]);button.setAttribute('aria-label',label);button.setAttribute('aria-pressed',pressed);button.classList.toggle('changed',changed.includes(index));note.textContent=noteName(notes[index]);button.title=label;chips[index].setAttribute('aria-label',label+'，辅助选择');chips[index].setAttribute('aria-pressed',pressed);chips[index].classList.toggle('changed',changed.includes(index));});
   el('selectedKey').textContent=names[board]+' · K'+(local+1);el('note').value=notes[selected];
-  el('draftState').textContent=changed.length?'未应用修改：'+changed.length:draft.connected?'已应用':'本地配置';
-  el('apply').disabled=busy||!draft.connected;el('apply').title=draft.connected?'应用到FPGA':'连接设备后应用';el('read').disabled=busy;
+  el('draftState').textContent=presetError?'预设无效：'+presetError:changed.length?'未应用修改：'+changed.length:draft.connected?'已应用':'本地配置';
+  el('apply').disabled=busy||!draft.connected||!!presetError;el('apply').title=draft.connected?'应用到FPGA':'连接设备后应用';el('read').disabled=busy;
  }
- function localEdit(fn){try{draft.change(fn);render();message('已保存到本地配置','','已保存');}catch(e){message(e.message,'error');}}
+ function localEdit(fn){try{draft.change(fn);render();message('已保存到本地配置','','已保存');return true;}catch(e){message(e.message,'error');return false;}}
  async function request(method){
-  if(busy)return;if(method==='GET'&&draft.dirty()&&!window.confirm('放弃未应用的修改，重新读取？'))return;
+  if(busy)return;if(method==='POST'&&presetError){message(presetError,'error');return;}if(method==='GET'&&draft.dirty()&&!window.confirm('放弃未应用的修改，重新读取？'))return;
   const generation=draft.generation,snapshot=[...draft.notes];busy=true;render();const target=el(method==='GET'?'read':'apply');target.dataset.pending='true';delete target.dataset.result;showConnections(null,'waiting');
   if(method==='POST')message('正在应用…');
-  try{const data=await client(method,snapshot);draft.receive(data,generation);showConnections(true,'connected');el('revision').textContent='FPGA映射版本：'+data.revision;message(method==='GET'?'已读取当前映射':'全部32键已提交并回读确认','success',method==='GET'?'':'已应用');target.dataset.result='success';}
+  try{const data=await client(method,snapshot);draft.receive(data,generation);if(method==='GET')presetError='';showConnections(true,'connected');el('revision').textContent='FPGA映射版本：'+data.revision;message(method==='GET'?'已读取当前映射':'全部32键已提交并回读确认','success',method==='GET'?'':'已应用');target.dataset.result='success';}
   catch(e){draft.connected=false;showConnections(e.reached,e.uart?'connected':'error');message(e.message+'；本地配置保留','error',method==='GET'?'':'应用失败');el('revision').textContent='当前配置尚未确认';target.dataset.result='error';}
   finally{busy=false;delete target.dataset.pending;render();setTimeout(()=>delete target.dataset.result,800);}
  }
  for(let n=36;n<=96;n++)el('note').add(new Option(noteName(n)+' (MIDI '+n+')',n));
- el('octave').oninput=()=>el('octaveValue').textContent='C'+el('octave').value;
+ function applyPreset(){presetError='';try{const part=presetMap(el('preset').value,Number(el('octave').value));draft.change(notes=>notes.splice(Number(el('presetBoard').value)*16,16,...part));message('预设已更新，请点击应用提交到FPGA','','待应用');}catch(e){presetError=e.message;message(e.message,'error');}render();}
+ el('octave').oninput=()=>{el('octaveValue').textContent='C'+el('octave').value;applyPreset();};
+ el('preset').onchange=applyPreset;
  el('presetBoard').onchange=()=>{el('octave').value=Number(el('presetBoard').value)?5:4;el('octaveValue').textContent='C'+el('octave').value;};
- el('presetApply').onclick=()=>localEdit(notes=>{const part=presetMap(el('preset').value,Number(el('octave').value));notes.splice(Number(el('presetBoard').value)*16,16,...part);});
+ el('presetApply').onclick=applyPreset;
  el('edit').onclick=()=>localEdit(notes=>{notes[selected]=Number(el('note').value);});
- el('defaults').onclick=()=>localEdit(notes=>{notes.splice(0,32,...defaultMap());});el('apply').onclick=()=>request('POST');el('read').onclick=()=>request('GET');
+ el('defaults').onclick=()=>{presetError='';localEdit(notes=>{notes.splice(0,32,...defaultMap());});};el('apply').onclick=()=>request('POST');el('read').onclick=()=>request('GET');
  window.addEventListener('beforeunload',e=>{if(draft.dirty()){e.preventDefault();e.returnValue='';}});buildBoards();render();request('GET');
 }
 )MUSICWEB";

@@ -82,4 +82,40 @@ function splitScore(score,index=0){
   return parts;
 }
 function scoreText(events){return checkedEvents(events).map(e=>e.join(',')).join('\n')+'\n';}
-if(typeof module!=='undefined')module.exports={parseScoreFile,splitScore,scoreText,checkedEvents};
+// Automatic playback only. Guidance keeps splitScore/checkedEvents unchanged.
+function timelineScore(score,index=-1){
+ const groups=index<0?score.groups.filter(g=>!g.name.includes('（打击乐）')):[score.groups[index]];
+ if(!groups.length||groups.some(g=>!g))throw Error('没有可播放的旋律音轨');
+ const points=new Map();
+ function at(t){if(!points.has(t))points.set(t,[]);return points.get(t);}
+ for(const g of groups){
+  if(g.events){let t=0;for(const [note,velocity,duration] of checkedEvents(g.events)){
+   if(velocity){at(t).push({note,velocity,on:true});at(t+duration).push({note,velocity:0,on:false});}t+=duration;
+  }}else for(const n of g.notes){
+   if(n.note<36||n.note>96)throw Error('整曲含超出MIDI 36～96的音符，请先移调或选择其他音轨');
+   const start=Math.round(n.start*500/g.ppqn),end=Math.max(start+1,Math.round(n.end*500/g.ppqn));
+   at(start).push({note:n.note,velocity:n.velocity,on:true});at(end).push({note:n.note,velocity:0,on:false});
+  }
+ }
+ const active=new Map(),out=[];let maxVoices=0;
+ for(const t of [...points.keys()].sort((a,b)=>a-b)){
+  if(t>3600000)throw Error('曲谱时长超过支持范围');
+  const changes=new Map();for(const n of points.get(t)){
+   if(!changes.has(n.note))changes.set(n.note,{ons:0,offs:0,velocity:0});const c=changes.get(n.note);
+   if(n.on){c.ons++;c.velocity=Math.max(c.velocity,n.velocity);}else c.offs++;
+  }
+  const offs=[],ons=[];
+  for(const [note,c] of changes){const before=active.get(note)||0,after=before-c.offs+c.ons;
+   if(after<0)throw Error('音符松音事件不匹配');
+   if(before>0&&(after===0||c.offs===before)){offs.push([t,note,0]);}
+   if(after>0&&(before===0||c.offs===before)){ons.push([t,note,c.velocity]);}
+   if(after)active.set(note,after);else active.delete(note);
+  }
+  out.push(...offs.sort((a,b)=>a[1]-b[1]),...ons.sort((a,b)=>a[1]-b[1]));
+  maxVoices=Math.max(maxVoices,active.size);if(maxVoices>32)throw Error('曲谱同时发音超过32个，请减少音轨');
+ }
+ if(!out.length||out.length>32768||active.size)throw Error('整曲事件数量或松音状态无效');
+ return {events:out,maxVoices};
+}
+function streamText(events){return events.map(e=>e.join(',')).join('\n')+'\n';}
+if(typeof module!=='undefined')module.exports={parseScoreFile,splitScore,scoreText,checkedEvents,timelineScore,streamText};
