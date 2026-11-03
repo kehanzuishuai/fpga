@@ -46,8 +46,10 @@ def main():
     esp = json.loads((RELEASE / 'ESP32_BUILD.json').read_text(encoding='utf-8'))
     for relative, expected in esp['source_sha256'].items():
         assert sha(ROOT / relative.replace('\\', '/')) == expected, relative
-    current_docs = ['README.md', 'README_HANDOFF.md', 'release/latest/README.md', 'release/v21_20261103/README.md',
+    current_docs = ['README.md', 'release/latest/README.md', 'release/v21_20261103/README.md',
                     'docs/BUILD_AND_PROGRAM.md', 'docs/CURRENT_INTERFACES.md', 'firmware/theremin/README.md',
+                    'docs/ARCHITECTURE.md', 'docs/DEVELOPMENT.md',
+                    'third_party/README.md',
                     'firmware/theremin/SOURCES.md', 'firmware/remote_music_ble/README_BLE.md',
                     'firmware/remote_music_ble/esp32/README.md', 'firmware/remote_music_ble/shouji/README.md']
     link_count = 0

@@ -18,7 +18,7 @@ FPGA FS SHA256：`ed1d070e1ec9839e63092b5c4ac5849ff91d11364080776861baf16dc860cf
 
 ESP32 合并 BIN SHA256：`51c2f450238fadc1d747c094e9fb5eaa775fcbe744b29b68219665ebcfa05841`。
 
-FPGA 压缩包用于规避当前网络上传接口对大文本的限制；解压后的 FS 与原已验收文件逐字节相同。校验脚本同时验证 ZIP 和内部 FS 的 SHA256。
+解压 FPGA 压缩包后即可使用 FS 文件。校验脚本同时验证 ZIP 和内部 FS 的 SHA256。
 
 ## 构建和核验依据
 
@@ -26,7 +26,7 @@ FPGA 压缩包用于规避当前网络上传接口对大文本的限制；解压
 - [ESP32_BUILD.json](ESP32_BUILD.json)：11 月 3 日编译记录，保存七个编译输入的哈希与二进制哈希；[ESP32_VALIDATION.json](ESP32_VALIDATION.json) 记录播放确认和网页检查。
 - [THEREMIN_BUILD.json](THEREMIN_BUILD.json)：本次从 GitHub 发布副本重新编译的 UNO 程序、全部源文件和两个 HEX 的哈希。
 - [verification/](verification/)：页面播放确认、真实页面导入/传输/播放/停止、ESP32 解析和 FPGA 整曲供谱的回归记录。
-- `*_ORIGINAL.json` 是保留原值的历史构建快照，其中本机绝对路径、开始时的 ready 状态或旧配套 ESP32 哈希不定义本次组合发布；当前配套关系以 `RELEASE.json`、本页及根目录 README 为准。
+- `*_ORIGINAL.json` 是保留原值的历史构建快照，其中本机绝对路径、开始时的 ready 状态或旧配套 ESP32 哈希不定义本次组合发布；工程清单已移除未启用的历史条目，启用依赖、RTL 与固件保持一致；当前配套关系以 `RELEASE.json`、本页及根目录 README 为准。
 
 FPGA 最差裕量：Setup +1.472 ns，Hold +0.001 ns，Recovery +8.464 ns，Removal +0.257 ns，最小脉宽 +2.893 ns；Setup/Hold 违规端点均为 0。关闭效果的 21,911 帧 PCM 与 V20 基线一致，开启效果的 21,913 帧通过合成链路仿真。
 

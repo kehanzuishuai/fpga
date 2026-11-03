@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "publication": "V21-20261103",
-  "generated_at": "2026-11-03T13:55:59.047377+08:00",
+  "generated_at": "2026-11-03T14:07:40.330640+08:00",
   "files": {
     "assets/bg_fine_0.hex": "c50121f14201cdd15d9491360c3f7fd54d0843ca90a9593345cefddee8c3ca4e",
     "assets/bg_fine_0_packed18.hex": "01a9ead4a87395129478cbb147466f083e4ef452d955896063c4a9d4a18c6e98",
@@ -81,8 +81,8 @@
     "scores/卡农_最新ESP32_20261103/卡农_多音轨_20261103.mid": "42a4e4871e8416f3840c1cea9e5f00a8b4f1e7757fa02d281faed01d17d35fe6",
     "scores/卡农_最新ESP32_20261103/卡农_多音轨_20261103_下载包.zip": "d1f58752c7ec8dc94d425e198433f9f6b8bf22db2e70aa9db522f37d89ac66dc",
     "scripts/build_current_fpga.tcl": "247051769a40fc0dcefa9d3edf98998dc31767ce1287ccd3325cf99a3d62aca5",
-    "scripts/elaborate_current_fpga.py": "afdcb7c62a59bb798b5ec5ad2f05188cd62dc4f90ab49cbb385bace2b813f6a7",
-    "scripts/verify_current_release.py": "6c30de0954f4a63f72f770a0aafc7c45187b6bd1899049507fc9b9b3e5fe406d",
+    "scripts/elaborate_current_fpga.py": "46a1434b191d3566950c7fa27dc04339c45931b7262103b412317927cfdb1cf8",
+    "scripts/verify_current_release.py": "6200e36ec4b6997716c9b3f8539acc9e6c1e40d7de879c577ec58c91a2225d25",
     "sim/models/gowin_pll_stub.v": "b4fff29c6522d8137fd8d2de99c18e761356e1438aadf8eacb5c1805528d18fe",
     "sim/models/i2s_rx_model.v": "f42f956b79bf386ce92d5e7b0fa1f400a90fb7d805edbadb7b3a0d87bd539007",
     "sim/models/piano_roms_fast.v": "8976f9ea0d9e0c34c3fb7723340d2000f0adb340b1a4a0a2269cda9afdc2ef70",
@@ -220,11 +220,13 @@
     "tests/current/check_canon_stream.cpp": "0b4ec41cfd987b61bc3890d83e7d5967b67e2b46648ae60de170dd8229debee8",
     "tests/current/tb_canon_stream.sv": "25187708e95a735e8c760cf7b1849b655368a7104cefbedaac8e36093f49d929",
     "tests/current/tb_top_elaboration.sv": "0dfc28b1a3643cca902e2e1baac0b440d0eb2564fc35d66ef24e0152c146afbc",
-    "tests/display_upgrade_20261018/video_boundary_stub.v": "a03fc4c6fc2e5c2da08cfb15026856981d30233fa45c040c11c69009acbddeea",
+    "sim/models/video_boundary_stub.v": "a03fc4c6fc2e5c2da08cfb15026856981d30233fa45c040c11c69009acbddeea",
     "tests/phone_play_confirmation.js": "7227fd5713faf82215a0953c1bf2957cfbbb36c64d2a51b6adabd86dfdfbce6d",
     "tests/phone_stream_dom.js": "1d2ee5644e99d157a3c2519db7e2e5bd32af713814f899ae63ea6aa5e1705870",
-    "tests/phone_timeline.js": "d382bb5c8929ae0a81a6e47f65e57d3f2c4e42d89b4760334ba134413d44ae4a",
+    "tests/phone_timeline.js": "25b24d3920a218b9ce66e75f59001d0161d06b1438bf520670d44aa312239c7b",
     "tools/prepare_canon_esp32_20261103.js": "4b3c04905d9a9da083564d43de0a1791d0ce134c4ebf3d09c1348e11b6b88ea7",
-    "yinyue_fashengqi.gprj": "5567205797fe2ff96e9aaf63e1769dc8f68abded8edc7ea9227266a87dc14e1c"
+    "yinyue_fashengqi.gprj": "e28937a36be9c57d98ce216b8aaf57c29d2c099d62786a0c07e5d7bf52a9a516",
+    "third_party/README.md": "5311a615f972dddb2afd9bf20c1107731255f329ea3f0663dd2cff3dc3b9e503",
+    "third_party/amy/LICENSE": "6697b05b83f007627c4c66abb54fd2d77699e3e60f82cbbb742971f0c015bf67"
   }
 }

@@ -20,7 +20,7 @@ def main():
                if item.get('enable') == '1' and Path(item.get('path')).suffix in ('.v', '.sv')
                and Path(item.get('path')).name not in excluded]
     sources += [ROOT / 'tests/current/tb_top_elaboration.sv', ROOT / 'sim/models/piano_roms_fast.v', ROOT / 'sim/models/gowin_pll_stub.v',
-                ROOT / 'tests/display_upgrade_20261018/video_boundary_stub.v', args.prim_lib]
+                ROOT / 'sim/models/video_boundary_stub.v', args.prim_lib]
     assert all(path.is_file() for path in sources), 'Missing elaboration input'
     output = ROOT / 'build/publication'
     output.mkdir(parents=True, exist_ok=True)

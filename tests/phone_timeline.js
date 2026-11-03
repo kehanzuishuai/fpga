@@ -14,7 +14,5 @@ assert.throws(()=>s.timelineScore(input([{note:22,velocity:100,start:0,end:100}]
 const file=path.resolve(b,'scores/卡农_原版全声部.mid'),canon=s.parseScoreFile(new Uint8Array(fs.readFileSync(file)));
 const whole=s.timelineScore(canon),part=s.timelineScore(canon,0);
 assert(whole.maxVoices>1);assert(whole.events.length>part.events.length);assert(whole.events.at(-1)[0]>200000);
-fs.writeFileSync(b+'/tests/canon_stream.txt',s.streamText(whole.events));
-fs.writeFileSync(b+'/tests/chord_stream.txt',s.streamText(s.timelineScore(chord).events));
 console.log('PASS simultaneous chord, independent offs, shared-pitch reference counts, reattack order, max32/range rejection, legacy guidance rejects chords unchanged');
 console.log('CANON',JSON.stringify({wholeEvents:whole.events.length,maxVoices:whole.maxVoices,baseDurationMs:whole.events.at(-1)[0],singleTrackEvents:part.events.length}));

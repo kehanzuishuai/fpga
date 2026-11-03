@@ -72,4 +72,4 @@ python scripts/elaborate_current_fpga.py --iverilog iverilog --prim-lib "本机G
 
 该检查保留全部音频及显示逻辑，使用配套 ROM/PLL/视频边界模型和厂商原语库；它不替代 Gowin 综合与时序检查。特定曲谱的 FPGA 仿真输入位于 `tests/current/`。
 
-`tools/`、`tests/` 中早期实验和验收脚本可能保留原电脑路径；当前构建入口为本页的 `scripts/build_current_fpga.tcl`，当前交付依据为本次发布清单。
+更多验证命令与目录说明见 [开发与验证](DEVELOPMENT.md)。当前构建入口为 `scripts/build_current_fpga.tcl`，当前固件和报告见发布目录。

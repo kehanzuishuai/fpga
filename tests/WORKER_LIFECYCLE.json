@@ -1,6 +1,0 @@
-{
-  "status": "PASS",
-  "source_sha256": "f0c1750cbad2422df1c5e393eda59081629968cd8a0a5d9a3e0a93a03e5e09b2",
-  "test_sha256": "dc40eac8b9c48aff2c1404dedeef8006bd1ed0f5d793dc8f6643b19056adfe72",
-  "scope": "actual sketch helper and Play branch extracted verbatim; mock Link, not FreeRTOS hardware scheduling"
-}
