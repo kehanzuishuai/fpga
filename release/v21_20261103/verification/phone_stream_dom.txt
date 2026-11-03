@@ -1,0 +1,1 @@
+PASS real APP_JS DOM: Canon all-track import -> 3840-event whole-song upload -> confirmed play/stop; guidance segment upload -> confirmed play/stop

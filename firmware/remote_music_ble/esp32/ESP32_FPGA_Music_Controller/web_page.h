@@ -14,7 +14,7 @@ const char PAGE[] PROGMEM=R"MUSICWEB(<!doctype html><html lang="zh-CN"><head><me
 <div class="sound-row"><div class="sound-icon"><span aria-hidden="true">∿</span></div><div class="sound-body"><div class="sound-head"><label for="expressionVibrato">颤音</label><output id="expressionVibratoValue">0%</output><button class="reset-icon" id="expressionVibratoDefault" aria-label="关闭颤音">↺</button></div><input id="expressionVibrato" type="range" min="0" max="100" value="0" step="1"></div></div></section>
 </main><main id="scoresView" class="page-view" hidden>
 <section class="practice-card" hidden><div id="practiceModes"></div><small id="practiceStatus"></small></section><section><div class="section-head"><h2>曲谱播放</h2><span class="badge">MIDI / JSON</span></div><p id="scoreInfo">尚未选择曲谱</p><details class="score-import" id="importPanel"><summary>导入或在线下载曲谱</summary><label for="scoreUrl">曲谱链接</label><input id="scoreUrl" type="url" placeholder="https://…/music.mid"><button class="secondary" id="download">在线下载</button><label for="scoreFile">从手机导入（不超过64KB）</label><input id="scoreFile" type="file" accept=".mid,.midi,.json,audio/midi,application/json"></details>
-<label for="track">音轨</label><select id="track"></select><label for="part">分段</label><select id="part"></select><div class="score-actions"><button class="primary" id="upload">传输</button><button id="play">▷ 播放</button><button class="secondary" id="stop">□ 停止</button></div><p id="scoreActual"></p></section>
+<label for="track">音轨</label><select id="track"></select><label for="part">分段</label><select id="part"></select><div class="score-actions"><button class="primary" id="upload">传入设备</button><button id="play">▷ 播放</button><button class="secondary" id="stop">□ 停止</button></div><p id="scoreActual"></p></section>
 </main><main id="settingsView" class="page-view" hidden><details class="card"><summary>联网设置</summary><p class="hint">下载曲谱前，请连接可上网的 Wi-Fi。</p><label for="ssid">上网Wi-Fi名称</label><input id="ssid" autocomplete="off"><label for="password">Wi-Fi密码</label><input id="password" type="password" autocomplete="off"><div class="button-row"><button id="connect">连接上网Wi-Fi</button><button class="secondary" id="network">检查联网状态</button></div><p id="networkState" class="hint">未检查</p></details>
 <details class="debug-panel card"><summary>调试信息</summary><p id="actual">尚未读取设备状态</p><p id="volumeActual"></p><p id="tempoActual"></p><pre id="debugInfo">暂无记录</pre></details></main><nav class="bottom-nav" aria-label="主导航"><a href="/" data-page="control"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11 12 3l9 8 M5 10v11h5v-6h4v6h5V10"/></svg><span>控制</span></a><a href="/keymap" data-page="keymap"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18v15H3z M7 5v9 M11 5v9 M15 5v9 M19 5v9 M7 14v6 M11 14v6 M15 14v6"/></svg><span>键位</span></a><a href="/#scores" data-page="scores"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h13v15 M7 4v12 M7 9h13 M7 16c-6-2-7 6-2 5 2 0 2-2 2-5 M20 16c-6-2-7 6-2 5 2 0 2-2 2-5"/></svg><span>曲谱</span></a><a href="/#settings" data-page="settings"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8 M10 3h4l1 3 3 1 3 3v4l-3 1-1 3-3 3h-4l-1-3-3-1-3-3v-4l3-1 1-3z"/></svg><span>设置</span></a></nav><script src="device-api.js"></script><script src="navigation.js"></script><script src="ui-text.js"></script><script src="score.js"></script><script src="app.js"></script></body></html>
 )MUSICWEB";
@@ -92,9 +92,12 @@ function createController(fetchFn,view){
       if(kind==='mode'||kind==='timbre')confirmed=confirmed&&!data.switching&&data[kind]===value;
       if(kind==='volume'||kind==='tempo')confirmed=confirmed&&data.settingsValid===true&&data[kind]===value;
       if(kind&&kind.startsWith('expression'))confirmed=confirmed&&data.expressionValid===true&&data[kind]===value;
-      if(kind==='play')confirmed=confirmed&&(data.streamLoaded===true?data.streamPlaying===Boolean(value):selectedPractice===2&&value?data.scoreValid===true:data.scoreValid===true&&data.playing===Boolean(value));
+      if(kind==='play')confirmed=confirmed&&(data.streamLoaded===true&&data.performanceMode!==2?data.streamPlaying===Boolean(value):data.scoreValid===true&&data.playing===Boolean(value));
       if(events)confirmed=confirmed&&data.scoreValid===true&&data.scoreCount===events.length;
-      if(!res.ok||!data.ok||!confirmed){if(!background||health!==previousHealth)show('message',data.message||'FPGA 尚未确认',background);return false;}
+      if(!res.ok||!data.ok||!confirmed){
+        const emptyScore=kind==='play'&&value&&validState&&!data.fault&&data.uartConnected===true&&data.scoreValid===true&&data.scoreCount===0&&data.streamLoaded!==true;
+        if(!background||health!==previousHealth)show('message',emptyScore?'设备中没有曲谱，请先导入文件，再点击“传入设备”，成功后播放。':data.message||'FPGA 尚未确认',background);return false;
+      }
       outcome=true;if(!background||health!==previousHealth)show('message',events?'曲谱已传入 FPGA':kind==='volume'?'音量已生效':kind==='tempo'?'速度已生效':kind==='play'?(value?'正在播放':'已停止'):kind?'切换完成':data.switching?'正在切换，请稍候':'FPGA 已连接',background);return true;
     }catch(e){health=httpReached?'invalid':'offline';delay=10000;show('data',{stateValid:false},background);show('links',[httpReached,'error'],background);show('state','连接中断，当前状态未知',background);if(!background||health!==previousHealth)show('message',httpReached?'ESP32响应异常，请刷新重试':'无法访问 ESP32，请检查 Wi-Fi 后刷新',background);return false;}finally{clearTimeout(timeout);if(view.operation&&kind)view.operation(kind,value,outcome?'success':'error');}
   }
@@ -121,7 +124,7 @@ if(typeof document!=='undefined'){
         byId(kind+'Actual').textContent=valid?`当前${kind==='volume'?'音量':'速度'}：${d[kind]}${kind==='volume'?'%':' BPM'}`:'当前值尚未确认';
         if(valid&&!dragging.has(kind)&&document.activeElement!==byId(kind)&&!controller.pending(kind)){byId(kind).value=d[kind];byId(kind+'Value').textContent=d[kind]+(kind==='volume'?'%':' BPM');paintRange(byId(kind));}
       }
-      byId('scoreActual').textContent=d.streamFault?'整曲播放异常：缓存断流或事件错误，已停止':d.streamLoaded?(d.streamPlaying?'整曲播放中':'整曲已缓存'):d.scoreValid?(d.playing?'播放中':d.scoreCount?`已传输 · ${d.scoreCount}项`:'暂无曲谱'):'';
+      byId('scoreActual').textContent=d.streamFault?'整曲播放异常：缓存断流或事件错误，已停止':d.streamLoaded?(d.streamPlaying?'整曲播放中':'整曲已缓存'):d.scoreValid?(d.playing?'播放中':d.scoreCount?`已传输 · ${d.scoreCount}项`:'设备暂无曲谱，请导入后点击“传入设备”'):'';
     }
   });
   function renderSelection(){
@@ -205,7 +208,7 @@ if(typeof document!=='undefined'){
     try{
       if(f.size>65536)throw Error('文件超过64KB');
       load(await f.arrayBuffer());
-      showNotice(`已读取：${f.name}`);
+      showNotice(`已在手机读取：${f.name}；请点击“传入设备”，成功后再播放。`);
     }catch(e){
       score=null;scoreError=e.message||'曲谱解析失败';parts=[];wholeTimeline=null;
       byId('track').replaceChildren();byId('part').replaceChildren();

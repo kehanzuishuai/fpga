@@ -1,0 +1,1 @@
+PASS latest ESP32 StreamScore.h: 4286 events, 2143 On/2143 Off, peak 11 simultaneous pitches, all notes released

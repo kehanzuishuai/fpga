@@ -30,6 +30,7 @@ module synth_core #(
     /* piano_fx output gain before its limiter: 0 = x1, 1 = x2 */
     parameter FX_GAIN_SHIFT      = 1
 )(
+ input wire [6:0] expression_glide,expression_vibrato,
     input                              clk,
     input                              rst_n,
     input                              sample_tick,
@@ -61,6 +62,7 @@ module synth_core #(
 
     /* 0: the voice bank can not take a Note Event in this clk cycle */
     output                             event_ready,
+    output wire engine_initialized,
 
     output signed [SAMPLE_W-1:0]       audio_out,
     output     [VOICES-1:0]            active_debug,
@@ -78,7 +80,10 @@ module synth_core #(
     output reg signed [SAMPLE_W-1:0]   lissajous_x,
     output reg signed [SAMPLE_W-1:0]   lissajous_y,
     output wire [95:0]                diagnostic_audio,
-    output wire [VOICES*7-1:0] display_voice_notes
+    output wire [VOICES*7-1:0] display_voice_notes,
+    output wire [VOICES*16-1:0] display_env_levels,
+    output wire [VOICES*3-1:0] display_env_phases,
+    output wire [VOICES-1:0] display_env_valid,display_env_done,display_env_starts
 );
 
 localparam MIX_W = SAMPLE_W + LOG2_VOICES;
@@ -92,6 +97,14 @@ localparam signed [MIX_W-1:0] CLIP_MIN =
 wire [VOICES*SAMPLE_W-1:0] samples;
 wire [VOICES-1:0] piano_active;
 wire [VOICES*7-1:0] piano_notes,aux_notes;
+wire [VOICES*16-1:0] piano_env_levels,aux_env_levels;
+wire [VOICES*3-1:0] piano_env_phases,aux_env_phases;
+wire [VOICES-1:0] piano_env_valid,piano_env_done,piano_env_starts,aux_env_starts;
+assign display_env_levels=auxiliary?aux_env_levels:piano_env_levels;
+assign display_env_phases=auxiliary?aux_env_phases:piano_env_phases;
+assign display_env_valid=auxiliary?{VOICES{sample_tick}}:piano_env_valid;
+assign display_env_done=auxiliary?{VOICES{sample_tick}}:piano_env_done;
+assign display_env_starts=auxiliary?aux_env_starts:piano_env_starts;
 assign display_voice_notes=auxiliary?aux_notes:piano_notes;
 wire piano_ready,aux_ready;
 wire signed [23:0] aux_pcm;
@@ -136,15 +149,160 @@ else if(sample_tick)begin
  if(diagnostic_fx_abs>diagnostic_fx_peak)diagnostic_fx_peak<=diagnostic_fx_abs;
 end
 
+reg [31:0] expression_lfo_phase;
+reg [6:0] expression_last_note;reg expression_have_note;
+wire expression_accept=bank_on && event_ready;
+always @(posedge clk or negedge rst_n)
+ if(!rst_n)begin expression_lfo_phase<=0;expression_last_note<=60;expression_have_note<=0;end
+ else begin
+  if(sample_tick)expression_lfo_phase<=expression_lfo_phase+32'd447392;
+  if(expression_accept)begin expression_last_note<=bank_note;expression_have_note<=1;end
+ end
+wire signed [7:0] expression_triangle=expression_lfo_phase[31]?
+ $signed({1'b0,~expression_lfo_phase[30:24]})-8'sd64:
+ $signed({1'b0,expression_lfo_phase[30:24]})-8'sd64;
+wire signed [15:0] expression_depth_product=expression_triangle*$signed({1'b0,expression_vibrato});
+wire signed [7:0] expression_lfo=expression_vibrato==0?8'sd0:8'(expression_depth_product/16'sd100);
+wire signed [8:0] expression_distance=$signed({2'b0,expression_last_note})-$signed({2'b0,bank_note});
+reg [21:0] expression_seed;
+wire signed [6:0] expression_seed_steps=(expression_have_note && expression_glide!=0 && expression_distance>=-9'sd60 && expression_distance<=9'sd60)?expression_distance[6:0]:7'sd0;
+always @* begin
+ expression_seed=22'd65536;
+ if(expression_have_note && expression_glide!=0)case(expression_distance)
+ -9'sd60:expression_seed=22'd2048;
+ -9'sd59:expression_seed=22'd2170;
+ -9'sd58:expression_seed=22'd2299;
+ -9'sd57:expression_seed=22'd2435;
+ -9'sd56:expression_seed=22'd2580;
+ -9'sd55:expression_seed=22'd2734;
+ -9'sd54:expression_seed=22'd2896;
+ -9'sd53:expression_seed=22'd3069;
+ -9'sd52:expression_seed=22'd3251;
+ -9'sd51:expression_seed=22'd3444;
+ -9'sd50:expression_seed=22'd3649;
+ -9'sd49:expression_seed=22'd3866;
+ -9'sd48:expression_seed=22'd4096;
+ -9'sd47:expression_seed=22'd4340;
+ -9'sd46:expression_seed=22'd4598;
+ -9'sd45:expression_seed=22'd4871;
+ -9'sd44:expression_seed=22'd5161;
+ -9'sd43:expression_seed=22'd5468;
+ -9'sd42:expression_seed=22'd5793;
+ -9'sd41:expression_seed=22'd6137;
+ -9'sd40:expression_seed=22'd6502;
+ -9'sd39:expression_seed=22'd6889;
+ -9'sd38:expression_seed=22'd7298;
+ -9'sd37:expression_seed=22'd7732;
+ -9'sd36:expression_seed=22'd8192;
+ -9'sd35:expression_seed=22'd8679;
+ -9'sd34:expression_seed=22'd9195;
+ -9'sd33:expression_seed=22'd9742;
+ -9'sd32:expression_seed=22'd10321;
+ -9'sd31:expression_seed=22'd10935;
+ -9'sd30:expression_seed=22'd11585;
+ -9'sd29:expression_seed=22'd12274;
+ -9'sd28:expression_seed=22'd13004;
+ -9'sd27:expression_seed=22'd13777;
+ -9'sd26:expression_seed=22'd14596;
+ -9'sd25:expression_seed=22'd15464;
+ -9'sd24:expression_seed=22'd16384;
+ -9'sd23:expression_seed=22'd17358;
+ -9'sd22:expression_seed=22'd18390;
+ -9'sd21:expression_seed=22'd19484;
+ -9'sd20:expression_seed=22'd20643;
+ -9'sd19:expression_seed=22'd21870;
+ -9'sd18:expression_seed=22'd23170;
+ -9'sd17:expression_seed=22'd24548;
+ -9'sd16:expression_seed=22'd26008;
+ -9'sd15:expression_seed=22'd27554;
+ -9'sd14:expression_seed=22'd29193;
+ -9'sd13:expression_seed=22'd30929;
+ -9'sd12:expression_seed=22'd32768;
+ -9'sd11:expression_seed=22'd34716;
+ -9'sd10:expression_seed=22'd36781;
+ -9'sd9:expression_seed=22'd38968;
+ -9'sd8:expression_seed=22'd41285;
+ -9'sd7:expression_seed=22'd43740;
+ -9'sd6:expression_seed=22'd46341;
+ -9'sd5:expression_seed=22'd49097;
+ -9'sd4:expression_seed=22'd52016;
+ -9'sd3:expression_seed=22'd55109;
+ -9'sd2:expression_seed=22'd58386;
+ -9'sd1:expression_seed=22'd61858;
+ 9'sd0:expression_seed=22'd65536;
+ 9'sd1:expression_seed=22'd69433;
+ 9'sd2:expression_seed=22'd73562;
+ 9'sd3:expression_seed=22'd77936;
+ 9'sd4:expression_seed=22'd82570;
+ 9'sd5:expression_seed=22'd87480;
+ 9'sd6:expression_seed=22'd92682;
+ 9'sd7:expression_seed=22'd98193;
+ 9'sd8:expression_seed=22'd104032;
+ 9'sd9:expression_seed=22'd110218;
+ 9'sd10:expression_seed=22'd116772;
+ 9'sd11:expression_seed=22'd123715;
+ 9'sd12:expression_seed=22'd131072;
+ 9'sd13:expression_seed=22'd138866;
+ 9'sd14:expression_seed=22'd147123;
+ 9'sd15:expression_seed=22'd155872;
+ 9'sd16:expression_seed=22'd165140;
+ 9'sd17:expression_seed=22'd174960;
+ 9'sd18:expression_seed=22'd185364;
+ 9'sd19:expression_seed=22'd196386;
+ 9'sd20:expression_seed=22'd208064;
+ 9'sd21:expression_seed=22'd220436;
+ 9'sd22:expression_seed=22'd233544;
+ 9'sd23:expression_seed=22'd247431;
+ 9'sd24:expression_seed=22'd262144;
+ 9'sd25:expression_seed=22'd277732;
+ 9'sd26:expression_seed=22'd294247;
+ 9'sd27:expression_seed=22'd311744;
+ 9'sd28:expression_seed=22'd330281;
+ 9'sd29:expression_seed=22'd349920;
+ 9'sd30:expression_seed=22'd370728;
+ 9'sd31:expression_seed=22'd392772;
+ 9'sd32:expression_seed=22'd416128;
+ 9'sd33:expression_seed=22'd440872;
+ 9'sd34:expression_seed=22'd467088;
+ 9'sd35:expression_seed=22'd494862;
+ 9'sd36:expression_seed=22'd524288;
+ 9'sd37:expression_seed=22'd555464;
+ 9'sd38:expression_seed=22'd588493;
+ 9'sd39:expression_seed=22'd623487;
+ 9'sd40:expression_seed=22'd660561;
+ 9'sd41:expression_seed=22'd699841;
+ 9'sd42:expression_seed=22'd741455;
+ 9'sd43:expression_seed=22'd785544;
+ 9'sd44:expression_seed=22'd832255;
+ 9'sd45:expression_seed=22'd881744;
+ 9'sd46:expression_seed=22'd934175;
+ 9'sd47:expression_seed=22'd989724;
+ 9'sd48:expression_seed=22'd1048576;
+ 9'sd49:expression_seed=22'd1110928;
+ 9'sd50:expression_seed=22'd1176987;
+ 9'sd51:expression_seed=22'd1246974;
+ 9'sd52:expression_seed=22'd1321123;
+ 9'sd53:expression_seed=22'd1399681;
+ 9'sd54:expression_seed=22'd1482910;
+ 9'sd55:expression_seed=22'd1571089;
+ 9'sd56:expression_seed=22'd1664511;
+ 9'sd57:expression_seed=22'd1763488;
+ 9'sd58:expression_seed=22'd1868350;
+ 9'sd59:expression_seed=22'd1979448;
+ 9'sd60:expression_seed=22'd2097152;
+ default:expression_seed=22'd65536;endcase
+end
 generate if(REMOTE_ENABLE!=0)begin:G_AUX
  wire valid, rejected;wire [VOICES-1:0] overruns,clips;
  yinse_aux_bank #(.VOICES(VOICES),.MIX_SHIFT(3)) bank(
  .clk(clk),.rst_n(rst_n),.sample_tick(sample_tick),.all_notes_off(test_disable_pulse),
+ .expression_glide(expression_glide),.expression_seed(expression_seed),.expression_seed_steps(expression_seed_steps),.expression_lfo(expression_lfo),
  .event_valid(auxiliary && (bank_on || bank_off)),.event_note_on(bank_on),
  .instrument_id(instrument_id),.event_note(bank_note),.event_velocity(bank_velocity),
  .event_ready(aux_ready),.pcm(aux_pcm),.pcm_valid(valid),.active_mask(aux_active),
- .overrun_mask(overruns),.clipped_mask(clips),.rejected(rejected),.display_voice_notes(aux_notes));
+ .overrun_mask(overruns),.clipped_mask(clips),.rejected(rejected),.display_voice_notes(aux_notes),.display_env_levels(aux_env_levels),.display_env_phases(aux_env_phases),.display_env_starts(aux_env_starts));
 end else begin:G_NO_AUX
+ assign aux_env_levels=0;assign aux_env_phases=0;assign aux_env_starts=0;
  assign aux_ready=0;assign aux_pcm=0;assign aux_active=0;assign aux_notes=0;
 end endgenerate
 
@@ -227,9 +385,11 @@ voice_bank #(
     .IDX_W       (IDX_W),
     .PIANO_ENGINE(PIANO_ENGINE)
 ) u_bank (
+ .expression_glide(expression_glide),.expression_vibrato(expression_vibrato),
     .clk              (clk),
     .rst_n            (rst_n),
     .sample_tick      (sample_tick),
+    .expression_seed(expression_seed),.expression_seed_steps(expression_seed_steps),.expression_lfo(expression_lfo),
     .note_on          (bank_on && !auxiliary),
     .note_off         (bank_off && !auxiliary),
     .all_notes_off    (test_disable_pulse),
@@ -244,7 +404,8 @@ voice_bank #(
     .voice_active     (piano_active),
     .allocation_valid (allocation_valid),
     .allocation_index (allocation_index),
-    .diagnostic_counts(diagnostic_counts),.display_voice_notes(piano_notes)
+    .diagnostic_counts(diagnostic_counts),.display_voice_notes(piano_notes),.display_env_levels(piano_env_levels),.display_env_phases(piano_env_phases),
+    .display_env_valid(piano_env_valid),.display_env_done(piano_env_done),.display_env_starts(piano_env_starts)
 );
 
 tree_mixer #(
@@ -314,6 +475,7 @@ generate
             .eq_preset         (fx_ctrl[3:2]),
             .limiter_soft      (fx_ctrl[4]),
             .out_valid         (fx_valid),
+            .initialized(engine_initialized),
             .out_sample        (fx_out)
         );
 
@@ -324,6 +486,7 @@ generate
     else begin : G_NO_FX
 
         assign audio_out = sat_out;
+        assign engine_initialized=rst_n;
 
     end
 

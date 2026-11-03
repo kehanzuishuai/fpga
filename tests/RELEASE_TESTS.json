@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "javascript_checks": {
+    "phone_controller": 0,
+    "phone_async_api": 0,
+    "phone_score": 0,
+    "phone_keymap": 0,
+    "phone_practice_dom": 0,
+    "timeline": 0,
+    "stream_dom": 0,
+    "octave": 0
+  },
+  "phone_sha256": {
+    "app.js": "735aca4038fd41880eb5c7feb3175a79d74a008f7c2ea69dded686c147a87d3b",
+    "device-api.js": "4e3322f1a751674e8b2bb6ebbbddad22b23e1feb1e622ebf5a94d9b0616a8eb8",
+    "index.html": "ffb6acb5e308eeb3120306f0f334dab6edbe9da3f76e140c12417d469ca59ed3",
+    "keymap.html": "c6a7bda2a838707cd1b7bcc7374e530ca8b4ae3e9f15817db2aa29de588af7d3",
+    "keymap.js": "c79f7fd888af9533e143190c6ea5f49f428c069e8389c4cd6ac5a060f1601d4c",
+    "navigation.js": "d2f8b6e801277be0d274a636a76d98444360665795e2033c85f4373544c2bc77",
+    "README.md": "d0ca74d926f928b15fa0aa4cb89abc96dfbde73cb6ca070d8cce3f94de3f91b0",
+    "score.js": "ee5051b77c9b1c4d3038ecd7af3336d0315ad12902f7f76a319e29116bae01a7",
+    "ui-text.js": "ebb4e1898fc225f20c8808325d84bdc68fb1fa3198484136d1d0d38bc91d249b",
+    "ui.css": "66d387aa8361cd3ff02708d406c95e85291d0c9ebf3ecaea500010d166c252c5"
+  },
+  "whole_canon": {
+    "scope": "accelerated sample_tick, event scheduler unit, not full song audio simulation",
+    "events": 3840,
+    "on": 1920,
+    "off": 1920,
+    "max_lateness_base_ms": 0,
+    "log": "tests/out/canon.log"
+  },
+  "real32_audio": {
+    "scope": "actual32 voice synth/FX/master/DAC integration, 3-note chord, ROM/PLL models, display disabled",
+    "on": 3,
+    "off": 3,
+    "max_active": 3,
+    "nonzero_frames": 3125,
+    "i2s_frames": 3980,
+    "pt8211_words": 7963,
+    "log": "tests/out/tb_stream_system.log"
+  },
+  "uart_crosscheck": {
+    "requests": 12,
+    "scope": "actual C++ ControlLink with real RTL UART, then replay firmware validation; fixed receive timeline, not real FreeRTOS scheduling",
+    "log": "tests/native/replay.log"
+  },
+  "programmed": false,
+  "hardware_tested": false,
+  "RTL_COMPATIBILITY.json": {
+    "live_control": 0,
+    "modes": 0,
+    "stream_control": 0,
+    "stream_unit": 0,
+    "octave": 0
+  },
+  "WORKER_LIFECYCLE.json": {
+    "status": "PASS",
+    "source_sha256": "f0c1750cbad2422df1c5e393eda59081629968cd8a0a5d9a3e0a93a03e5e09b2",
+    "test_sha256": "dc40eac8b9c48aff2c1404dedeef8006bd1ed0f5d793dc8f6643b19056adfe72",
+    "scope": "actual sketch helper and Play branch extracted verbatim; mock Link, not FreeRTOS hardware scheduling"
+  }
+}

@@ -70,6 +70,12 @@ IO_PORT "clk_50m" IO_TYPE=LVCMOS33;
 IO_LOC  "rst_n" K16;
 IO_PORT "rst_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
+// Dock USER_BUTTON1/F15 and USER_BUTTON2/G15, active low.
+IO_LOC "timbre_button_n" F15;
+IO_PORT "timbre_button_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+IO_LOC "source_button_n" G15;
+IO_PORT "source_button_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+
 
 // ============================================================
 // HW-136 / TTP229
@@ -143,8 +149,9 @@ IO_LOC "esp_uart_rx" B21;
 IO_PORT "esp_uart_rx" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 IO_LOC "esp_uart_tx" A20;
 IO_PORT "esp_uart_tx" IO_TYPE=LVCMOS33;
-IO_LOC "esp_spi_sck" L17;
-IO_PORT "esp_spi_sck" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+// UNO TX through 5V->3.3V level conversion; J24 pin7, reused idle SPI SCK.
+IO_LOC "theremin_uart_rx" L17;
+IO_PORT "theremin_uart_rx" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 IO_LOC "esp_spi_cs_n" H14;
 IO_PORT "esp_spi_cs_n" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 IO_LOC "esp_spi_mosi" E25;
@@ -158,3 +165,20 @@ IO_PORT "esp_spi_miso" IO_TYPE=LVCMOS33;
 // three serializer reset registers above; no new timing exceptions.
 INS_LOC "u_video_io/reset_release_0_s1" R34C181[0][B];
 INS_LOC "u_video_io/reset_release_1_s1" R36C181[0][B];
+
+// V14: keep the seven retained spectrum-peak flops on the launch clock row.
+// R0 measured R49->R50 clock skew of 0.275 ns. Moving only bit1 displaced
+// bit0 onto the same short hold path. Place the common-clock/clear/enable
+// bank together; bit7 is optimized away. RTL/data latency/UI are unchanged.
+INS_LOC "G_DISPLAY.u_visual/render/pool_peak_1_s0" R49C148[0][A];
+INS_LOC "G_DISPLAY.u_visual/render/pool_peak_0_s0" R49C148[0][B];
+INS_LOC "G_DISPLAY.u_visual/render/pool_peak_2_s0" R49C148[1][A];
+INS_LOC "G_DISPLAY.u_visual/render/pool_peak_3_s0" R49C148[1][B];
+INS_LOC "G_DISPLAY.u_visual/render/pool_peak_4_s0" R49C148[2][A];
+INS_LOC "G_DISPLAY.u_visual/render/pool_peak_5_s0" R49C148[2][B];
+INS_LOC "G_DISPLAY.u_visual/render/pool_peak_6_s0" R49C148[3][A];
+
+// V17: move two short DSP-to-address paths within the same clock-row area.
+// Original routed hold slacks were -0.045ns/-0.006ns; RTL/UI are unchanged.
+INS_LOC "G_DISPLAY.u_visual/render/scenery/frost/wd_addr2_4_s1" R14C178[0][A];
+INS_LOC "G_DISPLAY.u_visual/render/scenery/frost/wd_addr2_2_s1" R14C178[0][B];

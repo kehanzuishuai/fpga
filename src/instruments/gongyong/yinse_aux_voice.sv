@@ -64,8 +64,9 @@ module yinse_aux_voice_context #(parameter integer MAX_DELAY=1024,parameter [23:
  wire [4:0] unused_fx_ctrl;wire unused_preset_valid;
  yinse_preset preset(instrument,attack_step,decay_step,sustain_level,release_step,unused_fx_ctrl,unused_preset_valid);
  wire accepted_start=start && note_valid && instrument_in>=1 && instrument_in<=4;
+ wire [2:0] unused_observer_phase;
  yinse_envelope env(clk,rst_n,sample_tick,accepted_start,stop,clear,
- attack_step,decay_step,sustain_level,release_step,envelope,active);
+ attack_step,decay_step,sustain_level,release_step,envelope,active,unused_observer_phase);
  wire signed [23:0] ks_sample;wire ks_busy,ks_overrun,ks_clipped;
  yinse_ks_loop_core #(.MAX_DELAY(MAX_DELAY),.SEED(SEED),.EXTERNAL_MEMORY(EXTERNAL_KS_MEMORY)) ks(
  clk,rst_n,sample_tick,accepted_start && instrument_in==3,clear || (accepted_start && instrument_in!=3),

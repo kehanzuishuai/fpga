@@ -1,0 +1,2 @@
+PASS FULL CANON: 4286 exact scheduled events, 2143 On/2143 Off, FIFO refill/wrap/backpressure, no underrun/hung notes; max scheduling lateness=0 base-ms
+tests\current\tb_canon_stream.sv:41: $finish called at 30147241000 (1ps)

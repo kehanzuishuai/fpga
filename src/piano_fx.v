@@ -47,6 +47,7 @@ module piano_fx #(
     input  wire                   limiter_soft,
 
     output wire                   out_valid,
+    output wire                   initialized,
     output wire signed [23:0]     out_sample
 );
 
@@ -99,6 +100,7 @@ piano_reverb u_reverb (
     .in_valid   (v1),
     .in_sample  (x1),
     .out_valid  (v2),
+    .initialized(initialized),
     .out_sample (x2)
 );
 
@@ -386,6 +388,7 @@ module piano_reverb #(
     input  wire               in_valid,
     input  wire signed [31:0] in_sample,
     output reg                out_valid,
+    output wire               initialized,
     output reg signed [31:0]  out_sample
 );
 
@@ -451,6 +454,10 @@ reg [11:0] clr_cnt;
 wire       clearing;
 
 assign clearing = !clr_cnt[11];
+reg [1:0] init_pipe;
+always @(posedge clk or negedge rst_n)
+ if(!rst_n)init_pipe<=0;else init_pipe<={init_pipe[0],!clearing};
+assign initialized=init_pipe[1];
 
 reg         ram_we;
 reg  [10:0] ram_waddr;

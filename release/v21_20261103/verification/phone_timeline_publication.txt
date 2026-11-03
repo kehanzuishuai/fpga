@@ -1,0 +1,2 @@
+PASS simultaneous chord, independent offs, shared-pitch reference counts, reattack order, max32/range rejection, legacy guidance rejects chords unchanged
+CANON {"wholeEvents":3840,"maxVoices":4,"baseDurationMs":233000,"singleTrackEvents":1184}

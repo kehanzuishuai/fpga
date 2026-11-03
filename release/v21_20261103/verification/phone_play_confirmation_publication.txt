@@ -1,0 +1,1 @@
+PASS actual phone playback confirmation: legacy play, legacy stop, guidance play, guidance stop, stream play, stream stop, play not applied, guidance not running, guidance ignores unrelated stream feed, empty device score, unconfirmed empty score, device fault preserved

@@ -3,11 +3,15 @@
 // One event per clk when event_ready=1; accepted velocity-zero note-on is note-off.
 module yinse_aux_bank #(parameter integer VOICES=16,MAX_DELAY=1024,MIX_SHIFT=$clog2(VOICES))(
  input wire clk,rst_n,sample_tick,all_notes_off,event_valid,event_note_on,
+ input wire [6:0] expression_glide,input wire [21:0] expression_seed,input wire signed [7:0] expression_lfo,
+ input wire signed [6:0] expression_seed_steps,
  input wire [2:0] instrument_id,input wire [6:0] event_note,input wire [7:0] event_velocity,
  output wire event_ready,output reg signed [23:0] pcm,output reg pcm_valid,
  output wire [VOICES-1:0] active_mask,output wire [VOICES-1:0] overrun_mask,
  output wire [VOICES-1:0] clipped_mask,output reg rejected,
- output wire [VOICES*7-1:0] display_voice_notes
+ output wire [VOICES*7-1:0] display_voice_notes,
+ output wire [VOICES*16-1:0] display_env_levels,output wire [VOICES*3-1:0] display_env_phases,
+ output wire [VOICES-1:0] display_env_starts
 );
  localparam integer IW=(VOICES<2)?1:$clog2(VOICES);
  function automatic [IW-1:0] index_value(input integer unused_index);
@@ -95,17 +99,20 @@ module yinse_aux_bank #(parameter integer VOICES=16,MAX_DELAY=1024,MIX_SHIFT=$cl
  // the cursor-selected voice on exactly the clocks the per-voice registers did.
  wire [VOICES-1:0] accepted,fresh;
  wire [VOICES*3-1:0] voice_states,voice_instruments;
- wire [VOICES*16-1:0] envelopes;wire [VOICES*24-1:0] ks_latched;
+ wire [VOICES*16-1:0] envelopes;
+ assign display_env_levels=envelopes;assign display_env_starts=accepted;wire [VOICES*24-1:0] ks_latched;
  wire [LANES-1:0] lane_write,lane_sample_write,lane_clipped;
  wire [LANES*3-1:0] lane_state;wire [LANES*24-1:0] lane_sample;
  wire [71:0] static_data={(event_velocity>127)?8'd127:event_velocity,shared_inc,shared_bell};
+ wire [VOICES*22-1:0] expression_ratios;
+ expression_pitch_bank_aux_bram #(.VOICES(VOICES)) expression_control(clk,rst_n && !all_notes_off,sample_tick,accepted,expression_glide,expression_seed,expression_seed_steps,expression_lfo,expression_ratios);
  genvar lane;
  generate for(lane=0;lane<LANES;lane=lane+1)begin:L
   wire [THREADS-1:0] lane_starts=accepted[lane*THREADS+:THREADS];
   reg [CW-1:0] start_thread;integer s;
   always_comb begin start_thread=0;for(s=0;s<THREADS;s=s+1)if(lane_starts[s])start_thread=CW'(s);end
   yinse_aux_context_lane #(.THREADS(THREADS),.CW(CW),.SEED_BASE(24'h713AC5+24'(lane*THREADS))) store(
-   clk,all_notes_off,cursor,voice_states[lane*THREADS*3+:THREADS*3],voice_instruments[lane*THREADS*3+:THREADS*3],
+   clk,all_notes_off,cursor,expression_ratios[lane*THREADS*22+:THREADS*22],voice_states[lane*THREADS*3+:THREADS*3],voice_instruments[lane*THREADS*3+:THREADS*3],
    envelopes[lane*THREADS*16+:THREADS*16],ks_latched[lane*THREADS*24+:THREADS*24],fresh[lane*THREADS+:THREADS],lane_starts,
    |lane_starts,start_thread,static_data,
    lane_write[lane],lane_state[lane*3+:3],lane_sample_write[lane],lane_sample[lane*24+:24],lane_clipped[lane]);
@@ -143,7 +150,7 @@ module yinse_aux_bank #(parameter integer VOICES=16,MAX_DELAY=1024,MIX_SHIFT=$cl
    lane_sample[(g/THREADS)*24+:24],lane_clipped[g/THREADS],
    ks_pending[g],ks_ptrs[g*KAW+:KAW],ks_lengths[g*11+:11],ks_coefficients[g*16+:16],ks_ws[g*24+:24],
    engine_read[g],engine_write[g],engine_address,engine_data,engine_w,engine_sample,engine_ptr,engine_clipped,
-   ks_address[g*KAW+:KAW],ks_read[g],ks_write[g],ks_write_data[g*24+:24],ks_read_data[g*24+:24]);
+   ks_address[g*KAW+:KAW],ks_read[g],ks_write[g],ks_write_data[g*24+:24],ks_read_data[g*24+:24],display_env_phases[g*3+:3]);
  end endgenerate
  yinse_ks_engine #(.VOICES(VOICES),.KAW(KAW)) ks_engine(clk,rst_n,all_notes_off,ks_pending,accepted,
   ks_ptrs,ks_lengths,ks_coefficients,ks_ws,ks_read_data,engine_read,engine_write,
@@ -187,7 +194,7 @@ endmodule
 // reset) are substituted on read while the voice's fresh flag is set; every
 // other context field is always written before it is read.
 module yinse_aux_context_lane #(parameter integer THREADS=8,CW=3,parameter [23:0] SEED_BASE=24'h713AC5)(
- input wire clk,clear,input wire [CW-1:0] cursor,
+ input wire clk,clear,input wire [CW-1:0] cursor,input wire [THREADS*22-1:0] expression_ratios,
  input wire [THREADS*3-1:0] states,instruments,input wire [THREADS*16-1:0] envelopes,
  input wire [THREADS*24-1:0] ks_samples,input wire [THREADS-1:0] fresh,starts,
  input wire static_write,input wire [CW-1:0] static_thread,input wire [71:0] static_data,
@@ -205,6 +212,11 @@ module yinse_aux_context_lane #(parameter integer THREADS=8,CW=3,parameter [23:0
  wire signed [23:0] ks_sample=ks_samples[cursor*24+:24];
  wire is_fresh=fresh[cursor];
  wire [7:0] velocity;wire [31:0] increment,bell_increment;
+ wire [21:0] expression_ratio=expression_ratios[cursor*22+:22];
+ wire [53:0] expression_inc_product=increment*expression_ratio;
+ wire [53:0] expression_bell_product=bell_increment*expression_ratio;
+ wire [31:0] expression_inc=expression_ratio==65536?increment:expression_inc_product[47:16];
+ wire [31:0] expression_bell=expression_ratio==65536?bell_increment:expression_bell_product[47:16];
  assign {velocity,increment,bell_increment}=static_ram[cursor];
  wire [32:0] stored_phase;wire [31:0] stored_mod_phase,stored_lfo_phase;
  wire [15:0] stored_modulation_level;wire [5:0] stored_modulation_count;wire [3:0] slot;
@@ -220,8 +232,8 @@ module yinse_aux_context_lane #(parameter integer THREADS=8,CW=3,parameter [23:0
  wire [23:0] noise=is_fresh?SEED_BASE+24'(cursor):stored_noise;
  wire signed [23:0] ks_dc=is_fresh?24'sd0:stored_ks_dc;
  wire [333:0] result;
- yinse_aux_arithmetic math({state,instrument,slot,phase,increment,mod_phase,lfo_phase,modulation_level,
-  accumulator,raw,phase_offset,noise,velocity,enveloped,envelope,ks_sample,ks_dc,bell_increment},result);
+ yinse_aux_arithmetic math({state,instrument,slot,phase,expression_inc,mod_phase,lfo_phase,modulation_level,
+  accumulator,raw,phase_offset,noise,velocity,enveloped,envelope,ks_sample,ks_dc,expression_bell},result);
  wire [32:0] next_phase;wire [31:0] next_mod_phase,next_lfo_phase;
  wire signed [27:0] partial_sum,raw_flute,carrier_value,enveloped_next,ks_raw;
  wire signed [31:0] phase_offset_next;wire signed [23:0] dc_next;wire [15:0] next_modulation_level;
@@ -290,7 +302,7 @@ module yinse_aux_voice_slot #(parameter integer MAX_DELAY=1024,parameter [23:0] 
  input wire [$clog2(MAX_DELAY)-1:0] engine_ptr,input wire engine_clipped,
  output wire [$clog2(MAX_DELAY)-1:0] ks_memory_address,
  output wire ks_memory_read,ks_memory_write,output wire [23:0] ks_memory_write_data,
- input wire [23:0] ks_memory_read_data
+ input wire [23:0] ks_memory_read_data,output wire [2:0] monitor_phase
 );
  localparam [2:0] IDLE=0,START_FRAME=6;
  localparam integer AW=$clog2(MAX_DELAY);
@@ -304,7 +316,7 @@ module yinse_aux_voice_slot #(parameter integer MAX_DELAY=1024,parameter [23:0] 
  yinse_preset preset(instrument,attack_step,decay_step,sustain_level,release_step,unused_fx_ctrl,unused_preset_valid);
  assign accepted_start=start && note_valid && instrument_in>=1 && instrument_in<=4;
  yinse_envelope env(clk,rst_n,sample_tick,accepted_start,stop,clear,
- attack_step,decay_step,sustain_level,release_step,envelope,active);
+ attack_step,decay_step,sustain_level,release_step,envelope,active,monitor_phase);
  // String state of the original yinse_ks_loop_core; the 5-clock filter pass
  // runs in the shared engine, the note-on noise fill stays here.
  reg ks_filling,ks_overrun,ks_clipped;reg [AW-1:0] ks_fill_ptr;reg [23:0] ks_noise;

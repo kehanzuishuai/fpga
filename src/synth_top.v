@@ -25,6 +25,7 @@ module synth_top #(
     /* effects output gain: 0 = x1, 1 = x2 */
     parameter FX_GAIN_SHIFT  = 1
 )(
+ input wire [6:0] expression_glide,expression_vibrato,
     /* ========================================================
      * System clock / reset
      *
@@ -75,7 +76,9 @@ module synth_top #(
     input [15:0] remote_volume,
     input [15:0] synth_gain,
     input signed [23:0] wav_left,wav_right,
-    output wire remote_sample_tick,engine_idle,
+    output wire remote_sample_tick,engine_idle,engine_clear_done,
+    input wire [1:0] source_mode,input wire [15:0] mode_gain,
+    input wire signed [23:0] theremin_pcm,
 
     /* 0: piano hammer noise muted */
     input                           hammer_enable,
@@ -160,7 +163,10 @@ module synth_top #(
     output signed [SAMPLE_W-1:0]    lissajous_y,
     output wire [127:0]            diagnostic_chain,
     output wire [VOICES*7-1:0] display_voice_notes,
-    output wire signed [23:0] display_left,display_right
+    output wire signed [23:0] display_left,display_right,
+    output wire [VOICES*16-1:0] display_env_levels,
+    output wire [VOICES*3-1:0] display_env_phases,
+    output wire [VOICES-1:0] display_env_valid,display_env_done,display_env_starts
 );
 
 
@@ -194,9 +200,15 @@ assign dbg_clip=engine_clipped || (REMOTE_ENABLE!=0 && master_clipped);
 
 assign remote_sample_tick=sample_tick;
 wire engine_rst_n=rst_n && !(REMOTE_ENABLE!=0 && engine_clear);
+wire engine_initialized;
+assign engine_clear_done=engine_rst_n && engine_initialized && engine_idle && !(|active_debug);
 generate if(REMOTE_ENABLE!=0)begin:G_MASTER
- stereo_master master(clk,rst_n,remote_volume,synth_gain,audio_out,wav_left,wav_right,
-                      final_left,final_right,visual_pcm,master_clipped);
+ // DDS tick K-1 matches the old FX result observed by DAC tick K.
+ reg signed [23:0] theremin_frame;
+ always @(posedge clk or negedge rst_n)
+ if(!rst_n)theremin_frame<=0;else if(sample_tick)theremin_frame<=theremin_pcm;
+ live_instrument_master master(remote_volume,synth_gain,mode_gain,source_mode,audio_out,theremin_frame,visual_pcm,master_clipped);
+ assign final_left=visual_pcm;assign final_right=visual_pcm;
  wire [23:0] abs_left=final_left[23]?-final_left:final_left;
  wire [23:0] abs_right=final_right[23]?-final_right:final_right;
  wire signed [23:0] meter_pcm=abs_left>=abs_right?final_left:final_right;
@@ -309,12 +321,13 @@ synth_event_frontend #(
 
     .FX_GAIN_SHIFT  (FX_GAIN_SHIFT)
 ) u_synth (
+ .expression_glide(expression_glide),.expression_vibrato(expression_vibrato),
     .clk                 (clk),
 
     .rst_n               (engine_rst_n),
 
     .sample_tick         (sample_tick),
-    .instrument_id(instrument_id),.engine_idle(engine_idle),
+    .instrument_id(instrument_id),.engine_idle(engine_idle),.engine_initialized(engine_initialized),
 
 
     /* --------------------------------------------------------
@@ -400,7 +413,8 @@ synth_event_frontend #(
 
     .lissajous_y         (lissajous_y),
     .diagnostic_chain    (diagnostic_chain),
-    .display_voice_notes(display_voice_notes)
+    .display_voice_notes(display_voice_notes),.display_env_levels(display_env_levels),.display_env_phases(display_env_phases),
+    .display_env_valid(display_env_valid),.display_env_done(display_env_done),.display_env_starts(display_env_starts)
 );
 
 

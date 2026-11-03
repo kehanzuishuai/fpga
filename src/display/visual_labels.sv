@@ -33,7 +33,28 @@ module visual_labels #(parameter SAMPLE_RATE=48000)(
  end endfunction
  function automatic [15:0] key_char(input [4:0] key,input [5:0] pos);reg [6:0] note;begin note=char_key_note;
  if(c_mapping_valid && note>=36 && note<=96)key_char=note_char(note,pos);
- else if(pos==0)key_char=16'd75;else if(pos==1)key_char=decimal(32'(key%16+1),key%16+1>=10?1:0);else key_char=key%16+1>=10?decimal(32'(key%16+1),0):16'd32;
+ // Exact fallback K1..K16 table; mapped MIDI note names are unchanged.
+ else if(pos==0)key_char=16'd75;
+ else if(pos==1)begin case(key[3:0])
+  4'd0:key_char=16'd49;
+  4'd1:key_char=16'd50;
+  4'd2:key_char=16'd51;
+  4'd3:key_char=16'd52;
+  4'd4:key_char=16'd53;
+  4'd5:key_char=16'd54;
+  4'd6:key_char=16'd55;
+  4'd7:key_char=16'd56;
+  4'd8:key_char=16'd57;
+  default:key_char=16'd49;endcase end
+ else begin case(key[3:0])
+  4'd9:key_char=16'd48;
+  4'd10:key_char=16'd49;
+  4'd11:key_char=16'd50;
+  4'd12:key_char=16'd51;
+  4'd13:key_char=16'd52;
+  4'd14:key_char=16'd53;
+  4'd15:key_char=16'd54;
+  default:key_char=16'd32;endcase end
  end endfunction
  function automatic [15:0] timbre_char(input integer pos);begin timbre_char=16'd32;
  if(!char_live || !char_status[2] || char_status[8+:3]>4)timbre_char=pos<2?16'd45:16'd32;
@@ -210,6 +231,8 @@ module visual_labels #(parameter SAMPLE_RATE=48000)(
  end
 
 
+ // Key-region arguments use measured physical channel indices.
+ // Geometry/font/timing stay fixed; labels read the same key map as audio.
  // Per-line label region engine (tools/labels_line_engine_20261024.py).
  // Regions crossing a line come from ln_region_rom in x order; only the current
  // and the next region are followed, and the glyph column/position are counted
@@ -323,36 +346,36 @@ module visual_labels #(parameter SAMPLE_RATE=48000)(
    8'd132:ln_region_rom<={1'b1,11'd1714,11'd1768,12'd812,KEYSTATUS,8'd72,8'd18,6'd17,2'd0,6'd0,2'd0};
    8'd134:ln_region_rom<={1'b1,11'd874,11'd898,12'd858,KEY,8'd15,8'd12,6'd9,2'd0,6'd2,2'd0};
    8'd135:ln_region_rom<={1'b1,11'd1818,11'd1842,12'd858,KEY,8'd31,8'd12,6'd9,2'd0,6'd2,2'd0};
-   8'd137:ln_region_rom<={1'b1,11'd126,11'd156,12'd921,KEY,8'd1,8'd14,6'd11,2'd0,6'd2,2'd0};
-   8'd138:ln_region_rom<={1'b1,11'd222,11'd252,12'd921,KEY,8'd3,8'd14,6'd11,2'd0,6'd2,2'd0};
-   8'd139:ln_region_rom<={1'b1,11'd414,11'd444,12'd921,KEY,8'd6,8'd14,6'd11,2'd0,6'd2,2'd0};
-   8'd140:ln_region_rom<={1'b1,11'd510,11'd540,12'd921,KEY,8'd8,8'd14,6'd11,2'd0,6'd2,2'd0};
-   8'd141:ln_region_rom<={1'b1,11'd702,11'd732,12'd921,KEY,8'd10,8'd14,6'd11,2'd0,6'd2,2'd0};
-   8'd142:ln_region_rom<={1'b1,11'd798,11'd828,12'd921,KEY,8'd13,8'd14,6'd11,2'd0,6'd2,2'd0};
-   8'd143:ln_region_rom<={1'b1,11'd1070,11'd1100,12'd921,KEY,8'd17,8'd14,6'd11,2'd0,6'd2,2'd0};
-   8'd144:ln_region_rom<={1'b1,11'd1166,11'd1196,12'd921,KEY,8'd19,8'd14,6'd11,2'd0,6'd2,2'd0};
-   8'd145:ln_region_rom<={1'b1,11'd1358,11'd1388,12'd921,KEY,8'd22,8'd14,6'd11,2'd0,6'd2,2'd0};
-   8'd146:ln_region_rom<={1'b1,11'd1454,11'd1484,12'd921,KEY,8'd24,8'd14,6'd11,2'd0,6'd2,2'd0};
-   8'd147:ln_region_rom<={1'b1,11'd1646,11'd1676,12'd921,KEY,8'd26,8'd14,6'd11,2'd0,6'd2,2'd0};
-   8'd148:ln_region_rom<={1'b1,11'd1742,11'd1772,12'd921,KEY,8'd29,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd137:ln_region_rom<={1'b1,11'd126,11'd156,12'd921,KEY,8'd9,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd138:ln_region_rom<={1'b1,11'd222,11'd252,12'd921,KEY,8'd10,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd139:ln_region_rom<={1'b1,11'd414,11'd444,12'd921,KEY,8'd11,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd140:ln_region_rom<={1'b1,11'd510,11'd540,12'd921,KEY,8'd12,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd141:ln_region_rom<={1'b1,11'd702,11'd732,12'd921,KEY,8'd13,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd142:ln_region_rom<={1'b1,11'd798,11'd828,12'd921,KEY,8'd14,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd143:ln_region_rom<={1'b1,11'd1070,11'd1100,12'd921,KEY,8'd25,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd144:ln_region_rom<={1'b1,11'd1166,11'd1196,12'd921,KEY,8'd26,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd145:ln_region_rom<={1'b1,11'd1358,11'd1388,12'd921,KEY,8'd27,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd146:ln_region_rom<={1'b1,11'd1454,11'd1484,12'd921,KEY,8'd28,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd147:ln_region_rom<={1'b1,11'd1646,11'd1676,12'd921,KEY,8'd29,8'd14,6'd11,2'd0,6'd2,2'd0};
+   8'd148:ln_region_rom<={1'b1,11'd1742,11'd1772,12'd921,KEY,8'd30,8'd14,6'd11,2'd0,6'd2,2'd0};
    8'd150:ln_region_rom<={1'b1,11'd71,11'd110,12'd974,KEY,8'd0,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd151:ln_region_rom<={1'b1,11'd167,11'd206,12'd974,KEY,8'd2,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd152:ln_region_rom<={1'b1,11'd263,11'd302,12'd974,KEY,8'd4,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd153:ln_region_rom<={1'b1,11'd359,11'd398,12'd974,KEY,8'd5,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd154:ln_region_rom<={1'b1,11'd455,11'd494,12'd974,KEY,8'd7,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd155:ln_region_rom<={1'b1,11'd551,11'd590,12'd974,KEY,8'd9,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd156:ln_region_rom<={1'b1,11'd647,11'd686,12'd974,KEY,8'd11,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd157:ln_region_rom<={1'b1,11'd743,11'd782,12'd974,KEY,8'd12,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd158:ln_region_rom<={1'b1,11'd839,11'd878,12'd974,KEY,8'd14,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd151:ln_region_rom<={1'b1,11'd167,11'd206,12'd974,KEY,8'd1,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd152:ln_region_rom<={1'b1,11'd263,11'd302,12'd974,KEY,8'd2,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd153:ln_region_rom<={1'b1,11'd359,11'd398,12'd974,KEY,8'd3,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd154:ln_region_rom<={1'b1,11'd455,11'd494,12'd974,KEY,8'd4,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd155:ln_region_rom<={1'b1,11'd551,11'd590,12'd974,KEY,8'd5,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd156:ln_region_rom<={1'b1,11'd647,11'd686,12'd974,KEY,8'd6,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd157:ln_region_rom<={1'b1,11'd743,11'd782,12'd974,KEY,8'd7,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd158:ln_region_rom<={1'b1,11'd839,11'd878,12'd974,KEY,8'd8,8'd18,6'd14,2'd3,6'd2,2'd0};
    8'd159:ln_region_rom<={1'b1,11'd1015,11'd1054,12'd974,KEY,8'd16,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd160:ln_region_rom<={1'b1,11'd1111,11'd1150,12'd974,KEY,8'd18,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd161:ln_region_rom<={1'b1,11'd1207,11'd1246,12'd974,KEY,8'd20,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd162:ln_region_rom<={1'b1,11'd1303,11'd1342,12'd974,KEY,8'd21,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd163:ln_region_rom<={1'b1,11'd1399,11'd1438,12'd974,KEY,8'd23,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd164:ln_region_rom<={1'b1,11'd1495,11'd1534,12'd974,KEY,8'd25,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd165:ln_region_rom<={1'b1,11'd1591,11'd1630,12'd974,KEY,8'd27,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd166:ln_region_rom<={1'b1,11'd1687,11'd1726,12'd974,KEY,8'd28,8'd18,6'd14,2'd3,6'd2,2'd0};
-   8'd167:ln_region_rom<={1'b1,11'd1783,11'd1822,12'd974,KEY,8'd30,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd160:ln_region_rom<={1'b1,11'd1111,11'd1150,12'd974,KEY,8'd17,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd161:ln_region_rom<={1'b1,11'd1207,11'd1246,12'd974,KEY,8'd18,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd162:ln_region_rom<={1'b1,11'd1303,11'd1342,12'd974,KEY,8'd19,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd163:ln_region_rom<={1'b1,11'd1399,11'd1438,12'd974,KEY,8'd20,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd164:ln_region_rom<={1'b1,11'd1495,11'd1534,12'd974,KEY,8'd21,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd165:ln_region_rom<={1'b1,11'd1591,11'd1630,12'd974,KEY,8'd22,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd166:ln_region_rom<={1'b1,11'd1687,11'd1726,12'd974,KEY,8'd23,8'd18,6'd14,2'd3,6'd2,2'd0};
+   8'd167:ln_region_rom<={1'b1,11'd1783,11'd1822,12'd974,KEY,8'd24,8'd18,6'd14,2'd3,6'd2,2'd0};
    default:ln_region_rom<=71'd0;
   endcase
  wire ln_nxt_in=ln_region_rom[70];wire [10:0] ln_rom_x0=ln_region_rom[69:59],ln_rom_x1=ln_region_rom[58:48];wire [11:0] ln_rom_y0=ln_region_rom[47:36];
@@ -421,7 +444,72 @@ module visual_labels #(parameter SAMPLE_RATE=48000)(
  function automatic [19:0] const_bcd(input integer v);
  integer d,n;begin n=v;for(d=0;d<5;d=d+1)begin const_bcd[d*4+:4]=4'(n%10);n=n/10;end end endfunction
  function automatic [7:0] two_digits(input [5:0] v);
- begin two_digits={4'(v/6'd10),4'(v%6'd10)};end endfunction
+ begin case(v)
+  6'd0:two_digits=8'h00;
+  6'd1:two_digits=8'h01;
+  6'd2:two_digits=8'h02;
+  6'd3:two_digits=8'h03;
+  6'd4:two_digits=8'h04;
+  6'd5:two_digits=8'h05;
+  6'd6:two_digits=8'h06;
+  6'd7:two_digits=8'h07;
+  6'd8:two_digits=8'h08;
+  6'd9:two_digits=8'h09;
+  6'd10:two_digits=8'h10;
+  6'd11:two_digits=8'h11;
+  6'd12:two_digits=8'h12;
+  6'd13:two_digits=8'h13;
+  6'd14:two_digits=8'h14;
+  6'd15:two_digits=8'h15;
+  6'd16:two_digits=8'h16;
+  6'd17:two_digits=8'h17;
+  6'd18:two_digits=8'h18;
+  6'd19:two_digits=8'h19;
+  6'd20:two_digits=8'h20;
+  6'd21:two_digits=8'h21;
+  6'd22:two_digits=8'h22;
+  6'd23:two_digits=8'h23;
+  6'd24:two_digits=8'h24;
+  6'd25:two_digits=8'h25;
+  6'd26:two_digits=8'h26;
+  6'd27:two_digits=8'h27;
+  6'd28:two_digits=8'h28;
+  6'd29:two_digits=8'h29;
+  6'd30:two_digits=8'h30;
+  6'd31:two_digits=8'h31;
+  6'd32:two_digits=8'h32;
+  6'd33:two_digits=8'h33;
+  6'd34:two_digits=8'h34;
+  6'd35:two_digits=8'h35;
+  6'd36:two_digits=8'h36;
+  6'd37:two_digits=8'h37;
+  6'd38:two_digits=8'h38;
+  6'd39:two_digits=8'h39;
+  6'd40:two_digits=8'h40;
+  6'd41:two_digits=8'h41;
+  6'd42:two_digits=8'h42;
+  6'd43:two_digits=8'h43;
+  6'd44:two_digits=8'h44;
+  6'd45:two_digits=8'h45;
+  6'd46:two_digits=8'h46;
+  6'd47:two_digits=8'h47;
+  6'd48:two_digits=8'h48;
+  6'd49:two_digits=8'h49;
+  6'd50:two_digits=8'h50;
+  6'd51:two_digits=8'h51;
+  6'd52:two_digits=8'h52;
+  6'd53:two_digits=8'h53;
+  6'd54:two_digits=8'h54;
+  6'd55:two_digits=8'h55;
+  6'd56:two_digits=8'h56;
+  6'd57:two_digits=8'h57;
+  6'd58:two_digits=8'h58;
+  6'd59:two_digits=8'h59;
+  6'd60:two_digits=8'h60;
+  6'd61:two_digits=8'h61;
+  6'd62:two_digits=8'h62;
+  6'd63:two_digits=8'h63;
+ default:two_digits=8'hxx;endcase end endfunction
  function automatic [6:0] pick_key_note(input [511:0] snapshot,input [4:0] key);
  begin case(key)
  5'd0:pick_key_note=snapshot[82+:7];
@@ -506,9 +594,9 @@ module visual_labels #(parameter SAMPLE_RATE=48000)(
   char_key_note<=key_note_pipe[13];
   char_peak_bcd<=peak_bcd_pipe[15][19:0];char_completed_bcd<=completed_bcd_pipe[15][19:0];
   c_voice_count<=count_voices(count_status[50+:32]);
-  c_target_count<=count_voices(count_targets & ~count_actual);
-  c_pressed_count<=count_voices(count_actual);
-  c_wrong_count<=count_voices(count_target_valid?(count_actual & ~count_targets):32'd0);
+  c_target_count<=count_target_valid?count_voices(count_status[458+:32] & ~count_status[18+:32]):6'd0;
+  c_pressed_count<=count_keys_valid?count_voices(count_status[18+:32]):6'd0;
+  c_wrong_count<=count_target_valid?count_voices(count_status[18+:32] & ~count_status[458+:32]):6'd0;
  end
  function automatic [19:0] axis_bcd(input [1:0] range_sel,input [7:0] tick);
  begin case({range_sel,tick})
@@ -594,7 +682,7 @@ module visual_labels #(parameter SAMPLE_RATE=48000)(
     if(pos<2)ch_next=c_voices_valid?digit_value:(pos==0?16'd45:16'd32);
     else case(pos)3:ch_next=47;5:ch_next=51;6:ch_next=50;default:ch_next=32;endcase
    end
-   VOICEID:if(pos<2)ch_next=c_env_valid?digit_value:(pos==0?16'd45:16'd32);
+   VOICEID:if(pos<2)ch_next=(c_env_valid && char_status[511:509]!=7 && char_status[511:509]!=6)?digit_value:(pos==0?16'd45:16'd32);
    SAMPLE:if(pos<2)ch_next=digit_value;else case(pos)3:ch_next=107;4:ch_next=72;5:ch_next=122;default:ch_next=32;endcase
    AXIS:if(pos<5)ch_next=trimmed_value;else case(pos)6:ch_next=72;7:ch_next=122;default:ch_next=32;endcase
    PEAK:if(pos<5)ch_next=char_peak_valid?trimmed_value:(pos==0?16'd45:16'd32);else case(pos)6:ch_next=72;7:ch_next=122;default:ch_next=32;endcase

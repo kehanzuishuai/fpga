@@ -17,9 +17,9 @@ module visual_texture_plane #(parameter SHIFT=3,BW=121,BH=68,
  localparam WORDS=BW*BH;
  wire [23:0] q0,q1,q2,q3;reg [1:0] corner;
  localparam WEIGHT_W=2*SHIFT+1,ACC_W=2*SHIFT+9;
- reg [WEIGHT_W-1:0] wa,wb,wc,wd;
- reg [WEIGHT_W-1:0] wa_addr,wb_addr,wc_addr,wd_addr,wa_addr2,wb_addr2,wc_addr2,wd_addr2;
- reg [1:0] corner_addr,corner_addr2;
+ (* syn_srlstyle="registers",syn_preserve=1,syn_keep=1 *) reg [WEIGHT_W-1:0] wa,wb,wc,wd;
+ (* syn_srlstyle="registers",syn_preserve=1,syn_keep=1 *) reg [WEIGHT_W-1:0] wa_addr,wb_addr,wc_addr,wd_addr,wa_addr2,wb_addr2,wc_addr2,wd_addr2;
+ (* syn_srlstyle="registers",syn_preserve=1,syn_keep=1 *) reg [1:0] corner_addr,corner_addr2;
  wire [11:0] cx=x<1920?x:12'd1919,cy=y<1080?y:12'd1079;
  wire [8:0] gx=9'(cx>>SHIFT);wire [7:0] gy=8'(cy>>SHIFT);
  wire [31:0] address00,address01,address10,address11;

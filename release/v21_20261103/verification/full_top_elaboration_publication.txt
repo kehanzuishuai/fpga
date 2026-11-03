@@ -1,0 +1,1 @@
+PASS complete FPGA top elaboration: 94 RTL/model inputs; vendor PLL/ROM/video boundaries replaced by test models

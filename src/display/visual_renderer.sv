@@ -203,14 +203,8 @@ module visual_renderer #(parameter LOGN=11,SAMPLE_RATE=48000)(
   end
  end
  visual_scene #(.BACKGROUND_LATENCY(4)) scene(draw_x,draw_y,status_live,status_data,scene_color,drift_x,drift_y,key_trails,sharp_rgb,frost_rgb,clk);
- wire [31:0] env_index_full=draw_x<836?0:(32'(draw_x)-836)/21;
- wire [3:0] env_index=env_index_full>14?4'd14:env_index_full[3:0];
- wire [7:0] env_a=status_data[306+8*32'(env_index)+:8];
- wire [7:0] env_b=status_data[314+8*32'(env_index)+:8];
- wire [31:0] env_fraction=draw_x<836?0:(32'(draw_x)-836)%21;
- wire [31:0] env_level=(32'(env_a)*(21-env_fraction)+32'(env_b)*env_fraction)/21;
- wire [11:0] env_y=12'(432-env_level*200/255);
- wire unused_env_index=^env_index_full[31:4];
+ wire [11:0] env_y;
+ visual_adsr_plot envelope_plot(clk,draw_x,status_data[433:306],env_y);
  reg phase_left,phase_aligned,phase_vertical;
  reg [255:0] phase_row;
  always @(posedge clk)begin
@@ -263,7 +257,7 @@ module visual_renderer #(parameter LOGN=11,SAMPLE_RATE=48000)(
   input_info.vs=draw_vs;
   input_info.wave_min=wave_min;
   input_info.wave_max=wave_max;
-  input_info.env_y=env_y;
+  input_info.env_y=12'd432;
   input_info.spectrum_sample=spectrum_sample;
   input_info.wave_initialized=wave_initialized;
   input_info.initialized=initialized;
@@ -283,9 +277,10 @@ module visual_renderer #(parameter LOGN=11,SAMPLE_RATE=48000)(
 
  // Four arithmetic stages; inserted at descriptor stage4 without extra pixels.
  reg [11:0] overlay_x1,overlay_y1,grid_x1,grid_y1,env_x1,env_y1,phase_x1,phase_y1;
- (* syn_preserve=1,syn_keep=1 *) reg [9:0] gradient_pos1;reg [1:0] gradient_region1,gradient_region2,gradient_region3;
+ (* syn_preserve=1,syn_keep=1 *) reg [9:0] gradient_pos1;(* syn_srlstyle="registers",syn_keep=1,syn_preserve=1 *) reg [1:0] gradient_region1,gradient_region2,gradient_region3;
  wire spectrum_separator;
  visual_mod7_gap separator_gap(grid_x1,spectrum_separator);
+ reg [6:0] gradient_factor_r1,gradient_factor_g1,gradient_factor_b1;
  reg [16:0] gradient_r2,gradient_g2,gradient_b2;
  reg [32:0] gradient_r3,gradient_g3,gradient_b3;
  localparam [32:0] GRADIENT_RECIP586=((33'd1<<25)+33'd585)/33'd586;
@@ -299,15 +294,11 @@ module visual_renderer #(parameter LOGN=11,SAMPLE_RATE=48000)(
   grid_x1<=draw_x-12'd80;grid_y1<=draw_y-12'd220;
   env_x1<=draw_x-12'd836;env_y1<=draw_y-12'd232;
   phase_x1<=draw_x-12'd1540;phase_y1<=draw_y-12'd198;
-  if(draw_x<666)begin gradient_region1<=0;gradient_pos1<=10'(draw_x-12'd80);end
-  else if(draw_x<1253)begin gradient_region1<=1;gradient_pos1<=10'(draw_x-12'd666);end
-  else begin gradient_region1<=2;gradient_pos1<=10'(draw_x-12'd1253);end
+  if(draw_x<666)begin gradient_region1<=0;gradient_pos1<=10'(draw_x-12'd80);gradient_factor_r1<=28;gradient_factor_g1<=29;gradient_factor_b1<=46;end
+  else if(draw_x<1253)begin gradient_region1<=1;gradient_pos1<=10'(draw_x-12'd666);gradient_factor_r1<=75;gradient_factor_g1<=9;gradient_factor_b1<=18;end
+  else begin gradient_region1<=2;gradient_pos1<=10'(draw_x-12'd1253);gradient_factor_r1<=7;gradient_factor_g1<=28;gradient_factor_b1<=11;end
   gradient_region2<=gradient_region1;
-  case(gradient_region1)
-   0:begin gradient_r2<=17'(gradient_pos1)*17'd28;gradient_g2<=17'(gradient_pos1)*17'd29;gradient_b2<=17'(gradient_pos1)*17'd46;end
-   1:begin gradient_r2<=17'(gradient_pos1)*17'd75;gradient_g2<=17'(gradient_pos1)*17'd9;gradient_b2<=17'(gradient_pos1)*17'd18;end
-   default:begin gradient_r2<=17'(gradient_pos1)*17'd7;gradient_g2<=17'(gradient_pos1)*17'd28;gradient_b2<=17'(gradient_pos1)*17'd11;end
-  endcase
+  gradient_r2<=17'(gradient_pos1)*17'(gradient_factor_r1);gradient_g2<=17'(gradient_pos1)*17'(gradient_factor_g1);gradient_b2<=17'(gradient_pos1)*17'(gradient_factor_b1);
   grid2<=
    (overlay_x1>=80 && overlay_x1<704 && overlay_y1>=220 && overlay_y1<=424 && ((overlay_x1==12'd80 || overlay_x1==12'd158 || overlay_x1==12'd236 || overlay_x1==12'd314 || overlay_x1==12'd392 || overlay_x1==12'd470 || overlay_x1==12'd548 || overlay_x1==12'd626) || (overlay_y1==12'd220 || overlay_y1==12'd271 || overlay_y1==12'd322 || overlay_y1==12'd373 || overlay_y1==12'd424))) ||
    (overlay_x1>=836 && overlay_x1<=1151 && overlay_y1>=232 && overlay_y1<=432 && ((overlay_x1==12'd836 || overlay_x1==12'd899 || overlay_x1==12'd962 || overlay_x1==12'd1025 || overlay_x1==12'd1088 || overlay_x1==12'd1151) || (overlay_y1==12'd232 || overlay_y1==12'd282 || overlay_y1==12'd332 || overlay_y1==12'd382 || overlay_y1==12'd432))) ||
@@ -346,13 +337,14 @@ module visual_renderer #(parameter LOGN=11,SAMPLE_RATE=48000)(
   plot_ready.plot_flags[3]=phase_area && ((mask_source.phase_left && mask_source.x>1572) || mask_source.phase_vertical);
   plot_ready.plot_flags[4]=phase_area && mask_source.phase_aligned;
  end
- pixel_info spectrum_ready,waveform_ready;
+ pixel_info spectrum_ready,waveform_ready,envelope_ready;
+ always @*begin envelope_ready=info_pipe[7];envelope_ready.env_y=env_y;end
  always @* begin spectrum_ready=info_pipe[1];spectrum_ready.spectrum_sample=spectrum_sample;end
  always @* begin waveform_ready=info_pipe[5];waveform_ready.wave_min=wave_min;waveform_ready.wave_max=wave_max;end
  always @(posedge clk)begin
   info_pipe[0]<=input_info;
   for(delay_pixel=1;delay_pixel<SCENE_LATENCY;delay_pixel=delay_pixel+1)
-   if(delay_pixel==2)info_pipe[delay_pixel]<=spectrum_ready;else if(delay_pixel==4)info_pipe[delay_pixel]<=overlay_ready;else if(delay_pixel==5)info_pipe[delay_pixel]<=bar_ready;else if(delay_pixel==6)info_pipe[delay_pixel]<=waveform_ready;else if(delay_pixel==7)info_pipe[delay_pixel]<=plot_ready;else info_pipe[delay_pixel]<=info_pipe[delay_pixel-1];
+   if(delay_pixel==2)info_pipe[delay_pixel]<=spectrum_ready;else if(delay_pixel==4)info_pipe[delay_pixel]<=overlay_ready;else if(delay_pixel==5)info_pipe[delay_pixel]<=bar_ready;else if(delay_pixel==6)info_pipe[delay_pixel]<=waveform_ready;else if(delay_pixel==7)info_pipe[delay_pixel]<=plot_ready;else if(delay_pixel==8)info_pipe[delay_pixel]<=envelope_ready;else info_pipe[delay_pixel]<=info_pipe[delay_pixel-1];
  end
  assign aligned=info_pipe[SCENE_LATENCY-1];
  reg [SCENE_LATENCY-1:0] info_valid;
@@ -372,6 +364,110 @@ module visual_renderer #(parameter LOGN=11,SAMPLE_RATE=48000)(
  assign {label_ink,label_color,label_coverage}=label_pipe[18];
  // The scene and descriptor arrive together; the exact font ROM adds one cycle. Delay the complete non-text image,
  // original scene blend base and all timing signals together.
+
+ function automatic [34:0] adsr_letter(input [3:0] code);
+ begin case(code)
+ 0:adsr_letter={5'b01110,5'b10001,5'b10001,5'b11111,5'b10001,5'b10001,5'b10001};
+ 1:adsr_letter={5'b11110,5'b10001,5'b10001,5'b10001,5'b10001,5'b10001,5'b11110};
+ 2:adsr_letter={5'b01111,5'b10000,5'b10000,5'b01110,5'b00001,5'b00001,5'b11110};
+ 3:adsr_letter={5'b11110,5'b10001,5'b10001,5'b11110,5'b10100,5'b10010,5'b10001};
+ 4:adsr_letter={5'b11110,5'b10001,5'b10001,5'b11110,5'b10000,5'b10000,5'b10000};
+ 5:adsr_letter={5'b11111,5'b00100,5'b00100,5'b00100,5'b00100,5'b00100,5'b00100};
+ 6:adsr_letter={5'b11111,5'b00100,5'b00100,5'b00100,5'b00100,5'b00100,5'b11111};
+ 7:adsr_letter={5'b10000,5'b10000,5'b10000,5'b10000,5'b10000,5'b10000,5'b11111};
+ 8:adsr_letter={5'b11110,5'b10001,5'b10001,5'b11110,5'b10001,5'b10001,5'b11110};
+ 9:adsr_letter={5'b10001,5'b10001,5'b01010,5'b00100,5'b00100,5'b00100,5'b00100};
+ default:adsr_letter=0;endcase end endfunction
+ // Four stage indicators below the existing 32-voice grid (226..379).
+ function automatic [7:0] adsr_row(input [11:0] px,py);
+ reg [1:0] stage_id;reg hit;
+ begin
+  stage_id=0;hit=0;
+  if(px>=1192 && px<1228)begin stage_id=0;hit=1;end
+  else if(px>=1246 && px<1282)begin stage_id=1;hit=1;end
+  else if(px>=1300 && px<1336)begin stage_id=2;hit=1;end
+  else if(px>=1354 && px<1390)begin stage_id=3;hit=1;end
+  adsr_row={hit && py>=400 && py<432,stage_id,5'(py-400)};
+ end endfunction
+ function automatic letter_bit(input [3:0] code,input [2:0] row,col);
+ reg [34:0] bitmap;reg [5:0] bit_index;
+ begin bitmap=adsr_letter(code);bit_index=6'd34-(6'(row)*6'd5+6'(col));
+ letter_bit=(row<7 && col<5)?bitmap[bit_index]:1'b0;end endfunction
+ function automatic badge_pixel(input [11:0] px,py,input piano,bypass);
+ reg [6:0] dx;reg [3:0] dy,local_x,code;reg [2:0] badge_cell;
+ begin
+  badge_pixel=0;dx=7'(px-836);dy=4'(py-444);badge_cell=0;local_x=0;code=15;
+  if(px>=836 && px<920 && py>=444 && py<458)begin
+   if(dx<12)begin badge_cell=0;local_x=4'(dx);end
+   else if(dx<24)begin badge_cell=1;local_x=4'(dx-12);end
+   else if(dx<36)begin badge_cell=2;local_x=4'(dx-24);end
+   else if(dx<48)begin badge_cell=3;local_x=4'(dx-36);end
+   else if(dx<60)begin badge_cell=4;local_x=4'(dx-48);end
+   else if(dx<72)begin badge_cell=5;local_x=4'(dx-60);end
+   else begin badge_cell=6;local_x=4'(dx-72);end
+   if(bypass)case(badge_cell)0:code=8;1:code=9;2:code=4;3:code=0;4,5:code=2;default:code=15;endcase
+   else if(piano)case(badge_cell)0:code=4;1:code=0;2:code=3;3:code=5;4:code=6;5:code=0;6:code=7;default:code=15;endcase
+   else case(badge_cell)0:code=0;1:code=1;2:code=2;3:code=3;default:code=15;endcase
+   badge_pixel=letter_bit(code,dy[3:1],local_x[3:1]);
+  end
+ end endfunction
+ // Geometry, ROM lookup and masks use three existing descriptor clocks.
+ pixel_info indicator_pre,envelope_late;
+ assign indicator_pre=info_pipe[SCENE_LATENCY-4];
+ assign envelope_late=info_pipe[SCENE_LATENCY-2];
+ wire [11:0] envelope_pre_x=indicator_pre.x,envelope_pre_y=indicator_pre.y;
+ wire [7:0] envelope_row=adsr_row(envelope_pre_x,envelope_pre_y);
+ wire [5:0] envelope_local_x=envelope_pre_x<1246?6'(envelope_pre_x-1192):envelope_pre_x<1300?6'(envelope_pre_x-1246):envelope_pre_x<1354?6'(envelope_pre_x-1300):6'(envelope_pre_x-1354);
+ function automatic [2:0] thirds(input [4:0] v);
+ begin case(v)
+ 0,1,2:thirds=0;3,4,5:thirds=1;6,7,8:thirds=2;9,10,11:thirds=3;
+ 12,13,14:thirds=4;15,16,17:thirds=5;18,19,20:thirds=6;default:thirds=7;
+ endcase end endfunction
+ function automatic [10:0] badge_address(input [11:0] px,py,input piano,bypass);
+ reg [6:0] dx;reg [3:0] dy,lx,code;reg [2:0] bc;
+ begin
+ dx=7'(px-836);dy=4'(py-444);bc=0;lx=0;code=15;
+ if(dx<12)begin bc=0;lx=4'(dx);end
+ else if(dx<24)begin bc=1;lx=4'(dx-12);end
+ else if(dx<36)begin bc=2;lx=4'(dx-24);end
+ else if(dx<48)begin bc=3;lx=4'(dx-36);end
+ else if(dx<60)begin bc=4;lx=4'(dx-48);end
+ else if(dx<72)begin bc=5;lx=4'(dx-60);end
+ else begin bc=6;lx=4'(dx-72);end
+ if(bypass)case(bc)0:code=8;1:code=9;2:code=4;3:code=0;4,5:code=2;default:code=15;endcase
+ else if(piano)case(bc)0:code=4;1:code=0;2:code=3;3:code=5;4:code=6;5:code=0;6:code=7;default:code=15;endcase
+ else case(bc)0:code=0;1:code=1;2:code=2;3:code=3;default:code=15;endcase
+ badge_address={px>=836 && px<920 && py>=444 && py<458,code,dy[3:1],lx[3:1]};
+ end endfunction
+ (* syn_romstyle="block_rom" *) reg indicator_font[0:1023];
+ (* syn_romstyle="block_rom" *) reg [23:0] envelope_fill[0:255];
+ integer font_i,fill_i;
+ initial begin
+  for(font_i=0;font_i<1024;font_i=font_i+1)indicator_font[font_i]=letter_bit(4'(font_i>>6),3'(font_i>>3),3'(font_i));
+  for(fill_i=0;fill_i<256;fill_i=fill_i+1)envelope_fill[fill_i]={8'(fill_i/10),8'(fill_i/6),8'(fill_i/5)};
+ end
+ wire [10:0] badge_geometry=badge_address(envelope_pre_x,envelope_pre_y,status_data[7],status_data[511:509]==6);
+ reg [9:0] letter_address1,badge_address1;
+ reg letter_ok1,badge_ok1,bar1,active1,letter2,badge2,letter_ok2,badge_ok2,bar2,active2;
+ reg envelope_letter_q,envelope_bar_q,envelope_active_q,envelope_badge_q;
+ reg [23:0] envelope_fill_q;reg envelope_glow_q,envelope_stroke_q,envelope_fill_valid_q;
+ wire envelope_area_late=envelope_late.x>=836 && envelope_late.x<=1151 && envelope_late.y>=220 && envelope_late.y<=434;
+ always @(posedge clk)begin
+  letter_address1<={2'b0,envelope_row[6:5],thirds(envelope_row[4:0]),thirds({1'b0,envelope_local_x[3:0]})};
+  letter_ok1<=envelope_row[7] && envelope_row[4:0]<21 && envelope_local_x<15;
+  bar1<=envelope_row[7] && envelope_row[4:0]>=28;
+  active1<=status_data[511:509]=={1'b0,envelope_row[6:5]}+3'd1;
+  badge_address1<=badge_geometry[9:0];badge_ok1<=badge_geometry[10];
+  letter2<=indicator_font[letter_address1];badge2<=indicator_font[badge_address1];
+  letter_ok2<=letter_ok1;badge_ok2<=badge_ok1;bar2<=bar1;active2<=active1;
+  envelope_letter_q<=letter2 && letter_ok2;envelope_bar_q<=bar2;envelope_active_q<=active2;envelope_badge_q<=badge2 && badge_ok2;
+  // Positive fill distance is at most212 pixels in the fixed ADSR well.
+  envelope_fill_q<=envelope_fill[8'd176-envelope_late.y[7:0]];
+  envelope_glow_q<=envelope_area_late && envelope_late.y+3>=envelope_late.env_y && envelope_late.y<=envelope_late.env_y+3;
+  envelope_stroke_q<=envelope_area_late && envelope_late.y+1>=envelope_late.env_y && envelope_late.y<=envelope_late.env_y+1;
+  envelope_fill_valid_q<=envelope_area_late && envelope_late.y>envelope_late.env_y+3 && envelope_late.y<432;
+ end
+
  reg [7:0] base_red,base_green,base_blue;
  reg base_out_de,base_out_hs,base_out_vs;
  wire [23:0] early_label_color=label_pipe[17][25:2];
@@ -408,14 +504,21 @@ module visual_renderer #(parameter LOGN=11,SAMPLE_RATE=48000)(
    if(aligned.plot_flags[1])begin base_red<=143;base_green<=210;base_blue<=216;end
    if(aligned.plot_flags[2])begin base_red<=211;base_green<=253;base_blue<=246;end
    // Branch frame_status: frame-constant status read directly.
-   if(status_live && status_data[5] && aligned.x>=836 && aligned.x<=1151 && aligned.y>=220 && aligned.y<=434)begin
-    if(aligned.y+3>=aligned.env_y && aligned.y<=aligned.env_y+3)begin base_red<=scene_color[23:16]+8'd13;base_green<=scene_color[15:8]+8'd20;base_blue<=scene_color[7:0]+8'd25;end
-    if(aligned.y+1>=aligned.env_y && aligned.y<=aligned.env_y+1)begin base_red<=201;base_green<=247;base_blue<=225;end
-    if(aligned.y>aligned.env_y+3 && aligned.y<432)begin
-     base_red<=scene_color[23:16]+8'((432-32'(aligned.y))/10);
-     base_green<=scene_color[15:8]+8'((432-32'(aligned.y))/6);
-     base_blue<=scene_color[7:0]+8'((432-32'(aligned.y))/5);
+   if(status_live && status_data[5])begin
+    if(envelope_glow_q)begin base_red<=scene_color[23:16]+8'd13;base_green<=scene_color[15:8]+8'd20;base_blue<=scene_color[7:0]+8'd25;end
+    if(envelope_stroke_q)begin base_red<=201;base_green<=247;base_blue<=225;end
+    if(envelope_fill_valid_q)begin
+     base_red<=scene_color[23:16]+envelope_fill_q[23:16];
+     base_green<=scene_color[15:8]+envelope_fill_q[15:8];
+     base_blue<=scene_color[7:0]+envelope_fill_q[7:0];
     end
+   end
+   if(status_live && status_data[5])begin
+    if(envelope_letter_q || envelope_bar_q)begin
+     if(envelope_active_q)begin base_red<=201;base_green<=247;base_blue<=225;end
+     else begin base_red<=93;base_green<=120;base_blue<=126;end
+    end
+    if(envelope_badge_q)begin base_red<=121;base_green<=150;base_blue<=155;end
    end
    if(aligned.plot_flags[3])begin base_red<=132;base_green<=208;base_blue<=223;end
    if(aligned.plot_flags[4])begin base_red<=175;base_green<=231;base_blue<=240;end
@@ -461,5 +564,51 @@ module visual_mod7_gap(input wire [11:0] value,output wire gap);
  (* syn_keep=1 *) wire [3:0] high_pair={1'b0,value[8:6]}+{1'b0,value[11:9]};
  wire [4:0] digit_sum={1'b0,low_pair}+{1'b0,high_pair};
  assign gap=digit_sum==5'd6 || digit_sum==5'd13 || digit_sum==5'd20 || digit_sum==5'd27;
+endmodule
+`default_nettype wire
+
+`default_nettype none
+// Eight-clock plot arithmetic, injected at descriptor stage8. The outer
+// renderer's geometry, sync and complete pixel latency are unchanged.
+module visual_adsr_plot(input wire clk,input wire [11:0] x,input wire [127:0] history,output wire [11:0] y);
+ (* syn_romstyle="block_rom" *)reg [8:0] position[0:511];reg [8:0] pos_q;integer i;
+ initial begin
+  for(i=0;i<512;i=i+1)begin
+   if(i<315)position[i]={4'(i/21),5'(i%21)};
+   else if(i==315)position[i]={4'd14,5'd21};
+   else position[i]=0;
+  end
+ end
+ wire [8:0] dx=9'(x-12'd836);
+ always @(posedge clk)pos_q<=position[dx];
+ function automatic [7:0] point(input [127:0] h,input [3:0] n);
+ begin case(n)
+ 0:point=h[0+:8];1:point=h[8+:8];2:point=h[16+:8];3:point=h[24+:8];
+ 4:point=h[32+:8];5:point=h[40+:8];6:point=h[48+:8];7:point=h[56+:8];
+ 8:point=h[64+:8];9:point=h[72+:8];10:point=h[80+:8];11:point=h[88+:8];
+ 12:point=h[96+:8];13:point=h[104+:8];14:point=h[112+:8];15:point=h[120+:8];
+ endcase end endfunction
+ function automatic [7:0] height(input [7:0] level);
+ reg [15:0] product;reg [16:0] sum;
+ begin product={8'd0,level}*16'd200;sum={1'b0,product}+17'd1+{9'd0,product[15:8]};height=sum[15:8];end endfunction
+ reg [7:0] level_a,level_b,height_a,height_b;
+ reg [4:0] fraction1,fraction2,fraction3;
+ reg [15:0] height_product_a,height_product_b;
+ wire [16:0] height_sum_a={1'b0,height_product_a}+17'd1+{9'd0,height_product_a[15:8]};
+ wire [16:0] height_sum_b={1'b0,height_product_b}+17'd1+{9'd0,height_product_b[15:8]};
+ always @(posedge clk)begin
+  level_a<=point(history,pos_q[8:5]);level_b<=point(history,pos_q[8:5]+4'd1);fraction1<=pos_q[4:0];
+  height_product_a<={8'd0,level_a}*16'd200;height_product_b<={8'd0,level_b}*16'd200;fraction2<=fraction1;
+  height_a<=height_sum_a[15:8];height_b<=height_sum_b[15:8];fraction3<=fraction2;
+ end
+ reg [12:0] product_a,product_b;
+ always @(posedge clk)begin product_a<=13'(height_a)*13'(5'd21-fraction3);product_b<=13'(height_b)*13'(fraction3);end
+ reg [12:0] sum;
+ always @(posedge clk)sum<=product_a+product_b;
+ reg [24:0] reciprocal;
+ always @(posedge clk)reciprocal<=25'(sum)*25'd3121;
+ reg [11:0] ordinate;
+ always @(posedge clk)ordinate<=12'd432-12'(reciprocal>>16);
+ assign y=ordinate;
 endmodule
 `default_nettype wire

@@ -10,9 +10,13 @@ module audio_PLL (
     input  wire clkin,
     input  wire init_clk,
     output reg  clkout0,
+    output wire clkout50,
     output reg  lock,
     input  wire reset
 );
+
+// Matches the real PLL CLK1_OUT_SEL=1 input bypass, independently of lock.
+assign clkout50 = clkin;
 
 initial begin
     clkout0 = 1'b0;

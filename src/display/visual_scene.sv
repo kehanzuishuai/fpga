@@ -2099,11 +2099,13 @@ module visual_scene #(parameter MATERIAL_SAMPLE=0,parameter BACKGROUND_LATENCY=0
    rounded=sx>=x0 && sx<x0+w && sy>=y0 && sy<y0+h && boundary[6] && dy<=boundary[5:0];
   end
  endfunction
+ // Measured physical channel order: nine whites, six blacks, upper key.
+ // The same index selects live/auto/guide masks and release trails.
  function automatic integer white_key(input integer slot);
-  begin case(slot)0:white_key=0;1:white_key=2;2:white_key=4;3:white_key=5;4:white_key=7;5:white_key=9;6:white_key=11;7:white_key=12;default:white_key=14;endcase end
+  begin white_key=slot;end
  endfunction
  function automatic integer black_key(input integer slot);
-  begin case(slot)0:black_key=1;1:black_key=3;2:black_key=6;3:black_key=8;4:black_key=10;default:black_key=13;endcase end
+  begin black_key=9+slot;end
  endfunction
  function automatic integer black_gap(input integer slot);
   begin case(slot)0:black_gap=1;1:black_gap=2;2:black_gap=4;3:black_gap=5;4:black_gap=7;default:black_gap=8;endcase end
@@ -3152,7 +3154,7 @@ end
 if(MATERIAL_SAMPLE==0)begin
 d.work_hit=d.white_hit || (|d.black_mask) || d.upper_hit;
  if(d.upper_hit)begin d.key_kind=2;d.kx=818;d.idx=d.board*16+15;end
- else if(|d.black_mask)begin d.key_kind=1;d.kx=(d.black_mask[0]?13'sd70:13'sd0) | (d.black_mask[1]?13'sd166:13'sd0) | (d.black_mask[2]?13'sd358:13'sd0) | (d.black_mask[3]?13'sd454:13'sd0) | (d.black_mask[4]?13'sd646:13'sd0) | (d.black_mask[5]?13'sd742:13'sd0);d.idx=d.board*16+((d.black_mask[0]?7'sd1:7'sd0) | (d.black_mask[1]?7'sd3:7'sd0) | (d.black_mask[2]?7'sd6:7'sd0) | (d.black_mask[3]?7'sd8:7'sd0) | (d.black_mask[4]?7'sd10:7'sd0) | (d.black_mask[5]?7'sd13:7'sd0));end
+ else if(|d.black_mask)begin d.key_kind=1;d.kx=(d.black_mask[0]?13'sd70:13'sd0) | (d.black_mask[1]?13'sd166:13'sd0) | (d.black_mask[2]?13'sd358:13'sd0) | (d.black_mask[3]?13'sd454:13'sd0) | (d.black_mask[4]?13'sd646:13'sd0) | (d.black_mask[5]?13'sd742:13'sd0);d.idx=d.board*16+((d.black_mask[0]?7'sd9:7'sd0) | (d.black_mask[1]?7'sd10:7'sd0) | (d.black_mask[2]?7'sd11:7'sd0) | (d.black_mask[3]?7'sd12:7'sd0) | (d.black_mask[4]?7'sd13:7'sd0) | (d.black_mask[5]?7'sd14:7'sd0));end
  else begin d.key_kind=0;d.kx=d.k*96+1;d.idx=d.board*16+white_key(d.k);end
  d.key_x=d.key_x-d.kx;
  
@@ -3163,6 +3165,42 @@ end
   end
  end
  begin:STAGE_20 // physical key and release amount
+ function automatic [2:0] pick_key_trail(input [95:0] trails,input signed [6:0] index);
+ begin case(index)
+  7'sd0:pick_key_trail=trails[0+:3];
+  7'sd1:pick_key_trail=trails[3+:3];
+  7'sd2:pick_key_trail=trails[6+:3];
+  7'sd3:pick_key_trail=trails[9+:3];
+  7'sd4:pick_key_trail=trails[12+:3];
+  7'sd5:pick_key_trail=trails[15+:3];
+  7'sd6:pick_key_trail=trails[18+:3];
+  7'sd7:pick_key_trail=trails[21+:3];
+  7'sd8:pick_key_trail=trails[24+:3];
+  7'sd9:pick_key_trail=trails[27+:3];
+  7'sd10:pick_key_trail=trails[30+:3];
+  7'sd11:pick_key_trail=trails[33+:3];
+  7'sd12:pick_key_trail=trails[36+:3];
+  7'sd13:pick_key_trail=trails[39+:3];
+  7'sd14:pick_key_trail=trails[42+:3];
+  7'sd15:pick_key_trail=trails[45+:3];
+  7'sd16:pick_key_trail=trails[48+:3];
+  7'sd17:pick_key_trail=trails[51+:3];
+  7'sd18:pick_key_trail=trails[54+:3];
+  7'sd19:pick_key_trail=trails[57+:3];
+  7'sd20:pick_key_trail=trails[60+:3];
+  7'sd21:pick_key_trail=trails[63+:3];
+  7'sd22:pick_key_trail=trails[66+:3];
+  7'sd23:pick_key_trail=trails[69+:3];
+  7'sd24:pick_key_trail=trails[72+:3];
+  7'sd25:pick_key_trail=trails[75+:3];
+  7'sd26:pick_key_trail=trails[78+:3];
+  7'sd27:pick_key_trail=trails[81+:3];
+  7'sd28:pick_key_trail=trails[84+:3];
+  7'sd29:pick_key_trail=trails[87+:3];
+  7'sd30:pick_key_trail=trails[90+:3];
+  7'sd31:pick_key_trail=trails[93+:3];
+  default:pick_key_trail=3'bxxx;endcase end endfunction
+
   pixel_state incoming,d,q_raw,q;
   always_comb begin q=q_raw;q.status_data=frame_status_masked;q.key_trails=key_trails;q.status_live=status_live;end
   wire [511:0] incoming_status=incoming.status_data;
@@ -3183,7 +3221,7 @@ end
 if(MATERIAL_SAMPLE==0)begin
 if(d.work_hit)begin
  d.pressed=shown_keys[d.idx];
- d.amount=d.pressed?7:!guide_mode && !auto_mode && d.status_live && incoming_status[0]?32'(incoming_trails[d.idx*3+:3]):0;
+ d.amount=d.pressed?7:!guide_mode && !auto_mode && d.status_live && incoming_status[0]?32'(pick_key_trail(incoming_trails,d.idx)):0;
  end
 end
   end

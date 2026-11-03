@@ -1,0 +1,16 @@
+{
+  "started_at": "2026-11-02T15:39:43.138476+08:00",
+  "synthesis_reused": true,
+  "netlist_sha256": "dfdab2eaeb83695f9527ffb42c4789fbc52d56b0a37a77020eb9c0d1aebee090",
+  "source_manifest_sha256": "429c9f20666eadbe079dc38c40deda057179d45cc1f99d691c1d818eec636268",
+  "script_sha256": "ac0eebf541b9c6703e42cd8266cff1163c2fb45af1c5ffb0072fc92dc32055c4",
+  "place_option": 3,
+  "route_option": 2,
+  "route_maxfan": 100,
+  "incremental_place": false,
+  "correct_hold": 1,
+  "timing_driven": 1,
+  "constraints_changed": false,
+  "previous_unrouted_nets": 293,
+  "ready_for_programming": false
+}

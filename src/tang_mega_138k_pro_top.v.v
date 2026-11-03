@@ -31,6 +31,7 @@ module tang_mega_138k_pro_top #(
      * ======================================================== */
 
     parameter BUILD_STAGE = 3,
+    parameter integer BUTTON_DEBOUNCE_CYCLES=122880,
     parameter DISPLAY_ENABLE = 1,
     // Two physical modules must both be configured for 16-key/multi-key mode.
     // Profile 1 admits all 16 bits even for the first symmetric chord;
@@ -77,8 +78,9 @@ module tang_mega_138k_pro_top #(
 
     input  wire clk_50m,
     input  wire rst_n,
+    input wire timbre_button_n,source_button_n,theremin_uart_rx,
     input wire esp_uart_rx,output wire esp_uart_tx,
-    input wire esp_spi_sck,esp_spi_cs_n,esp_spi_mosi,output wire esp_spi_miso,
+    input wire esp_spi_cs_n,esp_spi_mosi,output wire esp_spi_miso,
 
 
     /* ========================================================
@@ -298,24 +300,37 @@ wire [1:0] event_waveform;
 
 wire       event_ready;
 wire [4:0] event_key_index,fifo_level;
-wire key_event_ready,bridge_reset_n,remote_tick,engine_idle,engine_clear,switching,score_playing;
+wire key_event_ready,bridge_reset_n,remote_tick,engine_idle,engine_clear,engine_clear_done,switching,score_playing;
+wire [31:0] playable_keys;wire [1:0] source_mode;wire [15:0] mode_gain;
+wire theremin_clear,switch_fault,theremin_linked,theremin_calibrating,theremin_fault;
+wire timbre_next,source_next,timbre_down,source_down;
+wire signed [23:0] theremin_pcm;wire theremin_valid;
+wire [31:0] theremin_frequency,theremin_crc_errors,theremin_format_errors;wire [15:0] theremin_amplitude;
+yinse_button #(.DEBOUNCE_CYCLES(BUTTON_DEBOUNCE_CYCLES)) timbre_button(clk_12m288,synth_rst_n,timbre_button_n,timbre_next,timbre_down);
+yinse_button #(.DEBOUNCE_CYCLES(BUTTON_DEBOUNCE_CYCLES)) source_button(clk_12m288,synth_rst_n,source_button_n,source_next,source_down);
+theremin_receiver theremin(clk_12m288,synth_rst_n,remote_tick,theremin_uart_rx,source_mode!=0 && !switch_fault,theremin_clear,
+ theremin_pcm,theremin_valid,theremin_linked,theremin_calibrating,theremin_fault,
+ theremin_frequency,theremin_amplitude,theremin_crc_errors,theremin_format_errors);
 wire [2:0] actual_instrument;wire [15:0] master_volume;wire [4:0] remote_fx;
 wire [223:0] remote_key_map;
-wire [15:0] synth_gain;
+wire [15:0] synth_gain; wire [6:0] expression_velocity,expression_glide,expression_vibrato;
 wire remote_valid,remote_on;wire [6:0] remote_note,mapped_key_note;
 wire [7:0] remote_velocity;wire [1:0] remote_waveform;
 wire signed [23:0] wav_left,wav_right;
 wire display_score_sounding,display_score_rest;
 wire [6:0] display_score_note;wire [15:0] display_score_completed;
 wire [1:0] performance_mode;wire [31:0] guide_targets;wire [2:0] guide_state;wire [15:0] guide_completed;
-remote_control #(.DEFAULT_KEYS({KEY2_NOTE_TABLE,KEY_NOTE_TABLE})) u_remote(
+live_remote_control #(.DEFAULT_KEYS({KEY2_NOTE_TABLE,KEY_NOTE_TABLE})) u_remote(
+ .expression_velocity(expression_velocity),.expression_glide(expression_glide),.expression_vibrato(expression_vibrato),
  .clk(clk_12m288),.rst_n(synth_rst_n),.sample_tick(remote_tick),
+ .timbre_next(timbre_next),.source_next(source_next),.playable_keys(playable_keys),
+ .source_mode(source_mode),.mode_gain(mode_gain),.theremin_clear(theremin_clear),.switch_fault(switch_fault),
  .uart_rx(esp_uart_rx),.uart_tx(esp_uart_tx),.keys(key_state32),.keys_valid(&display_banks_seen),
  .key_valid(event_valid),.key_on(event_note_on),.key_index(event_key_index),
  .key_velocity(event_velocity),.key_waveform(event_waveform),.key_ready(key_event_ready),
  .bridge_reset_n(bridge_reset_n),.event_valid(remote_valid),.event_on(remote_on),
  .event_note(remote_note),.event_velocity(remote_velocity),.event_waveform(remote_waveform),
- .event_ready(event_ready),.engine_idle(engine_idle),.fifo_level(fifo_level),
+ .event_ready(event_ready),.engine_idle(engine_idle),.engine_clear_done(engine_clear_done),.fifo_level(fifo_level),
  .instrument(actual_instrument),.switching(switching),.engine_clear(engine_clear),
  .volume(master_volume),.effects(remote_fx),.score_playing(score_playing),.mapped_key_note(mapped_key_note),.key_map(remote_key_map),.synth_gain(synth_gain),
  .display_score_sounding(display_score_sounding),.display_score_rest(display_score_rest),
@@ -327,7 +342,7 @@ assign wav_left=24'sd0;assign wav_right=24'sd0;assign esp_spi_miso=1'b0;
 // One preserved sampling register keeps the SPI inputs connected (proven CST,
 // built with cst_warn_to_error); it drives nothing.
 (* syn_preserve=1 *) reg unused_wav_spi;
-always @(posedge clk_50m_global)unused_wav_spi<=^{esp_spi_sck,esp_spi_cs_n,esp_spi_mosi};
+always @(posedge clk_50m_global)unused_wav_spi<=^{esp_spi_cs_n,esp_spi_mosi};
 
 wire [31:0] key_reported_state32;
 wire [15:0] key_reported_state=key_reported_state32[15:0];
@@ -355,7 +370,7 @@ ttp229_event_bridge #(
         (key_frame_valid),
 
     .key_state
-        (key_state32),
+        (playable_keys),
 
     /*
      * The TTP229 has no force sensing: fixed velocity 100.
@@ -466,6 +481,7 @@ wire [5:0]  mix_gain_shift;
 wire visual_sample_strobe;
 wire visual_pcm_valid;
 wire signed [23:0] visual_pcm;
+wire [511:0] display_env_levels;wire [95:0] display_env_phases;wire [31:0] display_env_valid,display_env_done,display_env_starts;
 wire [223:0] display_voice_notes;wire signed [23:0] display_left,display_right;
 
 wire signed [23:0]
@@ -521,6 +537,7 @@ synth_top #(
         ((BUILD_STAGE >= 2) ? 1 : 0)
 
 ) u_synth_top (
+ .expression_glide(expression_glide),.expression_vibrato(expression_vibrato),
 
     .clk
         (clk_12m288),
@@ -673,10 +690,12 @@ synth_top #(
     .lissajous_y
         (lissajous_y),
  .visual_pcm(visual_pcm),.visual_pcm_valid(visual_pcm_valid),
- .display_voice_notes(display_voice_notes),.display_left(display_left),.display_right(display_right),
+ .display_voice_notes(display_voice_notes),.display_env_levels(display_env_levels),.display_env_phases(display_env_phases),
+ .display_env_valid(display_env_valid),.display_env_done(display_env_done),.display_env_starts(display_env_starts),.display_left(display_left),.display_right(display_right),
  .diagnostic_chain(diagnostic_chain)
     ,.instrument_id(actual_instrument),.engine_clear(engine_clear),.remote_volume(master_volume),.synth_gain(synth_gain),
-    .wav_left(wav_left),.wav_right(wav_right),.remote_sample_tick(remote_tick),.engine_idle(engine_idle)
+    .wav_left(wav_left),.wav_right(wav_right),.remote_sample_tick(remote_tick),.engine_idle(engine_idle),
+    .engine_clear_done(engine_clear_done),.source_mode(source_mode),.mode_gain(mode_gain),.theremin_pcm(theremin_pcm)
 
 );
 
@@ -695,11 +714,13 @@ wire [511:0] display_status_data;
 always @(posedge clk_12m288 or negedge synth_rst_n)
 if(!synth_rst_n)display_banks_seen<=0;
 else display_banks_seen<=(display_banks_seen | key_bank_frame_valid) & ~key_bank_frame_error;
-display_status_adapter u_display_status(
+display_status_adapter #(.ENVELOPE_OBSERVE(1)) u_display_status(
  .clk(clk_12m288),.rst_n(synth_rst_n),.pcm_valid(visual_pcm_valid),
  .pcm_left(display_left),.pcm_right(display_right),
  .keys_valid(&display_banks_seen),.keys(key_state32),.key_map(remote_key_map),
  .instrument(actual_instrument),.voices(active_debug),.voice_notes(display_voice_notes),
+ .monitor_levels(display_env_levels),.monitor_phases(display_env_phases),.monitor_valid(display_env_valid),.monitor_done(display_env_done),.monitor_starts(display_env_starts),
+ .monitor_clear(engine_clear),.monitor_bypass(source_mode==1),
  .score_owned(score_playing),.switching(switching),.score_sounding(display_score_sounding),
  .score_rest(display_score_rest),.score_note(display_score_note),.score_completed(display_score_completed),
  .performance_mode(performance_mode),.guide_targets(guide_targets),.guide_state(guide_state),.guide_completed(guide_completed),

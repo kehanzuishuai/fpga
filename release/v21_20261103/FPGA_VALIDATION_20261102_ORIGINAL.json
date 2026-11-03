@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "ready_for_programming": true,
+  "programmed": false,
+  "hardware_tested": false,
+  "fs": "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\release\\expression_20261102\\FPGA_expression.fs",
+  "fs_sha256": "ed1d070e1ec9839e63092b5c4ac5849ff91d11364080776861baf16dc860cf26",
+  "esp32_merged": "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\release\\expression_20261102\\ESP32_expression_0x0.bin",
+  "esp32_sha256": "1f7e06501393a310a7e6fcfccb40af0a8accd7d7202e5308391d6e0203445847",
+  "esp32_flash_offset": "0x0",
+  "audio_validation_records": [
+    "audit/expression_20261101/shared_zero_RESULT.json",
+    "audit/expression_20261101/shared_enabled_RESULT.json"
+  ],
+  "worst_slack_ns": {
+    "setup": 1.472,
+    "hold": 0.001,
+    "recovery": 8.464,
+    "removal": 0.257,
+    "min_pulse_width": 2.893
+  },
+  "violated_endpoints": {
+    "Setup": 0,
+    "Hold": 0
+  },
+  "sources": "audit/expression_20261101/SHARED_INPUTS.json",
+  "implemented": [
+    "piano",
+    "organ",
+    "flute",
+    "bell"
+  ],
+  "limitations": [
+    "guitar and theremin pitch expressions not implemented",
+    "expression velocity is stored but not applied",
+    "glide seed lookup covers intervals within 60 semitones; larger jumps use target pitch directly"
+  ],
+  "outputs": {
+    "impl\\pnr\\ao_0.fs": "ed1d070e1ec9839e63092b5c4ac5849ff91d11364080776861baf16dc860cf26",
+    "impl\\pnr\\yinyue_fashengqi.tr": "d00cc9bc57040beb1ae19836c263a78e6ab23b6a5748dc412e6e855ff32c82e2",
+    "impl\\gwsynthesis\\yinyue_fashengqi.vg": "dfdab2eaeb83695f9527ffb42c4789fbc52d56b0a37a77020eb9c0d1aebee090",
+    "impl\\gwsynthesis\\yinyue_fashengqi_syn_rsc.xml": "e0b864e356eec2c103a5a3a33a71f9e95063338b949917a154b28086d14bf7f9"
+  },
+  "generated_at": "2026-11-02T16:20:58.832404+08:00",
+  "fpga_output_generated_at": "2026-11-02T16:19:47.181386+08:00",
+  "phone_source_sha256": {
+    "index.html": "3b0fe4d3abe29dd7b78f3644884cc097b3d355e22456f531fe173faa050a6aa4",
+    "app.js": "ab0287a093fc753013f97c18679babecb7964d0ee77729f01ddbfb367716a75f",
+    "score.js": "ee5051b77c9b1c4d3038ecd7af3336d0315ad12902f7f76a319e29116bae01a7",
+    "keymap.html": "c6a7bda2a838707cd1b7bcc7374e530ca8b4ae3e9f15817db2aa29de588af7d3",
+    "keymap.js": "c79f7fd888af9533e143190c6ea5f49f428c069e8389c4cd6ac5a060f1601d4c",
+    "ui.css": "66d387aa8361cd3ff02708d406c95e85291d0c9ebf3ecaea500010d166c252c5",
+    "ui-text.js": "ebb4e1898fc225f20c8808325d84bdc68fb1fa3198484136d1d0d38bc91d249b",
+    "navigation.js": "d2f8b6e801277be0d274a636a76d98444360665795e2033c85f4373544c2bc77",
+    "device-api.js": "4e3322f1a751674e8b2bb6ebbbddad22b23e1feb1e622ebf5a94d9b0616a8eb8"
+  }
+}

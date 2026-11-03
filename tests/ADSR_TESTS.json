@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "tests": {
+    "envelope_observer": "PASS",
+    "adsr_plot": "PASS"
+  },
+  "hardware_tested": false,
+  "inputs": {
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\display\\display_status_adapter.sv": "c02e52963e66341d3e390f035e9bef4f61947b3af2d725e1187154b2a99f8eb1",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\instruments\\gongyong\\yinse_envelope.sv": "42952bcb4f8ce81069d3005f07885040ff3c8fe6d878e219463c29aaf66b9066",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\display\\visual_renderer.sv": "86d61d5d20c979315291703674cf83db30c27eefb1c143796bcdd6ed7a31fcee"
+  }
+}

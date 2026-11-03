@@ -72,9 +72,12 @@ function createController(fetchFn,view){
       if(kind==='mode'||kind==='timbre')confirmed=confirmed&&!data.switching&&data[kind]===value;
       if(kind==='volume'||kind==='tempo')confirmed=confirmed&&data.settingsValid===true&&data[kind]===value;
       if(kind&&kind.startsWith('expression'))confirmed=confirmed&&data.expressionValid===true&&data[kind]===value;
-      if(kind==='play')confirmed=confirmed&&(data.streamLoaded===true?data.streamPlaying===Boolean(value):selectedPractice===2&&value?data.scoreValid===true:data.scoreValid===true&&data.playing===Boolean(value));
+      if(kind==='play')confirmed=confirmed&&(data.streamLoaded===true&&data.performanceMode!==2?data.streamPlaying===Boolean(value):data.scoreValid===true&&data.playing===Boolean(value));
       if(events)confirmed=confirmed&&data.scoreValid===true&&data.scoreCount===events.length;
-      if(!res.ok||!data.ok||!confirmed){if(!background||health!==previousHealth)show('message',data.message||'FPGA 尚未确认',background);return false;}
+      if(!res.ok||!data.ok||!confirmed){
+        const emptyScore=kind==='play'&&value&&validState&&!data.fault&&data.uartConnected===true&&data.scoreValid===true&&data.scoreCount===0&&data.streamLoaded!==true;
+        if(!background||health!==previousHealth)show('message',emptyScore?'设备中没有曲谱，请先导入文件，再点击“传入设备”，成功后播放。':data.message||'FPGA 尚未确认',background);return false;
+      }
       outcome=true;if(!background||health!==previousHealth)show('message',events?'曲谱已传入 FPGA':kind==='volume'?'音量已生效':kind==='tempo'?'速度已生效':kind==='play'?(value?'正在播放':'已停止'):kind?'切换完成':data.switching?'正在切换，请稍候':'FPGA 已连接',background);return true;
     }catch(e){health=httpReached?'invalid':'offline';delay=10000;show('data',{stateValid:false},background);show('links',[httpReached,'error'],background);show('state','连接中断，当前状态未知',background);if(!background||health!==previousHealth)show('message',httpReached?'ESP32响应异常，请刷新重试':'无法访问 ESP32，请检查 Wi-Fi 后刷新',background);return false;}finally{clearTimeout(timeout);if(view.operation&&kind)view.operation(kind,value,outcome?'success':'error');}
   }
@@ -101,7 +104,7 @@ if(typeof document!=='undefined'){
         byId(kind+'Actual').textContent=valid?`当前${kind==='volume'?'音量':'速度'}：${d[kind]}${kind==='volume'?'%':' BPM'}`:'当前值尚未确认';
         if(valid&&!dragging.has(kind)&&document.activeElement!==byId(kind)&&!controller.pending(kind)){byId(kind).value=d[kind];byId(kind+'Value').textContent=d[kind]+(kind==='volume'?'%':' BPM');paintRange(byId(kind));}
       }
-      byId('scoreActual').textContent=d.streamFault?'整曲播放异常：缓存断流或事件错误，已停止':d.streamLoaded?(d.streamPlaying?'整曲播放中':'整曲已缓存'):d.scoreValid?(d.playing?'播放中':d.scoreCount?`已传输 · ${d.scoreCount}项`:'暂无曲谱'):'';
+      byId('scoreActual').textContent=d.streamFault?'整曲播放异常：缓存断流或事件错误，已停止':d.streamLoaded?(d.streamPlaying?'整曲播放中':'整曲已缓存'):d.scoreValid?(d.playing?'播放中':d.scoreCount?`已传输 · ${d.scoreCount}项`:'设备暂无曲谱，请导入后点击“传入设备”'):'';
     }
   });
   function renderSelection(){
@@ -185,7 +188,7 @@ if(typeof document!=='undefined'){
     try{
       if(f.size>65536)throw Error('文件超过64KB');
       load(await f.arrayBuffer());
-      showNotice(`已读取：${f.name}`);
+      showNotice(`已在手机读取：${f.name}；请点击“传入设备”，成功后再播放。`);
     }catch(e){
       score=null;scoreError=e.message||'曲谱解析失败';parts=[];wholeTimeline=null;
       byId('track').replaceChildren();byId('part').replaceChildren();

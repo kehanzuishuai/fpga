@@ -6,6 +6,9 @@ module ttp229_keyboard_pair #(
  // Keep 2.10ms between bursts: above the chip's 2ms serial reset timeout.
  // Retain two-frame confirmation and independent stuck-SDO protection.
  parameter integer HALF_TICKS=25,GAP_TICKS=25805,IDLE_TICKS=123,
+ // Six admitted frames (~13ms) confirm release after reader confirmation.
+ // Each of the 32 keys and both serial buses keep independent history.
+ parameter integer KEY_RELEASE_FRAMES=6,
  parameter integer PROFILE0=1,PROFILE1=1,RAW_MAP0=0,RAW_MAP1=0,
  parameter [63:0] RAW_INDEX0=64'hfedcba9876543210,
  parameter [63:0] RAW_INDEX1=64'hfedcba9876543210,
@@ -29,7 +32,8 @@ module ttp229_keyboard_pair #(
   end
  endfunction
  localparam integer NOTES_OK=unique_notes();
- wire [1:0] valid,map_error;
+ wire [1:0] valid,map_error,mapped_valid;
+ wire [31:0] mapped_keys;
  wire [1:0] scl;wire [1:0] sdo={sdo1,sdo0};
  assign {scl1,scl0}=scl;
  assign mapping_error=(NOTES_OK==0) || (|map_error);
@@ -49,9 +53,14 @@ module ttp229_keyboard_pair #(
    .NOTE_TABLE(NOTES[n*112+:112]),.CHECK_NOTE_UNIQUE(1)) mapper(
    .clk(clk),.rst_n(rst_n),.frame_valid(valid[n]),
    .frame_error(frame_error[n] || (valid[n] && !NOTES_OK)),
-   .raw_keys(reader_state[n*16+:16]),.key_state(key_state[n*16+:16]),
-   .accepted_raw(accepted_raw[n*16+:16]),.accepted_frame(accepted_frame[n]),
+   .raw_keys(reader_state[n*16+:16]),.key_state(mapped_keys[n*16+:16]),
+   .accepted_raw(accepted_raw[n*16+:16]),.accepted_frame(mapped_valid[n]),
    .mapping_error(map_error[n]),.rejected_frames(rejected_frames[n*32+:32]));
+  keyboard_key_debounce #(.KEYS(16),.RELEASE_FRAMES(KEY_RELEASE_FRAMES)) debounce(
+   .clk(clk),.rst_n(rst_n),.frame_valid(mapped_valid[n]),
+   .frame_error(frame_error[n] || map_error[n] || !NOTES_OK),
+   .sampled_keys(mapped_keys[n*16+:16]),.key_state(key_state[n*16+:16]),
+   .accepted_frame(accepted_frame[n]));
  end endgenerate
 endmodule
 `default_nettype wire

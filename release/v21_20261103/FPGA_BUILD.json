@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "fs_sha256": "ed1d070e1ec9839e63092b5c4ac5849ff91d11364080776861baf16dc860cf26",
+  "worst_slack_ns": {
+    "setup": 1.472,
+    "hold": 0.001,
+    "recovery": 8.464,
+    "removal": 0.257,
+    "min_pulse_width": 2.893
+  },
+  "violated_endpoints": {
+    "Setup": 0,
+    "Hold": 0
+  },
+  "generated_at": "2026-11-02T16:20:58.832404+08:00",
+  "fpga_output_generated_at": "2026-11-02T16:19:47.181386+08:00",
+  "implemented": [
+    "piano",
+    "organ",
+    "flute",
+    "bell"
+  ],
+  "limitations": [
+    "guitar and theremin pitch expressions not implemented",
+    "expression velocity is stored but not applied",
+    "glide seed lookup covers intervals within 60 semitones; larger jumps use target pitch directly"
+  ],
+  "fpga_file": "FPGA_expression.fs",
+  "device": "GW5AST-LV138FPG676AC1/I0",
+  "top": "tang_mega_138k_pro_top",
+  "source_manifest": "SOURCE_MANIFEST.json",
+  "timing_report": "yinyue_fashengqi.tr",
+  "pnr_report": "yinyue_fashengqi.rpt.txt",
+  "publication_rebuilt_fpga": false,
+  "hardware_programmed": false,
+  "hardware_tested": false,
+  "fpga_archive": "FPGA_expression.fs.zip"
+}

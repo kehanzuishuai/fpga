@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "fqbn": "arduino:avr:uno",
+  "core": "arduino:avr@1.8.8",
+  "flash_bytes": 26380,
+  "static_ram_bytes": 265,
+  "source_sha256": {
+    "firmware/theremin/Open_Theremin_FPGA/application.cpp": "e8e47c5240259f78823f28233821b6c8a834f8264376941d1e9aac3c71c19a8c",
+    "firmware/theremin/Open_Theremin_FPGA/application.h": "d44e56672cf0ca2e06f071d17216e4bf53d75179c57924b56aa2d60293949cc5",
+    "firmware/theremin/Open_Theremin_FPGA/build.h": "be155b22f30714529f9f7a259ce5a7d977d8e5aa9c06cab7532c8cf2204e2b1b",
+    "firmware/theremin/Open_Theremin_FPGA/EEPROM.h": "84a111e5e06ad88c2ee4110de38727d39cf15151bb19cef8cbd1f22b81427c99",
+    "firmware/theremin/Open_Theremin_FPGA/fpga_bridge.cpp": "f9c82e2d25c616dedd6eeaa6d1d78486f7d332ce16fd605916ac9e9e6f8e46a7",
+    "firmware/theremin/Open_Theremin_FPGA/fpga_bridge.h": "4d965823339dd977af771bbd94e3b3487e87e3a226c5f55e49e9b12aae7118ed",
+    "firmware/theremin/Open_Theremin_FPGA/hw.h": "00910f2914b9c7e0387911f47f6888eb95060c4001321e61c5c1ca50ea6a6d8b",
+    "firmware/theremin/Open_Theremin_FPGA/ihandlers.cpp": "bb07f4b94d9020c4f4475d4a1129bd0d52a4d77754be8948170332a0e79239a7",
+    "firmware/theremin/Open_Theremin_FPGA/ihandlers.h": "540d877f62636208c7d62e43cdaee4616c69e95e87bf136701ba67550febcaef",
+    "firmware/theremin/Open_Theremin_FPGA/mcpDac.h": "72454a7a3b1a2a627e325cdf80f788e04460bd5460845a8a63e07689941de027",
+    "firmware/theremin/Open_Theremin_FPGA/Open_Theremin_FPGA.ino": "a1f8698ef2eff25d9dca8c47b1f05309f0b2607141d26500a0cd9bae0ccf01a5",
+    "firmware/theremin/Open_Theremin_FPGA/OTPinDefs.h": "7d1269dbb4d688c4b13564676086ce8795ed01c68dde7a2002746fa476bbc866",
+    "firmware/theremin/Open_Theremin_FPGA/theremin_sintable.c": "44fa5179fc31a29342cf038586b3aeff7acd6e3cd3409483c20b63d8b4fde686",
+    "firmware/theremin/Open_Theremin_FPGA/theremin_sintable2.c": "0b0bc39b57c8cc80a8f0f664c762875594d4e59e55dff0c2b84fd38e6b507681",
+    "firmware/theremin/Open_Theremin_FPGA/theremin_sintable3.c": "e50b9fbae29be69dd76b6f9d0414713d7cee502cd4af06c083d42429b3f5e224",
+    "firmware/theremin/Open_Theremin_FPGA/theremin_sintable4.c": "71608802b8ed71dad50bdef9313db498a2a258d1b9ad50ffe5fe287e733d6d79",
+    "firmware/theremin/Open_Theremin_FPGA/theremin_sintable5.c": "93842fac9fc5c22ffcd060e97f4968aaa1c8a53711b601e16c5f883f05f62d93",
+    "firmware/theremin/Open_Theremin_FPGA/theremin_sintable6.c": "9c214c6506f795d90bec308720c5afd854786297b3b0a652140c981a90d1d8b4",
+    "firmware/theremin/Open_Theremin_FPGA/theremin_sintable7.c": "07b99027b41dd2e0fc493f9f786eae343ef4e21f5e1e1dca455f116f3e5a595c",
+    "firmware/theremin/Open_Theremin_FPGA/theremin_sintable8.c": "b8392e72d3b163d22800d909cac7e26512b70e2d15772bfe3734fbb0d43f6cbb",
+    "firmware/theremin/Open_Theremin_FPGA/timer.cpp": "e7487b5a364f1a37a69cb323159ea2b98eb938f6a1374e5bcc6eeb20ba751ef8",
+    "firmware/theremin/Open_Theremin_FPGA/timer.h": "546ea712ec3f233241d31e71f8f92350cfb3e3b81033cfd2d0f290510fd2ee3f"
+  },
+  "outputs": {
+    "Open_Theremin_FPGA.ino.hex": {
+      "bytes": 74223,
+      "sha256": "8422c620f5e5b448ff85ec35937b9ebdb275bc255fcffe6475baea8f3368b300"
+    },
+    "Open_Theremin_FPGA.ino.with_bootloader.hex": {
+      "bytes": 73976,
+      "sha256": "62cc7927c0edfc4e1f043783ba7d8213340ceb3ba77d8f2affbf4444b07a97d8"
+    }
+  },
+  "hardware_programmed": false,
+  "hardware_tested": false,
+  "source_unchanged_during_publication": true
+}

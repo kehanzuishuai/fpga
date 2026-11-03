@@ -14,11 +14,12 @@ module synth_event_frontend #(
     parameter FX_ENABLE      = 1,
     parameter FX_GAIN_SHIFT  = 1
 )(
+ input wire [6:0] expression_glide,expression_vibrato,
     input                              clk,
     input                              rst_n,
     input                              sample_tick,
     input [2:0] instrument_id,
-    output wire engine_idle,
+    output wire engine_idle,engine_initialized,
 
     input                              event_valid,
     input                              event_note_on,
@@ -52,7 +53,10 @@ module synth_event_frontend #(
     output signed [SAMPLE_W-1:0]       lissajous_x,
     output signed [SAMPLE_W-1:0]       lissajous_y,
     output wire [127:0]               diagnostic_chain,
-    output wire [VOICES*7-1:0] display_voice_notes
+    output wire [VOICES*7-1:0] display_voice_notes,
+    output wire [VOICES*16-1:0] display_env_levels,
+    output wire [VOICES*3-1:0] display_env_phases,
+    output wire [VOICES-1:0] display_env_valid,display_env_done,display_env_starts
 );
 
 wire       out_valid;
@@ -111,6 +115,7 @@ synth_core #(
     .FX_ENABLE      (FX_ENABLE),
     .FX_GAIN_SHIFT  (FX_GAIN_SHIFT)
 ) u_core (
+ .expression_glide(expression_glide),.expression_vibrato(expression_vibrato),
     .clk                 (clk),
     .rst_n               (rst_n),
     .sample_tick         (sample_tick),
@@ -126,6 +131,7 @@ synth_core #(
     .hammer_enable       (hammer_enable),
     .fx_ctrl             (fx_ctrl),
     .event_ready         (core_ready),
+    .engine_initialized(engine_initialized),
     .audio_out           (audio_out),
     .active_debug        (active_debug),
     .active_voice_count  (active_voice_count),
@@ -142,7 +148,8 @@ synth_core #(
     .lissajous_x         (lissajous_x),
     .lissajous_y         (lissajous_y),
     .diagnostic_audio    (diagnostic_audio),
-    .display_voice_notes(display_voice_notes)
+    .display_voice_notes(display_voice_notes),.display_env_levels(display_env_levels),.display_env_phases(display_env_phases),
+    .display_env_valid(display_env_valid),.display_env_done(display_env_done),.display_env_starts(display_env_starts)
 );
 
 endmodule

@@ -1,0 +1,19 @@
+{
+  "status": "PASS",
+  "inputs": {
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\tests\\out\\tb_modes.sv": "fd25a3ceb4b2ea790432bc174e726e44e29d2e89d61ae1a2a922efb5653b63c5",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\remote\\live_remote_control.sv": "f02fd9ee38b176ae0ecc43710979f4361433dcd455a6a16e69b1215048f39b33",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\remote\\wifi_core.sv": "d96ca79612c80f3ebc4692ec5204baf635aeaa87333e1f052babfaaf2fd9e47a",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\remote\\control\\wifi_control.sv": "9a098e20feace03feb14d54204b328ba6b41f6132e0e04e3ad9f7f62002a4806",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\remote\\control\\wifi_score_player.sv": "b4be2a7961fc8ef12a55ddccb9ff3faaab559d1f6ee6de19c8124b2881c3774b",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\display\\visual_guide_controller.sv": "86bdf229933bc55590ecf6709f535257120a8599a7a9c5b3166b7d2db7c648b7",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\display\\display_status_adapter.sv": "c02e52963e66341d3e390f035e9bef4f61947b3af2d725e1187154b2a99f8eb1",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\ttp229_event_bridge.v": "dc5913bbd0b108a957216bd934483641b4b1fcd76d8bc3feede871221f72600b",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\remote\\uart\\wifi_packet_rx.sv": "9fb5d84db8065c567f30dbabeb13e9de231b2b794c2d1c460e1da1e9c7d8d7cf",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\remote\\uart\\wifi_packet_tx.sv": "59ed5205acbb8fccd1c2b484eeb3a24896339013458241446a33976c12ef3ea8",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\remote\\uart\\wifi_uart_rx.sv": "e689377b2b61b83cab626202f8e8498fd460642a713b98ae4e4254e28cd80ecd",
+    "D:\\gaoyun\\piano_v2_audio_fix\\branches\\v20_adsr_display_20261031\\src\\remote\\uart\\wifi_uart_tx.sv": "0a4f2eefd2a48de3c73072ccf1528a6749ab16b658094e6b3e605efa2d1b9ac3"
+  },
+  "elapsed_seconds": 0.1569999999992433,
+  "programming": false
+}

@@ -1,2 +1,3 @@
 # Preserve validated source and firmware bytes; do not convert line endings.
 * -text
+*.fs binary

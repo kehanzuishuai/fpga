@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "version": "V21-20261103",
+  "generated_at": "2026-11-03T13:55:59.047377+08:00",
+  "repository": "https://github.com/kehanzuishuai/fpga.git",
+  "fpga": {
+    "build_date": "2026-11-02",
+    "device": "GW5AST-LV138FPG676AC1/I0",
+    "frozen_source_files_verified": 152,
+    "source_and_fs_unchanged": true,
+    "synthesis_and_pnr_pass": true,
+    "worst_slack_ns": {
+      "setup": 1.472,
+      "hold": 0.001,
+      "recovery": 8.464,
+      "removal": 0.257,
+      "min_pulse_width": 2.893
+    },
+    "violated_endpoints": {
+      "Setup": 0,
+      "Hold": 0
+    },
+    "rebuilt_during_publication": false
+  },
+  "esp32": {
+    "firmware_id": "v21-autoplay-confirm-20261103",
+    "fqbn": "esp32:esp32:esp32s3:FlashMode=opi,FlashSize=32M,PSRAM=opi,PartitionScheme=huge_app",
+    "compiled_source_hashes_verified": 7,
+    "build_status": "PASS"
+  },
+  "theremin": {
+    "fqbn": "arduino:avr:uno",
+    "core": "arduino:avr@1.8.8",
+    "source_files_verified": 22,
+    "fresh_build_status": "PASS"
+  },
+  "verification": {
+    "phone_play_confirmation": "PASS",
+    "phone_stream_dom": "PASS",
+    "phone_timeline": "PASS",
+    "cpp_stream": "PASS",
+    "canon_rtl": "PASS",
+    "full_top_elaboration": "PASS"
+  },
+  "source_manifest": "SOURCE_MANIFEST.json",
+  "source_files": 223,
+  "enabled_project_files": 104,
+  "artifacts": {
+    "FPGA_expression.fs.zip": {
+      "bytes": 3974054,
+      "sha256": "5c540173196a16fba8cc6b73012acc25bb6b0a587b0b7b2ff2f8ab6445a6ef65",
+      "unpacked_file": "FPGA_expression.fs",
+      "unpacked_sha256": "ed1d070e1ec9839e63092b5c4ac5849ff91d11364080776861baf16dc860cf26"
+    },
+    "ESP32_autoplay_0x0.bin": {
+      "bytes": 33554432,
+      "sha256": "51c2f450238fadc1d747c094e9fb5eaa775fcbe744b29b68219665ebcfa05841"
+    },
+    "Open_Theremin_FPGA.ino.hex": {
+      "bytes": 74223,
+      "sha256": "8422c620f5e5b448ff85ec35937b9ebdb275bc255fcffe6475baea8f3368b300"
+    },
+    "Open_Theremin_FPGA.ino.with_bootloader.hex": {
+      "bytes": 73976,
+      "sha256": "62cc7927c0edfc4e1f043783ba7d8213340ceb3ba77d8f2affbf4444b07a97d8"
+    }
+  },
+  "historical_v13": "../v13_20261024/",
+  "hardware_programmed": false,
+  "hardware_tested": false
+}

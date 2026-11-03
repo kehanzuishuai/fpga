@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "generated_at": "2026-11-03T11:36:23.597634+08:00",
+  "reported_issue": "No score was transferred after selecting automatic mode or importing a phone file; confirmed by the user",
+  "additional_fix": "Correct scope and actual-state checks for legacy/guidance playback confirmation",
+  "regression_cases": 12,
+  "baseline_exposes_fault": true,
+  "page_import_transfer_play_stop_regression": "PASS",
+  "embedded_assets_verified": 9,
+  "compile_status": "PASS",
+  "fpga_inputs_unchanged": true,
+  "fpga_fs_sha256": "ed1d070e1ec9839e63092b5c4ac5849ff91d11364080776861baf16dc860cf26",
+  "fpga_rebuild_required": false,
+  "esp32_firmware_id": "v21-autoplay-confirm-20261103",
+  "esp32_merged_sha256": "51c2f450238fadc1d747c094e9fb5eaa775fcbe744b29b68219665ebcfa05841",
+  "flash_offset": "0x0",
+  "hardware_programmed": false,
+  "hardware_tested": false,
+  "compiled_source_sha256": {
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\BleBridge.h": "cc69ec033ba9285ab7307796de31c8b7b7469e1466365f8c4ab085a9320a38a4",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\ControlLink.h": "a9e14c9fbb9192a86b4e7f5da77b7007670794a670a5df6f2eeb1fd01b6077d0",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\ESP32_FPGA_Music_Controller.ino": "4b637e882b3a8e573b9b13c334a70a4e03ff88329f3f8bf9a0d65f3016bfcd6a",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\FpgaUart.h": "ba77f615c3c8edf436c6ae63b70e03548606b7bd250dff8bd55fc00c2119994e",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\sketch.yaml": "ac453749bf4b11d08963e76cb59493f3f782c6ad6e24b57a1e562795046dfb46",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\StreamScore.h": "3e924ca5bc2ca9c1769f9e3db0466162ad781561f49279468bb56465c129a05d",
+    "firmware\\remote_music_ble\\esp32\\ESP32_FPGA_Music_Controller\\web_page.h": "863c001cf5c45218ce2993c28ee8fed2288f541896c2dcb8ae43e023ee57d510"
+  }
+}

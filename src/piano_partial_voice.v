@@ -41,10 +41,13 @@
 module piano_partial_voice #(
     parameter SAMPLE_W = 24,
     parameter PHASE_W  = 32,
+    parameter integer COMPACT_PITCH = 0,
 
     /* Start value of the hammer noise generator (different per voice) */
     parameter [15:0] NOISE_SEED = 16'hACE1
 )(
+ input wire [6:0] expression_glide,expression_vibrato,
+ input wire [21:0] expression_ratio,
     input  wire                        clk,
     input  wire                        rst_n,
     input  wire                        sample_tick,
@@ -91,7 +94,10 @@ module piano_partial_voice #(
     output reg                         dbg_sample_strobe,
     output wire                        dbg_rel,
     output wire                        dbg_fade,
-    output reg                         dbg_overrun
+    output reg                         dbg_overrun,
+    output wire [15:0] monitor_gain,
+    output wire monitor_gain_valid,
+    output wire [2:0] monitor_phase
 );
 
 
@@ -167,6 +173,15 @@ reg boundary_s;
 
 assign dbg_rel  = rel_s;
 assign dbg_fade = fade_s;
+// Observation only: actual linear gain of the currently evaluated partial.
+// The display accumulates its maximum across the 16 valid partials; PCM,
+// allocation env_level, RAM contents and all audio state remain untouched.
+assign monitor_gain=amp_now[23:8];
+assign monitor_gain_valid=(eng==E_RUN && step==3'd5 && inc_nonzero);
+// Piano has no constant sustain phase: non-released decay remains D.
+assign monitor_phase=(vstate==V_IDLE || vstate==V_LOAD)?3'd0:
+ (releasing || vstate==V_FADE)?3'd4:seg==0?3'd1:3'd2;
+
 
 assign ld_ready = (vstate == V_LOAD) && (eng == E_IDLE);
 
@@ -223,7 +238,13 @@ piano_voice_ram u_ram (
  * Datapath registers
  * ============================================================ */
 
-reg [27:0] inc_r;
+// Reuse the existing signed MAC during otherwise idle phase slots.
+reg [21:0] phase_slot_ratio;
+reg [1:0] inc_high;
+reg inc_nonzero;
+reg [27:0] phase_low;
+
+wire [27:0] shared_phase_increment;
 reg [27:0] phase_r;
 reg [25:0] lvl_r;
 reg [16:0] sin_val_r;
@@ -232,6 +253,11 @@ reg [23:0] amp_r;
 reg signed [26:0] mul_a;
 reg signed [17:0] mul_b;
 reg signed [44:0] mul_p;
+// The existing MAC computes three exact terms in idle steps 1..3:
+// inc[25:0]*ratio[16:0], inc[25:0]*ratio[21:17], inc[27:26]*ratio.
+// Step 4 combines the first two, then step 5 writes the new phase.
+// Sine interpolation (step 4) and amplitude (step 6) retain their schedule.
+assign shared_phase_increment=phase_low+{mul_p[17:0],10'b0};
 
 reg signed [47:0] acc;
 reg               add_pending;
@@ -442,17 +468,15 @@ always @(*) begin
         case (step)
             3'd0: ram_raddr = {slot, W_INC};
             3'd1: ram_raddr = {slot, W_PHASE};
-            3'd2: begin
-                ram_raddr = {slot, W_LEVEL};
-                ram_we    = 1'b1;
-                ram_waddr = {slot, W_PHASE};
-                ram_wdata = {4'd0, ram_rdata[27:0] + inc_r};
-            end
+            3'd2: ram_raddr = {slot, W_LEVEL};
             3'd3: ram_raddr = {slot, W_SLOPE};
             3'd4: begin
-                ram_we    = 1'b1;
-                ram_waddr = {slot, W_LEVEL};
-                ram_wdata = {6'd0, lvl_next};
+                ram_we=1'b1;ram_waddr={slot,W_LEVEL};
+                ram_wdata={6'd0,lvl_next};
+            end
+            3'd5: begin
+                ram_we=1'b1;ram_waddr={slot,W_PHASE};
+                ram_wdata={4'd0,phase_r+shared_phase_increment};
             end
             default: ;
         endcase
@@ -524,7 +548,7 @@ always @(posedge clk or negedge rst_n) begin
         fade_s      <= 1'b0;
         boundary_s  <= 1'b0;
 
-        inc_r       <= 28'd0;
+        inc_high<=0;inc_nonzero<=0;phase_low<=0;phase_slot_ratio<=22'd65536;
         phase_r     <= 28'd0;
         lvl_r       <= 26'd0;
         sin_val_r   <= 17'd0;
@@ -643,13 +667,23 @@ always @(posedge clk or negedge rst_n) begin
 
                 case (step)
 
-                    3'd1: inc_r <= ram_rdata[27:0];
+                    3'd1: begin
+                        inc_high<=ram_rdata[27:26];
+                        inc_nonzero<=ram_rdata[27:0]!=0;
+                        phase_slot_ratio<=expression_ratio;
+                        mul_a<={1'b0,ram_rdata[25:0]};
+                        mul_b<={1'b0,expression_ratio[16:0]};
+                    end
 
-                    3'd2: phase_r <= ram_rdata[27:0];
+                    3'd2: begin phase_r<=ram_rdata[27:0];mul_b<={13'd0,phase_slot_ratio[21:17]};end
 
-                    3'd3: lvl_r <= ram_rdata[25:0];
+                    3'd3: begin
+                        lvl_r<=ram_rdata[25:0];phase_low<=mul_p[43:16];
+                        mul_a<={5'd0,phase_slot_ratio};mul_b<={16'd0,inc_high};
+                    end
 
                     3'd4: begin
+                        phase_low<=phase_low+{mul_p[26:0],1'b0};
                         sin_val_r <= sine_q[25:9];
                         mul_a     <= {18'd0, sine_q[8:0]};
                         mul_b     <= {8'd0, sine_frac};
@@ -807,4 +841,92 @@ always @(posedge clk) begin
     rdata <= mem[raddr];
 end
 
+endmodule
+
+module expression_pitch_state(input wire clk,rst_n,sample_tick,start,
+ input wire [6:0] glide,input wire [21:0] seed,input wire signed [7:0] lfo,
+ output wire [21:0] ratio);
+ reg [21:0] current;
+ wire [3:0] shift=glide<=16?4'd7:glide<=32?4'd8:glide<=48?4'd9:glide<=64?4'd10:glide<=80?4'd11:4'd12;
+ wire [21:0] distance=current>22'd65536 ? current-22'd65536:22'd65536-current;
+ wire [21:0] step=(distance>>shift)==0?22'd1:distance>>shift;
+ (* syn_multstyle="logic" *) wire signed [30:0] modulation=$signed({1'b0,current})*lfo;
+ wire signed [31:0] modulated=$signed({1'b0,current})+(modulation>>>11);
+ assign ratio=modulated[21:0];
+ always @(posedge clk or negedge rst_n)
+ if(!rst_n)current<=22'd65536;
+ else if(start)current<=glide!=0?seed:22'd65536;
+ else if(sample_tick)begin
+  if(glide==0)current<=22'd65536;
+  else if(current>22'd65536)current<=current-step;
+  else if(current<22'd65536)current<=current+step;
+ end
+endmodule
+
+
+// One control ALU serves all voices during the first VOICES clocks of a frame.
+// Pending ratios publish together on the next sample tick; phase slots of a
+// voice therefore always see a consistent ratio throughout their entire frame.
+module expression_pitch_bank #(parameter integer VOICES=32,IW=(VOICES<2?1:$clog2(VOICES)))(
+ input wire clk,rst_n,sample_tick,input wire [VOICES-1:0] starts,
+ input wire [6:0] glide,input wire [21:0] seed,input wire signed [7:0] lfo,
+ output wire [VOICES*22-1:0] ratios);
+ reg [21:0] current[0:VOICES-1],pending_ratio[0:VOICES-1],frame_ratio[0:VOICES-1];
+ reg busy;reg [IW-1:0] cursor;reg [6:0] glide_frame;reg signed [7:0] lfo_frame;
+ wire [21:0] value=current[cursor];
+ wire [3:0] shift=glide_frame<=16?4'd7:glide_frame<=32?4'd8:glide_frame<=48?4'd9:glide_frame<=64?4'd10:glide_frame<=80?4'd11:4'd12;
+ wire [21:0] distance=value>22'd65536 ? value-22'd65536 : 22'd65536-value;
+ wire [21:0] step=(distance>>shift)==0?22'd1:distance>>shift;
+ wire [21:0] advanced=glide_frame==0?22'd65536:value>22'd65536 ? value-step:value<22'd65536 ? value+step:value;
+ wire signed [30:0] modulation=$signed({1'b0,advanced})*lfo_frame;
+ wire signed [31:0] modulated=$signed({1'b0,advanced})+(modulation>>>11);
+ genvar g;generate for(g=0;g<VOICES;g=g+1)begin:OUT
+  assign ratios[g*22+:22]=(glide==0 && lfo==0)?22'd65536:frame_ratio[g];
+ end endgenerate
+ integer i;
+ always @(posedge clk or negedge rst_n)
+ if(!rst_n)begin
+  busy<=0;cursor<=0;glide_frame<=0;lfo_frame<=0;
+  for(i=0;i<VOICES;i=i+1)begin current[i]<=22'd65536;pending_ratio[i]<=22'd65536;frame_ratio[i]<=22'd65536;end
+ end else begin
+  if(sample_tick)begin busy<=1;cursor<=0;glide_frame<=glide;lfo_frame<=lfo;end
+  else if(busy)begin if(cursor==IW'(VOICES-1))busy<=0;else cursor<=cursor+1'b1;end
+  for(i=0;i<VOICES;i=i+1)begin
+   if(sample_tick)frame_ratio[i]<=pending_ratio[i];
+   if(starts[i])begin
+    current[i]<=glide!=0?seed:22'd65536;
+    pending_ratio[i]<=glide!=0?seed:22'd65536;
+    frame_ratio[i]<=glide!=0?seed:22'd65536;
+   end else if(busy && !sample_tick && cursor==IW'(i))begin
+    current[i]<=advanced;pending_ratio[i]<=modulated[21:0];
+   end
+  end
+ end
+endmodule
+
+// Exact low 28 bits of (increment * ratio) >> 16. Only the 26x17
+// low product uses a DSP (zero-extended signed 27x18). Higher terms
+// are integer multiples of 2^16 and use shift/add logic. No rounding
+// or phase precision is changed, including unsigned high operand bits.
+module expression_phase_scale(input wire [27:0] increment,input wire [21:0] ratio,output wire [27:0] scaled);
+ wire signed [44:0] low_product=$signed({1'b0,increment[25:0]})*$signed({1'b0,ratio[16:0]});
+ (* syn_keep=1 *) wire [27:0] p17=ratio[17]?{increment[26:0],1'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p18=ratio[18]?{increment[25:0],2'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p19=ratio[19]?{increment[24:0],3'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p20=ratio[20]?{increment[23:0],4'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p21=ratio[21]?{increment[22:0],5'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p26=increment[26]?{1'b0,ratio[16:0],10'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p27=increment[27]?{ratio[16:0],11'b0}:28'd0;
+ assign scaled=((low_product[43:16]+p17)+(p18+p19))+((p20+p21)+(p26+p27));
+endmodule
+
+module expression_phase_correction(input wire [27:0] increment,input wire [21:0] ratio,input wire signed [44:0] low_product,output wire [27:0] scaled);
+ (* syn_keep=1 *) wire [27:0] p17=ratio[17]?{increment[26:0],1'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p18=ratio[18]?{increment[25:0],2'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p19=ratio[19]?{increment[24:0],3'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p20=ratio[20]?{increment[23:0],4'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p21=ratio[21]?{increment[22:0],5'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p26=increment[26]?{1'b0,ratio[16:0],10'b0}:28'd0;
+ (* syn_keep=1 *) wire [27:0] p27=increment[27]?{ratio[16:0],11'b0}:28'd0;
+ assign scaled=((low_product[43:16]+p17)+(p18+p19))+((p20+p21)+(p26+p27));
 endmodule

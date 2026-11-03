@@ -1,0 +1,13 @@
+AssertionError [ERR_ASSERTION]: legacy play: confirmation
+
+false !== true
+
+    at playCase (D:\gaoyun\piano_v2_audio_fix\branches\v20_adsr_display_20261031\tests\phone_play_confirmation.js:13:9)
+    at async D:\gaoyun\piano_v2_audio_fix\branches\v20_adsr_display_20261031\tests\phone_play_confirmation.js:22:13 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: 'strictEqual',
+  diff: 'simple'
+}

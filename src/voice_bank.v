@@ -12,6 +12,9 @@ module voice_bank #(
      */
     parameter PIANO_ENGINE = 1
 )(
+ input wire [6:0] expression_glide,expression_vibrato,
+ input wire [21:0] expression_seed,input wire signed [7:0] expression_lfo,
+ input wire signed [6:0] expression_seed_steps,
     input                              clk,
     input                              rst_n,
     input                              sample_tick,
@@ -43,7 +46,10 @@ module voice_bank #(
     output reg [IDX_W-1:0]             allocation_index,
     // Reset-scoped modulo-65536 counters, driven by real control edges.
     output wire [47:0]                 diagnostic_counts,
-    output wire [VOICES*7-1:0] display_voice_notes
+    output wire [VOICES*7-1:0] display_voice_notes,
+    output wire [VOICES*16-1:0] display_env_levels,
+    output wire [VOICES*3-1:0] display_env_phases,
+    output wire [VOICES-1:0] display_env_valid,display_env_done,display_env_starts
 );
 
 
@@ -53,6 +59,8 @@ wire [VOICES*7-1:0] notes;
 assign display_voice_notes=notes;
 
 reg [VOICES-1:0] starts;
+wire [VOICES*22-1:0] expression_ratios;
+expression_pitch_bank_bram #(.VOICES(VOICES)) expression_control(clk,rst_n,sample_tick,starts,expression_glide,expression_seed,expression_seed_steps,expression_lfo,expression_ratios);
 reg [VOICES-1:0] stops;
 
 wire [VOICES-1:0]
@@ -445,9 +453,12 @@ if (PIANO_ENGINE != 0) begin : G_PARTIAL
         );
 
         piano_partial_voice #(
+            .COMPACT_PITCH((g%2)==0),
             .SAMPLE_W   (SAMPLE_W),
             .NOISE_SEED (16'hACE1 ^ (g * 16'h0101))
         ) u_voice (
+ .expression_glide(expression_glide),.expression_vibrato(expression_vibrato),
+ .expression_ratio(expression_ratios[g*22+:22]),
 
             .clk
                 (clk),
@@ -543,10 +554,15 @@ if (PIANO_ENGINE != 0) begin : G_PARTIAL
                 (unused_fade),
 
             .dbg_overrun
-                (unused_overrun)
+                (unused_overrun),
+            .monitor_gain(display_env_levels[g*16+:16]),
+            .monitor_gain_valid(display_env_valid[g]),
+            .monitor_phase(display_env_phases[g*3+:3])
 
         );
 
+        assign display_env_done[g]=unused_strobe;
+        assign display_env_starts[g]=ld_done[g];
     end
 
 end
@@ -555,6 +571,7 @@ else begin : G_LEGACY
 
     assign ld_busy = 1'b0;
     assign diagnostic_counts = 48'd0;
+    assign display_env_levels=0;assign display_env_phases=0;assign display_env_valid=0;assign display_env_done=0;assign display_env_starts=0;
 
     for (
         g = 0;

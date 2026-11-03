@@ -1,0 +1,23 @@
+{
+  "frozen_at": "2026-11-02T13:52:33.537280+08:00",
+  "synthesis_pass": true,
+  "source_manifest_sha256": "429c9f20666eadbe079dc38c40deda057179d45cc1f99d691c1d818eec636268",
+  "netlist_sha256": "dfdab2eaeb83695f9527ffb42c4789fbc52d56b0a37a77020eb9c0d1aebee090",
+  "synthesis_resource_sha256": "e0b864e356eec2c103a5a3a33a71f9e95063338b949917a154b28086d14bf7f9",
+  "piano_mac_source_sha256": "3a3e6fbb543b21e79454d437b4e32345739bc704dede63187f313a5fd5095b74",
+  "resources": {
+    "name": "tang_mega_138k_pro_top",
+    "Register": "81",
+    "Alu": "14",
+    "Lut": "269",
+    "T_Register": "42732(81)",
+    "T_Alu": "21472(14)",
+    "T_Lut": "89223(269)",
+    "T_MULTALU27X18": "122(0)",
+    "T_MULT12X12": "59(0)",
+    "T_MULT27X36": "43(0)",
+    "T_Bsram": "316(0)",
+    "T_Ssram": "490(0)"
+  },
+  "ready_for_programming": false
+}

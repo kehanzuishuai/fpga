@@ -20,7 +20,7 @@ extern const uint8_t ca_bundle_end[] asm("_binary_x509_crt_bundle_end");
 #include <esp_heap_caps.h>
 
 WebServer server(80);
-static const char *FIRMWARE_ID="v19-polyphonic-stream-20261031";
+static const char *FIRMWARE_ID="v21-autoplay-confirm-20261103";
 FpgaUart uart(Serial1);
 Music::Link *fpgaLink=nullptr;
 
